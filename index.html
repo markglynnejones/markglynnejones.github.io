@@ -193,5 +193,26 @@
     <footer>
         <p>Magic: The Gathering - Commander Wins Tracker</p>
     </footer>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to sort a table by a specific column
+            function sortTableByColumn(table, columnIndex, ascending = true) {
+                const rows = Array.from(table.querySelectorAll('tbody > tr'));
+                rows.sort((rowA, rowB) => {
+                    const cellA = rowA.children[columnIndex].textContent.trim();
+                    const cellB = rowB.children[columnIndex].textContent.trim();
+                    const comparison = ascending
+                        ? parseInt(cellA) - parseInt(cellB)
+                        : parseInt(cellB) - parseInt(cellA);
+                    return isNaN(comparison) ? 0 : comparison;
+                });
+                rows.forEach(row => table.querySelector('tbody').appendChild(row));
+            }
+
+            // Sort the Decks Played table by the Wins column (index 3)
+            const decksTable = document.querySelector('section:nth-of-type(2) table');
+            sortTableByColumn(decksTable, 3, false); // Sort descending by default
+        });
+    </script>
 </body>
 </html>
