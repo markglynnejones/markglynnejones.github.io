@@ -69,24 +69,41 @@
                 </tr>
             </thead>
             <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    document.querySelectorAll('th').forEach(th => {
-                        th.addEventListener('click', () => {
-                            const table = th.closest('table');
-                            const rows = Array.from(table.querySelectorAll('tbody > tr'));
-                            const index = Array.from(th.parentNode.children).indexOf(th);
-                            const ascending = th.dataset.ascending === 'true';
-                            rows.sort((rowA, rowB) => {
-                                const cellA = rowA.children[index].textContent.trim();
-                                const cellB = rowB.children[index].textContent.trim();
-                                return ascending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
-                            });
-                            rows.forEach(row => table.querySelector('tbody').appendChild(row));
-                            th.dataset.ascending = !ascending;
-                        });
-                    });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to sort a table by multiple columns
+            function sortTableByColumns(table, sortCriteria) {
+                const rows = Array.from(table.querySelectorAll('tbody > tr'));
+                rows.sort((rowA, rowB) => {
+                    for (const { columnIndex, ascending } of sortCriteria) {
+                        const cellA = rowA.children[columnIndex].textContent.trim();
+                        const cellB = rowB.children[columnIndex].textContent.trim();
+
+                        let comparison;
+                        if (!isNaN(cellA) && !isNaN(cellB)) {
+                            comparison = ascending
+                                ? parseInt(cellA) - parseInt(cellB)
+                                : parseInt(cellB) - parseInt(cellA);
+                        } else {
+                            comparison = ascending
+                                ? cellA.localeCompare(cellB)
+                                : cellB.localeCompare(cellA);
+                        }
+
+                        if (comparison !== 0) return comparison;
+                    }
+                    return 0;
                 });
-            </script>
+                rows.forEach(row => table.querySelector('tbody').appendChild(row));
+            }
+
+            // Sort the Decks Played table by Wins (index 3) and then Deck Name (index 0)
+            const decksTable = document.querySelector('section:nth-of-type(2) table');
+            sortTableByColumns(decksTable, [
+                { columnIndex: 3, ascending: false }, // Sort by Wins descending
+                { columnIndex: 0, ascending: true }  // Then by Deck Name ascending
+            ]);
+        });
+    </script>
             <tbody>
                 <tr>
                     <td>Mark</td>
