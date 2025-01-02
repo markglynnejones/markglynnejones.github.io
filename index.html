@@ -1,1 +1,136 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commander Wins Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2a2a2e;
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: #ffffff;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #2a2a2e;
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .mana-symbol {
+            width: 20px;
+            vertical-align: middle;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2a2a2e;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Commander Wins Tracker</h1>
+    </header>
+
+    <section>
+        <h2 style="text-align: center;">Wins Table</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Total Wins</th>
+                    <th>Most Played Deck</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alice</td>
+                    <td>5</td>
+                    <td>Elves</td>
+                </tr>
+                <tr>
+                    <td>Bob</td>
+                    <td>7</td>
+                    <td>Dragons</td>
+                </tr>
+                <tr>
+                    <td>Charlie</td>
+                    <td>3</td>
+                    <td>Artifacts</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2 style="text-align: center;">Decks Played</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Deck Name</th>
+                    <th>Wins with Deck</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alice</td>
+                    <td>Elves</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Alice</td>
+                    <td>Angels</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Bob</td>
+                    <td>Dragons</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Bob</td>
+                    <td>Goblins</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Charlie</td>
+                    <td>Artifacts</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        <p>Magic: The Gathering - Commander Wins Tracker</p>
+    </footer>
+</body>
+</html>
