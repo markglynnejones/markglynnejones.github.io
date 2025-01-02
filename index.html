@@ -68,6 +68,25 @@
                     <th>Total Wins</th>
                 </tr>
             </thead>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    document.querySelectorAll('th').forEach(th => {
+                        th.addEventListener('click', () => {
+                            const table = th.closest('table');
+                            const rows = Array.from(table.querySelectorAll('tbody > tr'));
+                            const index = Array.from(th.parentNode.children).indexOf(th);
+                            const ascending = th.dataset.ascending === 'true';
+                            rows.sort((rowA, rowB) => {
+                                const cellA = rowA.children[index].textContent.trim();
+                                const cellB = rowB.children[index].textContent.trim();
+                                return ascending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+                            });
+                            rows.forEach(row => table.querySelector('tbody').appendChild(row));
+                            th.dataset.ascending = !ascending;
+                        });
+                    });
+                });
+            </script>
             <tbody>
                 <tr>
                     <td>Mark</td>
