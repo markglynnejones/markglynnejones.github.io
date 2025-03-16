@@ -1,0 +1,10 @@
+{
+    "players": [
+        { "name": "Mark", "wins": 6 },
+        { "name": "Liam", "wins": 7 },
+        { "name": "Jake", "wins": 5 },
+        { "name": "Jo", "wins": 5 },
+        { "name": "Rhys", "wins": 0 },
+        { "name": "Ollie", "wins": 0 }
+    ]
+}
