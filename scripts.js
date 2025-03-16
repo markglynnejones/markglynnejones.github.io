@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const tdWins = document.createElement('td');
 
             tdName.textContent = deck.name;
-            tdColours.innerHTML = deck.colours.map(colour => `<img class="mana-symbol" src="${colour}.svg" alt="${colour}" />`).join(' ');
+            tdColours.innerHTML = deck.colours.map(colour => `<img class="mana-symbol" src="/images/${colour}.svg" alt="${colour}" />`).join(' ');
             tdCombinations.textContent = deck.combinations;
             tdWins.textContent = deck.wins;
 

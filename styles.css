@@ -23,6 +23,10 @@ th, td {
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;
+    
+    a {
+        text-decoration: none;
+    }
 }
 
 th {
