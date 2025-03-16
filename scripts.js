@@ -60,10 +60,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const tdWins = document.createElement('td');
 
             tdName.textContent = deck.name;
-            tdCommander.textContent = deck.commander;
-            tdColours.innerHTML = deck.colours.map(colour => `<img class="mana-symbol" src="/images/${colour}.svg" alt="${colour}" />`).join(' ');
+            tdColours.innerHTML = deck.colours.map(colour => `<img class="mana-symbol" src="${colour}.svg" alt="${colour}" />`).join(' ');
             tdCombinations.textContent = deck.combinations;
             tdWins.textContent = deck.wins;
+
+            // Fetch card details from Scryfall API and create a link
+            fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(deck.commander)}`)
+                .then(response => response.json())
+                .then(cardData => {
+                    tdCommander.innerHTML = `<a href="${cardData.scryfall_uri}" target="_blank">${deck.commander}</a>`;
+                })
+                .catch(error => {
+                    console.error('Error fetching card details:', error);
+                    tdCommander.textContent = deck.commander; // Fallback to plain text if API call fails
+                });
 
             tr.appendChild(tdName);
             tr.appendChild(tdCommander);
