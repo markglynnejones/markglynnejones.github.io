@@ -48,6 +48,32 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Function to generate decks table content from JSON data
+    function generateDecksTableContent(data, tableBodyId) {
+        const tableBody = document.getElementById(tableBodyId);
+        data.decks.forEach(deck => {
+            const tr = document.createElement('tr');
+            const tdName = document.createElement('td');
+            const tdCommander = document.createElement('td');
+            const tdColours = document.createElement('td');
+            const tdCombinations = document.createElement('td');
+            const tdWins = document.createElement('td');
+
+            tdName.textContent = deck.name;
+            tdCommander.textContent = deck.commander;
+            tdColours.innerHTML = deck.colours.map(colour => `<img class="mana-symbol" src="/images/${colour}.svg" alt="${colour}" />`).join(' ');
+            tdCombinations.textContent = deck.combinations;
+            tdWins.textContent = deck.wins;
+
+            tr.appendChild(tdName);
+            tr.appendChild(tdCommander);
+            tr.appendChild(tdColours);
+            tr.appendChild(tdCombinations);
+            tr.appendChild(tdWins);
+            tableBody.appendChild(tr);
+        });
+    }
+
     // Load and generate content for Wins Table
     loadJSON('players.json', data => {
         generateWinsTableContent(data, 'wins-table-body');
@@ -60,10 +86,15 @@ document.addEventListener('DOMContentLoaded', function () {
         ]);
     });
 
-    // Sort the Decks Played table by Wins (index 4) and then Deck Name (index 0)
-    const decksTable = document.querySelector('section:nth-of-type(2) table');
-    sortTableByColumns(decksTable, [
-        { columnIndex: 4, ascending: false }, // Sort by Wins descending
-        { columnIndex: 0, ascending: true }  // Then by Deck Name ascending
-    ]);
+    // Load and generate content for Decks Played Table
+    loadJSON('decks.json', data => {
+        generateDecksTableContent(data, 'decks-table-body');
+
+        // Sort the Decks Played table by Wins (index 4) and then Deck Name (index 0)
+        const decksTable = document.querySelector('section:nth-of-type(2) table');
+        sortTableByColumns(decksTable, [
+            { columnIndex: 4, ascending: false }, // Sort by Wins descending
+            { columnIndex: 0, ascending: true }  // Then by Deck Name ascending
+        ]);
+    });
 });
