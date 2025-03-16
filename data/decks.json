@@ -3,120 +3,86 @@
         {
             "name": "Draconic Destruction",
             "commander": "Atarka, World Render",
-            "colours": ["Red", "Green"],
-            "combinations": "Gruul",
             "wins": 2
         },
         {
             "name": "Elves",
             "commander": "Galadriel, Light of Valinor",
-            "colours": ["Green", "White", "Blue"],
-            "combinations": "Bant",
             "wins": 1
         },
         {
             "name": "Death + Taxes",
             "commander": "Ghen, Arcanum Weaver",
-            "colours": ["Red", "White", "Black"],
-            "combinations": "Mardu",
             "wins": 2
         },
         {
             "name": "Rhys French Lessons",
             "commander": "Glarb, Calamity's Augur",
-            "colours": ["Black", "Green", "Blue"],
-            "combinations": "Sultai",
             "wins": 2
         },
         {
             "name": "Graveyard Overdrive",
             "commander": "Disa, the Restless",
-            "colours": ["Black", "Red", "Green"],
-            "combinations": "Jund",
             "wins": 1
         },
         {
             "name": "Artifact Black",
             "commander": "Ashnod, Flesh Mechanist",
-            "colours": ["Black"],
-            "combinations": "Black",
             "wins": 3
         },
         {
             "name": "Chaos Incarnate",
             "commander": "Kardur, Doomscourge",
-            "colours": ["Black", "Red"],
-            "combinations": "Rakdos",
             "wins": 5
         },
         {
             "name": "Saruman",
             "commander": "Saruman of Many Colors",
-            "colours": ["White", "Blue", "Black"],
-            "combinations": "Esper",
             "wins": 3
         },
         {
             "name": "First Flight",
             "commander": "Isperia, Supreme Judge",
-            "colours": ["White", "Blue"],
-            "combinations": "Azorius",
             "wins": 0
         },
         {
             "name": "Baelyn",
             "commander": "Baylen, the Haymaker",
-            "colours": ["Red", "Green", "White"],
-            "combinations": "Naya",
             "wins": 0
         },
         {
             "name": "Bedecked Brokers",
             "commander": "Perrie, the Pulverizer",
-            "colours": ["Green", "White", "Blue"],
-            "combinations": "Bant",
             "wins": 0
         },
         {
             "name": "Ahoy Matey's",
             "commander": "Admiral Brass, Unsinkable",
-            "colours": ["Black", "Red", "Blue"],
-            "combinations": "Grixis",
             "wins": 2
         },
         {
             "name": "Vampire - Non Vampire",
             "commander": "Cormelia, Glamour Thief",
-            "colours": ["Black", "White", "Red"],
-            "combinations": "Mardu",
             "wins": 1
         },
         {
             "name": "The Vamp Clamp",
             "commander": "Edgar Markov",
-            "colours": ["Black", "White", "Red"],
-            "combinations": "Mardu",
             "wins": 0
         },
         {
             "name": "UWU Otters",
             "commander": "Bria, Riptide Rogue",
-            "colours": ["Blue", "Red"],
-            "combinations": "Izzet",
             "wins": 1
         },
         {
             "name": "ALEXIOS",
             "commander": "Alexios, Deimos of Kosmos",
-            "colours": ["Red"],
-            "combinations": "Red",
             "wins": 0
         },
         {
             "name": "Eternal Might",
             "commander": "Temmet, Naktamun's Will",
-            "colours": ["White", "Blue", "Black"],
-            "combinations": "Esper",
             "wins": 1
         }
     ]
