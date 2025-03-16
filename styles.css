@@ -23,7 +23,7 @@ th, td {
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;
-    
+
     a {
         text-decoration: none;
     }
@@ -48,4 +48,26 @@ footer {
     padding: 10px;
     background-color: #2a2a2e;
     color: white;
+}
+
+#toggle-inactive-decks {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 1rem 12rem;
+    font-size: 16px;
+    color: #fff;
+    background-color: #2a2a2e;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#toggle-inactive-decks:hover {
+    background-color: #2a2a2e;
+}
+
+#toggle-inactive-decks:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
 }

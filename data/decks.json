@@ -3,87 +3,104 @@
         {
             "name": "Draconic Destruction",
             "commander": "Atarka, World Render",
-            "wins": 2
+            "wins": 2,
+            "active": true
         },
         {
             "name": "Elves",
             "commander": "Galadriel, Light of Valinor",
-            "wins": 1
+            "wins": 1,
+            "active": true
         },
         {
             "name": "Death + Taxes",
             "commander": "Ghen, Arcanum Weaver",
-            "wins": 2
+            "wins": 2,
+            "active": true
         },
         {
             "name": "Rhys French Lessons",
             "commander": "Glarb, Calamity's Augur",
-            "wins": 2
+            "wins": 2,
+            "active": true
         },
         {
             "name": "Graveyard Overdrive",
             "commander": "Disa, the Restless",
-            "wins": 1
+            "wins": 1,
+            "active": true
         },
         {
             "name": "Artifact Black",
             "commander": "Ashnod, Flesh Mechanist",
-            "wins": 3
+            "wins": 3,
+            "active": true
         },
         {
             "name": "Chaos Incarnate",
             "commander": "Kardur, Doomscourge",
-            "wins": 5
+            "wins": 5,
+            "active": false
         },
         {
             "name": "Saruman",
             "commander": "Saruman of Many Colors",
-            "wins": 3
+            "wins": 3,
+            "active": true
         },
         {
             "name": "First Flight",
             "commander": "Isperia, Supreme Judge",
-            "wins": 0
+            "wins": 0,
+            "active": false
         },
         {
             "name": "Baelyn",
             "commander": "Baylen, the Haymaker",
-            "wins": 0
+            "wins": 0,
+            "active": true
         },
         {
             "name": "Bedecked Brokers",
             "commander": "Perrie, the Pulverizer",
-            "wins": 0
+            "wins": 0,
+            "active": false
         },
         {
             "name": "Ahoy Matey's",
             "commander": "Admiral Brass, Unsinkable",
-            "wins": 2
+            "wins": 2,
+            "active": true
         },
         {
             "name": "Vampire - Non Vampire",
             "commander": "Cormelia, Glamour Thief",
-            "wins": 1
+            "wins": 1,
+            "active": false
         },
         {
             "name": "The Vamp Clamp",
             "commander": "Edgar Markov",
-            "wins": 0
+            "wins": 0,
+            "active": true
         },
         {
             "name": "UWU Otters",
             "commander": "Bria, Riptide Rogue",
-            "wins": 1
+            "wins": 1,
+            "active": true
         },
         {
             "name": "ALEXIOS",
             "commander": "Alexios, Deimos of Kosmos",
-            "wins": 0
+            "wins": 0,
+            "active": true
         },
         {
             "name": "Eternal Might",
             "commander": "Temmet, Naktamun's Will",
-            "wins": 1
+            "wins": 1,
+            "active": true
         }
     ]
 }

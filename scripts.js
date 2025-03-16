@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
+    let showInactiveDecks = true;
+    let currentSortCriteria = [
+        { columnIndex: 4, ascending: false }, // Sort by Wins descending
+        { columnIndex: 0, ascending: true }   // Then by Deck Name ascending
+    ];
+
     // Function to sort a table by multiple columns
     function sortTableByColumns(table, sortCriteria) {
         const rows = Array.from(table.querySelectorAll('tbody > tr'));
@@ -36,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to generate table content from JSON data
     function generateWinsTableContent(data, tableBodyId) {
         const tableBody = document.getElementById(tableBodyId);
+        tableBody.innerHTML = ''; // Clear existing content
         data.players.forEach(player => {
             const tr = document.createElement('tr');
             const tdName = document.createElement('td');
@@ -61,16 +68,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to generate decks table content from JSON data
     function generateDecksTableContent(decksData, combinationsData, tableBodyId) {
         const tableBody = document.getElementById(tableBodyId);
+        tableBody.innerHTML = ''; // Clear existing content
         decksData.decks.forEach(deck => {
+            if (!showInactiveDecks && !deck.active) return; // Skip inactive decks if toggle is off
+
             const tr = document.createElement('tr');
             const tdName = document.createElement('td');
             const tdCommander = document.createElement('td');
             const tdColours = document.createElement('td');
+            const tdCombinations = document.createElement('td');
             const tdWins = document.createElement('td');
             const tdImage = document.createElement('td');
-            const tdCombinations = document.createElement('td');
+            const tdActive = document.createElement('td');
+
             tdName.textContent = deck.name;
             tdWins.textContent = deck.wins;
+            tdActive.textContent = deck.active ? 'Active' : 'Inactive';
 
             // Fetch card details from Scryfall API and create a link and image
             fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(deck.commander)}`)
@@ -112,8 +125,13 @@ document.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(tdCombinations);
             tr.appendChild(tdWins);
             tr.appendChild(tdImage);
+            tr.appendChild(tdActive);
             tableBody.appendChild(tr);
         });
+
+        // Reapply sorting after regenerating the table content
+        const decksTable = document.querySelector('section:nth-of-type(2) table');
+        sortTableByColumns(decksTable, currentSortCriteria);
     }
 
     // Load and generate content for Wins Table
@@ -135,10 +153,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Sort the Decks Played table by Wins (index 4) and then Deck Name (index 0)
             const decksTable = document.querySelector('section:nth-of-type(2) table');
-            sortTableByColumns(decksTable, [
-                { columnIndex: 4, ascending: false }, // Sort by Wins descending
-                { columnIndex: 0, ascending: true }  // Then by Deck Name ascending
-            ]);
+            sortTableByColumns(decksTable, currentSortCriteria);
+        });
+    });
+
+    // Toggle inactive decks visibility
+    document.getElementById('toggle-inactive-decks').addEventListener('click', () => {
+        showInactiveDecks = !showInactiveDecks;
+        loadJSON('/data/decks.json', decksData => {
+            loadJSON('/data/combinations.json', combinationsData => {
+                generateDecksTableContent(decksData, combinationsData, 'decks-table-body');
+            });
         });
     });
 });
