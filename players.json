@@ -1,10 +1,10 @@
 {
     "players": [
-        { "name": "Mark", "wins": 6 },
-        { "name": "Liam", "wins": 7 },
-        { "name": "Jake", "wins": 5 },
-        { "name": "Jo", "wins": 5 },
-        { "name": "Rhys", "wins": 0 },
-        { "name": "Ollie", "wins": 0 }
+        { "name": "Mark", "wins": 6, "timesPlayed": 23 },
+        { "name": "Liam", "wins": 7, "timesPlayed": 23 },
+        { "name": "Jake", "wins": 5, "timesPlayed": 23 },
+        { "name": "Jo", "wins": 5, "timesPlayed": 18 },
+        { "name": "Rhys", "wins": 0, "timesPlayed": 1 },
+        { "name": "Ollie", "wins": 0, "timesPlayed": 1 }
     ]
 }
