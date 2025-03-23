@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     let showInactiveDecks = true;
     let currentSortCriteria = [
-        { columnIndex: 4, ascending: false }, // Sort by Wins descending
+        { columnIndex: 5, ascending: false }, // Sort by Wins descending
         { columnIndex: 0, ascending: true }   // Then by Deck Name ascending
     ];
 
@@ -71,27 +71,33 @@ document.addEventListener('DOMContentLoaded', function () {
         tableBody.innerHTML = ''; // Clear existing content
         decksData.decks.forEach(deck => {
             if (!showInactiveDecks && !deck.active) return; // Skip inactive decks if toggle is off
-
+    
             const tr = document.createElement('tr');
             const tdName = document.createElement('td');
             const tdCommander = document.createElement('td');
             const tdColours = document.createElement('td');
             const tdCombinations = document.createElement('td');
             const tdWins = document.createElement('td');
+            const tdMatchesPlayed = document.createElement('td');
+            const tdWinPercentage = document.createElement('td');
             const tdImage = document.createElement('td');
             const tdActive = document.createElement('td');
-
+    
             tdName.textContent = deck.name;
             tdWins.textContent = deck.wins;
+            tdMatchesPlayed.textContent = deck.matchesPlayed;
+            // Calculate win percentage
+            const winPercentage = deck.matchesPlayed > 0 ? ((deck.wins / deck.matchesPlayed) * 100).toFixed(2) + '%' : '0%'; 
+            tdWinPercentage.textContent = winPercentage;
             tdActive.textContent = deck.active ? 'Active' : 'Inactive';
-
+    
             // Fetch card details from Scryfall API and create a link and image
             fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(deck.commander)}`)
                 .then(response => response.json())
                 .then(cardData => {
                     tdCommander.innerHTML = `<a href="${cardData.scryfall_uri}" target="_blank">${deck.commander}</a>`;
                     tdImage.innerHTML = `<img src="${cardData.image_uris.normal}" alt="${deck.commander}" style="width: 100px;" />`;
-
+    
                     // Fetch colors from Scryfall API
                     const colors = cardData.colors.map(color => {
                         switch (color) {
@@ -103,13 +109,13 @@ document.addEventListener('DOMContentLoaded', function () {
                             default: return '';
                         }
                     });
-
+    
                     // Match colors with combinations data
                     const matchedCombination = Object.keys(combinationsData.combinations).find(combination => {
                         const combinationColors = combinationsData.combinations[combination];
                         return combinationColors.length === colors.length && combinationColors.every(color => colors.includes(color));
                     });
-
+    
                     tdColours.innerHTML = colors.map(color => `<img class="mana-symbol" src="/images/${color}.svg" alt="${color}" />`).join(' ');
                     tdCombinations.textContent = matchedCombination || 'Unknown';
                 })
@@ -118,17 +124,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     tdCommander.textContent = deck.commander; // Fallback to plain text if API call fails
                     tdImage.textContent = 'Image not available'; // Fallback text if API call fails
                 });
-
+    
             tr.appendChild(tdName);
             tr.appendChild(tdCommander);
             tr.appendChild(tdColours);
             tr.appendChild(tdCombinations);
+            tr.appendChild(tdMatchesPlayed);
             tr.appendChild(tdWins);
+            tr.appendChild(tdWinPercentage);
             tr.appendChild(tdImage);
             tr.appendChild(tdActive);
             tableBody.appendChild(tr);
         });
-
+    
         // Reapply sorting after regenerating the table content
         const decksTable = document.querySelector('section:nth-of-type(2) table');
         sortTableByColumns(decksTable, currentSortCriteria);
