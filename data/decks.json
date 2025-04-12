@@ -10,7 +10,7 @@
         {
             "name": "Elves",
             "commander": "Galadriel, Light of Valinor",
-            "matchesPlayed": 5,
+            "matchesPlayed": 6,
             "wins": 1,
             "active": true
         },
@@ -52,7 +52,7 @@
         {
             "name": "Saruman",
             "commander": "Saruman of Many Colors",
-            "matchesPlayed": 5,
+            "matchesPlayed": 6,
             "wins": 3,
             "active": true
         },
@@ -66,8 +66,8 @@
         {
             "name": "Baelyn",
             "commander": "Baylen, the Haymaker",
-            "matchesPlayed": 4,
-            "wins": 1,
+            "matchesPlayed": 5,
+            "wins": 2,
             "active": true
         },
         {
@@ -80,7 +80,7 @@
         {
             "name": "Ahoy Matey's",
             "commander": "Admiral Brass, Unsinkable",
-            "matchesPlayed": 12,
+            "matchesPlayed": 13,
             "wins": 2,
             "active": true
         },
@@ -129,8 +129,29 @@
         {
             "name": "Jelly Belly",
             "commander": "Jeleva, Nephalia's Scourge",
-            "matchesPlayed": 3,
+            "matchesPlayed": 5,
             "wins": 0,
+            "active": true
+        },
+        {
+            "name": "Ring Sting",
+            "commander": "Frodo, Adventurous Hobbit",
+            "matchesPlayed": 2,
+            "wins": 0,
+            "active": true
+        },
+        {
+            "name": "Fishes",
+            "commander": "Hakbal of the Surging Soul",
+            "matchesPlayed": 2,
+            "wins": 1,
+            "active": true
+        },
+        {
+            "name": "Greasy Dragons",
+            "commander": "Ureni of the Unwritten",
+            "matchesPlayed": 1,
+            "wins": 1,
             "active": true
         }
     ]
