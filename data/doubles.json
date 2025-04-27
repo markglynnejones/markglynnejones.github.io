@@ -1,0 +1,24 @@
+{
+    "teams": [
+        {
+            "name": "Jo & Liam",
+            "wins": 1,
+            "matchesPlayed": 1
+        },
+        {
+            "name": "Jake & Mark",
+            "wins": 0,
+            "matchesPlayed": 1
+        },
+        {
+            "name": "Jo & Jake",
+            "wins": 0,
+            "matchesPlayed": 1
+        },
+        {
+            "name": "Mark & Liam",
+            "wins": 1,
+            "matchesPlayed": 1
+        }
+    ]
+}
