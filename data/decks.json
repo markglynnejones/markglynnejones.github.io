@@ -10,7 +10,7 @@
         {
             "name": "Elves",
             "commander": "Galadriel, Light of Valinor",
-            "matchesPlayed": 6,
+            "matchesPlayed": 8,
             "wins": 1,
             "active": true
         },
@@ -24,22 +24,22 @@
         {
             "name": "Rhys French Lessons",
             "commander": "Glarb, Calamity's Augur",
-            "matchesPlayed": 5,
+            "matchesPlayed": 6,
             "wins": 3,
             "active": true
         },
         {
             "name": "Graveyard Overdrive",
             "commander": "Disa, the Restless",
-            "matchesPlayed": 4,
+            "matchesPlayed": 5,
             "wins": 1,
             "active": true
         },
         {
             "name": "Artifact Black",
             "commander": "Ashnod, Flesh Mechanist",
-            "matchesPlayed": 9,
-            "wins": 3,
+            "matchesPlayed": 16,
+            "wins": 7,
             "active": true
         },
         {
@@ -52,7 +52,7 @@
         {
             "name": "Saruman",
             "commander": "Saruman of Many Colors",
-            "matchesPlayed": 6,
+            "matchesPlayed": 8,
             "wins": 3,
             "active": true
         },
@@ -66,8 +66,8 @@
         {
             "name": "Baelyn",
             "commander": "Baylen, the Haymaker",
-            "matchesPlayed": 5,
-            "wins": 2,
+            "matchesPlayed": 9,
+            "wins": 3,
             "active": true
         },
         {
@@ -80,8 +80,8 @@
         {
             "name": "Ahoy Matey's",
             "commander": "Admiral Brass, Unsinkable",
-            "matchesPlayed": 14,
-            "wins": 2,
+            "matchesPlayed": 18,
+            "wins": 3,
             "active": true
         },
         {
@@ -94,72 +94,114 @@
         {
             "name": "The Vamp Clamp",
             "commander": "Edgar Markov",
-            "matchesPlayed": 5,
-            "wins": 1,
+            "matchesPlayed": 6,
+            "wins": 2,
             "active": true
         },
         {
             "name": "UWU Otters",
             "commander": "Bria, Riptide Rogue",
-            "matchesPlayed": 4,
-            "wins": 1,
+            "matchesPlayed": 5,
+            "wins": 2,
             "active": true
         },
         {
             "name": "ALEXIOS",
             "commander": "Alexios, Deimos of Kosmos",
-            "matchesPlayed": 2,
+            "matchesPlayed": 4,
             "wins": 0,
             "active": true
         },
         {
             "name": "Eternal Might",
             "commander": "Temmet, Naktamun's Will",
-            "matchesPlayed": 2,
-            "wins": 1,
-            "active": true
+            "matchesPlayed": 5,
+            "wins": 2,
+            "active": false
         },
         {
             "name": "Women Wielding sWords",
             "commander": "Éowyn, Shieldmaiden",
-            "matchesPlayed": 1,
-            "wins": 1,
+            "matchesPlayed": 5,
+            "wins": 2,
             "active": true
         },
         {
             "name": "Jelly Belly",
             "commander": "Jeleva, Nephalia's Scourge",
-            "matchesPlayed": 6,
-            "wins": 0,
+            "matchesPlayed": 9,
+            "wins": 1,
             "active": true
         },
         {
             "name": "Ring Sting",
             "commander": ["Frodo, Adventurous Hobbit", "Sam, Loyal Attendant"],
-            "matchesPlayed": 3,
-            "wins": 1,
+            "matchesPlayed": 5,
+            "wins": 2,
             "active": true
         },
         {
             "name": "Fishes",
             "commander": "Hakbal of the Surging Soul",
-            "matchesPlayed": 4,
+            "matchesPlayed": 7,
             "wins": 2,
             "active": true
         },
         {
             "name": "Greasy Dragons",
             "commander": "Ureni of the Unwritten",
-            "matchesPlayed": 2,
-            "wins": 1,
+            "matchesPlayed": 5,
+            "wins": 2,
             "active": true
         },
         {
             "name": "I Hope You Like Sagas",
             "commander": "Tom Bombadil",
-            "matchesPlayed": 2,
+            "matchesPlayed": 8,
             "wins": 0,
             "active": true
-        }        
+        },
+        {
+            "name": "Veloci-ramp-tor",
+            "commander": "Pantlaza, Sun-Favored",
+            "matchesPlayed": 3,
+            "wins": 0,
+            "active": true
+        },
+        {
+            "name": "Peace Offering",
+            "commander": "Ms. Bumbleflower",
+            "matchesPlayed": 5,
+            "wins": 3,
+            "active": true
+        },
+        {
+            "name": "All but one Mana",
+            "commander": "Ovika, Enigma Goliath",
+            "matchesPlayed": 3,
+            "wins": 0,
+            "active": true
+        },
+        {
+            "name": "Animated Army",
+            "commander": "Bello, Bard of the Brambles",
+            "matchesPlayed": 2,
+            "wins": 1,
+            "active": false
+        },
+        {
+            "name": "Mishra's Burnished Banner",
+            "commander": "Mishra, Eminent One",
+            "matchesPlayed": 4,
+            "wins": 1,
+            "active": false
+        },
+        {
+            "name": "Revival Trance",
+            "commander": "Terra, Herald of Hope",
+            "matchesPlayed": 2,
+            "wins": 1,
+            "active": false
+        }                                   
     ]
 }
