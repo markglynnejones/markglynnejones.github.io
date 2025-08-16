@@ -187,7 +187,7 @@
             "commander": "Bello, Bard of the Brambles",
             "matchesPlayed": 2,
             "wins": 1,
-            "active": true
+            "active": false
         },
         {
             "name": "Mishra's Burnished Banner",
@@ -254,7 +254,7 @@
         },
         {
             "name": "Terrorids",
-            "commander": "Elesh Norn",
+            "commander": "Elesh Norn // The Argent Etchings",
             "matchesPlayed": 6,
             "wins": 0,
             "active": true
