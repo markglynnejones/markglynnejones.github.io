@@ -298,8 +298,92 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Load and generate content for Doubles Wins Table
-    loadJSON('/data/doubles.json', data => {
-        generateDoublesWinsTableContent(data, 'doubles-wins-table-body');
-    });    
+    // Comment out or remove the Doubles Wins Table loading and rendering
+    // loadJSON('/data/doubles.json', data => {
+    //     generateDoublesWinsTableContent(data, 'doubles-wins-table-body');
+    // });    
+
+    // Singles Wins Table sorting state
+    let singlesSortState = {
+        column: 'winrate', // Default sort by winrate
+        ascending: false
+    };
+
+    function updateSinglesSortArrows() {
+        document.getElementById('arrow-player').textContent = singlesSortState.column === 'player'
+            ? (singlesSortState.ascending ? sortIcons.up : sortIcons.down)
+            : '';
+        document.getElementById('arrow-wins-singles').textContent = singlesSortState.column === 'wins'
+            ? (singlesSortState.ascending ? sortIcons.up : sortIcons.down)
+            : '';
+        document.getElementById('arrow-matches-singles').textContent = singlesSortState.column === 'matches'
+            ? (singlesSortState.ascending ? sortIcons.up : sortIcons.down)
+            : '';
+        document.getElementById('arrow-winrate-singles').textContent = singlesSortState.column === 'winrate'
+            ? (singlesSortState.ascending ? sortIcons.up : sortIcons.down)
+            : '';
+    }
+
+    function sortSinglesData(players, column, ascending) {
+        return players.slice().sort((a, b) => {
+            let valA, valB;
+            if (column === 'player') {
+                valA = a.name || '';
+                valB = b.name || '';
+                return ascending ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            } else if (column === 'wins') {
+                valA = a.wins || 0;
+                valB = b.wins || 0;
+            } else if (column === 'matches') {
+                valA = a.matchesPlayed || 0;
+                valB = b.matchesPlayed || 0;
+            } else if (column === 'winrate') {
+                valA = a.matchesPlayed > 0 ? a.wins / a.matchesPlayed : 0;
+                valB = b.matchesPlayed > 0 ? b.wins / b.matchesPlayed : 0;
+            }
+            if (valA < valB) return ascending ? -1 : 1;
+            if (valA > valB) return ascending ? 1 : -1;
+            return 0;
+        });
+    }
+
+    // Patch generateWinsTableContent to use sorting
+    const originalGenerateWinsTableContent = generateWinsTableContent;
+    generateWinsTableContent = function(data, tableBodyId) {
+        let players = data.players;
+        if (singlesSortState.column) {
+            players = sortSinglesData(players, singlesSortState.column, singlesSortState.ascending);
+        }
+        // Patch data for rendering
+        originalGenerateWinsTableContent({ players }, tableBodyId);
+        updateSinglesSortArrows();
+    };
+
+    // Add event listeners for sorting
+    document.getElementById('sort-player').addEventListener('click', () => {
+        singlesSortState.ascending = singlesSortState.column === 'player' ? !singlesSortState.ascending : true;
+        singlesSortState.column = 'player';
+        reloadSinglesTable();
+    });
+    document.getElementById('sort-wins-singles').addEventListener('click', () => {
+        singlesSortState.ascending = singlesSortState.column === 'wins' ? !singlesSortState.ascending : false;
+        singlesSortState.column = 'wins';
+        reloadSinglesTable();
+    });
+    document.getElementById('sort-matches-singles').addEventListener('click', () => {
+        singlesSortState.ascending = singlesSortState.column === 'matches' ? !singlesSortState.ascending : false;
+        singlesSortState.column = 'matches';
+        reloadSinglesTable();
+    });
+    document.getElementById('sort-winrate-singles').addEventListener('click', () => {
+        singlesSortState.ascending = singlesSortState.column === 'winrate' ? !singlesSortState.ascending : false;
+        singlesSortState.column = 'winrate';
+        reloadSinglesTable();
+    });
+
+    function reloadSinglesTable() {
+        loadJSON('/data/players.json', data => {
+            generateWinsTableContent(data, 'wins-table-body');
+        });
+    }
 });
