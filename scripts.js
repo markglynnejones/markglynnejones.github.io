@@ -1,9 +1,48 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let showInactiveDecks = true;
-    let currentSortCriteria = [
-        { columnIndex: 6, ascending: false }, // Sort by Wins descending
-        { columnIndex: 0, ascending: true }   // Then by Deck Name ascending
-    ];
+    let showInactiveDecks = false;
+
+    // Sorting state
+    let decksSortState = {
+        column: 'winrate',    // Default sort by wins
+        ascending: false   // Descending order
+    };
+
+    const sortIcons = {
+        up: '↑',
+        down: '↓',
+        both: '↕'
+    };
+
+    function updateDecksSortArrows() {
+        document.getElementById('arrow-wins').textContent = decksSortState.column === 'wins'
+            ? (decksSortState.ascending ? sortIcons.up : sortIcons.down)
+            : '';
+        document.getElementById('arrow-matches').textContent = decksSortState.column === 'matches'
+            ? (decksSortState.ascending ? sortIcons.up : sortIcons.down)
+            : '';
+        document.getElementById('arrow-winrate').textContent = decksSortState.column === 'winrate'
+            ? (decksSortState.ascending ? sortIcons.up : sortIcons.down)
+            : '';
+    }
+
+    function sortDecksData(decks, column, ascending) {
+        return decks.slice().sort((a, b) => {
+            let valA, valB;
+            if (column === 'wins') {
+                valA = a.wins || 0;
+                valB = b.wins || 0;
+            } else if (column === 'matches') {
+                valA = a.matchesPlayed || 0;
+                valB = b.matchesPlayed || 0;
+            } else if (column === 'winrate') {
+                valA = a.matchesPlayed > 0 ? a.wins / a.matchesPlayed : 0;
+                valB = b.matchesPlayed > 0 ? b.wins / b.matchesPlayed : 0;
+            }
+            if (valA < valB) return ascending ? -1 : 1;
+            if (valA > valB) return ascending ? 1 : -1;
+            return (a.name || '').localeCompare(b.name || '');
+        });
+    }
 
     // Function to sort a table by multiple columns
     function sortTableByColumns(table, sortCriteria, tableName) {
@@ -68,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Function to generate decks table content from JSON data
-    function generateDecksTableContent(decksData, combinationsData, tableBodyId) {
+    const originalGenerateDecksTableContent = function generateDecksTableContent(decksData, combinationsData, tableBodyId) {
         const tableBody = document.getElementById(tableBodyId);
         tableBody.innerHTML = ''; // Clear existing content
         decksData.decks.forEach(deck => {
@@ -161,11 +200,17 @@ document.addEventListener('DOMContentLoaded', function () {
             tr.appendChild(tdActive);
             tableBody.appendChild(tr);
         });
-    
-        // Reapply sorting after regenerating the table content
-        const decksTable = document.querySelector('section:nth-of-type(3) table');
-        sortTableByColumns(decksTable, currentSortCriteria, 'decks-table-bod2y');
     }
+
+    generateDecksTableContent = function(decksData, combinationsData, tableBodyId) {
+        let decks = decksData.decks.filter(deck => showInactiveDecks || deck.active);
+        if (decksSortState.column) {
+            decks = sortDecksData(decks, decksSortState.column, decksSortState.ascending);
+        }
+        // Patch decksData for rendering
+        originalGenerateDecksTableContent({ decks }, combinationsData, tableBodyId);
+        updateDecksSortArrows();
+    };
 
     function generateDoublesWinsTableContent(data, tableBodyId) {
         const tableBody = document.getElementById(tableBodyId);
@@ -227,6 +272,31 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
+
+    // Add event listeners for sorting
+    document.getElementById('sort-wins').addEventListener('click', () => {
+        decksSortState.ascending = decksSortState.column === 'wins' ? !decksSortState.ascending : false;
+        decksSortState.column = 'wins';
+        reloadDecksTable();
+    });
+    document.getElementById('sort-matches').addEventListener('click', () => {
+        decksSortState.ascending = decksSortState.column === 'matches' ? !decksSortState.ascending : false;
+        decksSortState.column = 'matches';
+        reloadDecksTable();
+    });
+    document.getElementById('sort-winrate').addEventListener('click', () => {
+        decksSortState.ascending = decksSortState.column === 'winrate' ? !decksSortState.ascending : false;
+        decksSortState.column = 'winrate';
+        reloadDecksTable();
+    });
+
+    function reloadDecksTable() {
+        loadJSON('/data/decks.json', decksData => {
+            loadJSON('/data/combinations.json', combinationsData => {
+                generateDecksTableContent(decksData, combinationsData, 'decks-table-body');
+            });
+        });
+    }
 
     // Load and generate content for Doubles Wins Table
     loadJSON('/data/doubles.json', data => {
