@@ -102,27 +102,34 @@ document.addEventListener('DOMContentLoaded', function () {
             tdCommander.innerHTML = commanders.map(commander => `<span>${commander}</span>`).join('<br>');
     
             // Fetch card details for all commanders
-            const colorPromises = commanders.map(commander =>
-                fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(commander)}`)
+            const colorPromises = commanders.map(commander => {
+                // Handle double-faced cards by using only the front face name
+                const searchName = commander.split('//')[0].trim();
+                return fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(searchName)}`)
                     .then(response => response.json())
-                    .then(cardData => ({
-                        colors: cardData.colors.map(color => {
-                            switch (color) {
-                                case 'W': return 'White';
-                                case 'U': return 'Blue';
-                                case 'B': return 'Black';
-                                case 'R': return 'Red';
-                                case 'G': return 'Green';
-                                default: return '';
-                            }
-                        }),
-                        image: cardData.image_uris.normal
-                    }))
+                    .then(cardData => {
+                        // Use card_faces[0] if present, otherwise use cardData directly
+                        const face = Array.isArray(cardData.card_faces) ? cardData.card_faces[0] : cardData;
+                        const colors = Array.isArray(face.colors)
+                            ? face.colors.map(color => {
+                                switch (color) {
+                                    case 'W': return 'White';
+                                    case 'U': return 'Blue';
+                                    case 'B': return 'Black';
+                                    case 'R': return 'Red';
+                                    case 'G': return 'Green';
+                                    default: return '';
+                                }
+                            })
+                            : [];
+                        const image = face.image_uris ? face.image_uris.normal : (cardData.image_uris ? cardData.image_uris.normal : null);
+                        return { colors, image };
+                    })
                     .catch(error => {
                         console.error(`Error fetching card details for ${commander}:`, error);
                         return { colors: [], image: null };
-                    })
-            );
+                    });
+            });
     
             Promise.all(colorPromises).then(results => {
                 // Combine colors from all commanders
@@ -211,14 +218,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Toggle inactive decks visibility
-    // document.getElementById('toggle-inactive-decks').addEventListener('click', () => {
-    //     showInactiveDecks = !showInactiveDecks;
-    //     loadJSON('/data/decks.json', decksData => {
-    //         loadJSON('/data/combinations.json', combinationsData => {
-    //             generateDecksTableContent(decksData, combinationsData, 'decks-table-body');
-    //         });
-    //     });
-    // });
+    document.getElementById('toggle-inactive-decks').addEventListener('click', () => {
+        showInactiveDecks = !showInactiveDecks;
+        document.getElementById('toggle-inactive-decks').textContent = showInactiveDecks ? 'Hide Inactive Decks' : 'Show Inactive Decks';
+        loadJSON('/data/decks.json', decksData => {
+            loadJSON('/data/combinations.json', combinationsData => {
+                generateDecksTableContent(decksData, combinationsData, 'decks-table-body');
+            });
+        });
+    });
 
     // Load and generate content for Doubles Wins Table
     loadJSON('/data/doubles.json', data => {
