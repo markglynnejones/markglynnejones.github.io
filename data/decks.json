@@ -12,7 +12,7 @@
             "commander": "Galadriel, Light of Valinor",
             "matchesPlayed": 8,
             "wins": 1,
-            "active": true
+            "active": false
         },
         {
             "name": "Death + Taxes",
@@ -243,35 +243,35 @@
             "commander": "The Master, Formed Anew",
             "matchesPlayed": 5,
             "wins": 4,
-            "active": false
+            "active": true
         },
         {
             "name": "This is a crossover episode",
             "commander": "Deadpool, Trading Card",
             "matchesPlayed": 4,
             "wins": 0,
-            "active": false
+            "active": true
         },
         {
             "name": "Terrorids",
             "commander": "Elesh Norn",
             "matchesPlayed": 6,
             "wins": 0,
-            "active": false
+            "active": true
         },
         {
             "name": "5 In The Pink, 4 In The Stink",
             "commander": "Nine-Fingers Keene",
             "matchesPlayed": 2,
             "wins": 0,
-            "active": false
+            "active": true
         },
         {
             "name": "Gotta have HOPE",
             "commander": "Hope Estheim",
             "matchesPlayed": 2,
             "wins": 0,
-            "active": false
+            "active": true
         }      
     ]
 }
