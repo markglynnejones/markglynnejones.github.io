@@ -24,8 +24,8 @@
         {
             "name": "Rhys French Lessons",
             "commander": "Glarb, Calamity's Augur",
-            "matchesPlayed": 9,
-            "wins": 3,
+            "matchesPlayed": 10,
+            "wins": 4,
             "active": true
         },
         {
@@ -52,7 +52,7 @@
         {
             "name": "Saruman",
             "commander": "Saruman of Many Colors",
-            "matchesPlayed": 10,
+            "matchesPlayed": 11,
             "wins": 4,
             "active": true
         },
@@ -80,7 +80,7 @@
         {
             "name": "Ahoy Matey's",
             "commander": "Admiral Brass, Unsinkable",
-            "matchesPlayed": 22,
+            "matchesPlayed": 23,
             "wins": 4,
             "active": true
         },
@@ -122,14 +122,14 @@
         {
             "name": "Women Wielding sWords",
             "commander": "Éowyn, Shieldmaiden",
-            "matchesPlayed": 9,
+            "matchesPlayed": 10,
             "wins": 2,
             "active": true
         },
         {
             "name": "Jelly Belly",
             "commander": "Jeleva, Nephalia's Scourge",
-            "matchesPlayed": 11,
+            "matchesPlayed": 12,
             "wins": 2,
             "active": true
         },
@@ -143,8 +143,8 @@
         {
             "name": "Fishes",
             "commander": "Hakbal of the Surging Soul",
-            "matchesPlayed": 10,
-            "wins": 4,
+            "matchesPlayed": 11,
+            "wins": 5,
             "active": true
         },
         {
@@ -171,7 +171,7 @@
         {
             "name": "Peace Offering",
             "commander": "Ms. Bumbleflower",
-            "matchesPlayed": 11,
+            "matchesPlayed": 12,
             "wins": 5,
             "active": true
         },
@@ -199,7 +199,7 @@
         {
             "name": "Revival Trance",
             "commander": "Terra, Herald of Hope",
-            "matchesPlayed": 6,
+            "matchesPlayed": 7,
             "wins": 2,
             "active": true
         },
@@ -241,8 +241,8 @@
         {
             "name": "Cloni Macaroni",
             "commander": "The Master, Formed Anew",
-            "matchesPlayed": 6,
-            "wins": 4,
+            "matchesPlayed": 8,
+            "wins": 5,
             "active": true
         },
         {
@@ -255,7 +255,7 @@
         {
             "name": "Terrorids",
             "commander": "Elesh Norn",
-            "matchesPlayed": 6,
+            "matchesPlayed": 8,
             "wins": 0,
             "active": true
         },
