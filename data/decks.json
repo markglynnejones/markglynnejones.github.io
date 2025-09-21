@@ -38,7 +38,7 @@
         {
             "name": "Artifact Black",
             "commander": "Ashnod, Flesh Mechanist",
-            "matchesPlayed": 19,
+            "matchesPlayed": 20,
             "wins": 7,
             "active": true
         },
@@ -122,7 +122,7 @@
         {
             "name": "Women Wielding sWords",
             "commander": "Éowyn, Shieldmaiden",
-            "matchesPlayed": 8,
+            "matchesPlayed": 9,
             "wins": 2,
             "active": true
         },
@@ -136,8 +136,8 @@
         {
             "name": "Ring Sting",
             "commander": ["Frodo, Adventurous Hobbit", "Sam, Loyal Attendant"],
-            "matchesPlayed": 6,
-            "wins": 3,
+            "matchesPlayed": 7,
+            "wins": 4,
             "active": true
         },
         {
@@ -199,8 +199,8 @@
         {
             "name": "Revival Trance",
             "commander": "Terra, Herald of Hope",
-            "matchesPlayed": 5,
-            "wins": 1,
+            "matchesPlayed": 6,
+            "wins": 2,
             "active": true
         },
         {
@@ -241,7 +241,7 @@
         {
             "name": "Cloni Macaroni",
             "commander": "The Master, Formed Anew",
-            "matchesPlayed": 5,
+            "matchesPlayed": 6,
             "wins": 4,
             "active": true
         },
