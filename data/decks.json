@@ -24,8 +24,8 @@
         {
             "name": "Rhys French Lessons",
             "commander": "Glarb, Calamity's Augur",
-            "matchesPlayed": 10,
-            "wins": 4,
+            "matchesPlayed": 11,
+            "wins": 5,
             "active": true
         },
         {
@@ -59,8 +59,8 @@
         {
             "name": "First Flight",
             "commander": "Isperia, Supreme Judge",
-            "matchesPlayed": 1,
-            "wins": 0,
+            "matchesPlayed": 2,
+            "wins": 1,
             "active": false
         },
         {
@@ -122,7 +122,7 @@
         {
             "name": "Women Wielding sWords",
             "commander": "Éowyn, Shieldmaiden",
-            "matchesPlayed": 10,
+            "matchesPlayed": 11,
             "wins": 2,
             "active": true
         },
@@ -150,8 +150,8 @@
         {
             "name": "Greasy Dragons",
             "commander": "Ureni of the Unwritten",
-            "matchesPlayed": 5,
-            "wins": 2,
+            "matchesPlayed": 6,
+            "wins": 3,
             "active": true
         },
         {
@@ -227,7 +227,7 @@
         {
             "name": "Counter Blitz",
             "commander": "Tidus, Yuna's Guardian",
-            "matchesPlayed": 5,
+            "matchesPlayed": 6,
             "wins": 0,
             "active": true
         },
@@ -255,23 +255,65 @@
         {
             "name": "Terrorids",
             "commander": "Elesh Norn",
-            "matchesPlayed": 8,
+            "matchesPlayed": 9,
             "wins": 0,
             "active": true
         },
         {
             "name": "5 In The Pink, 4 In The Stink",
             "commander": "Nine-Fingers Keene",
-            "matchesPlayed": 2,
+            "matchesPlayed": 5,
             "wins": 0,
             "active": true
         },
         {
             "name": "Gotta have HOPE",
             "commander": "Hope Estheim",
+            "matchesPlayed": 3,
+            "wins": 0,
+            "active": true
+        },
+        {
+            "name": "The Frog is Loose",
+            "commander": "The Gitrog, Ravenous Ride",
+            "matchesPlayed": 2,
+            "wins": 1,
+            "active": true
+        },
+        {
+            "name": "Terraisms",
+            "commander": "Terra, Herald of Hope",
+            "matchesPlayed": 5,
+            "wins": 1,
+            "active": true
+        },
+        {
+            "name": "Junkerton",
+            "commander": "Rose, Cutthroat Raider",
+            "matchesPlayed": 4,
+            "wins": 1,
+            "active": true
+        },
+        {
+            "name": "Abzan deetz nuts out",
+            "commander": "Felothar the Steadfast",
             "matchesPlayed": 2,
             "wins": 0,
             "active": true
-        }      
+        },
+        {   
+            "name": "Necron Dynasties",
+            "commander": "Szarekh, the Silent King",
+            "matchesPlayed": 1,
+            "wins": 0,
+            "active": true
+        },
+        {
+            "name": "Masters of Evil",
+            "commander": "Davros, Dalek Creator",
+            "matchesPlayed": 1,
+            "wins": 0,
+            "active": true
+        }
     ]
 }

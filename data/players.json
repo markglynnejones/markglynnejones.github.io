@@ -1,11 +1,11 @@
 {
     "players": [
-        { "name": "Mark", "wins": 13, "matchesPlayed": 63 },
-        { "name": "Liam", "wins": 27, "matchesPlayed": 70 },
-        { "name": "Jake", "wins": 12, "matchesPlayed": 68 },
-        { "name": "Jo", "wins": 15, "matchesPlayed": 52 },
+        { "name": "Mark", "wins": 14, "matchesPlayed": 68 },
+        { "name": "Liam", "wins": 28, "matchesPlayed": 75 },
+        { "name": "Jake", "wins": 15, "matchesPlayed": 73 },
+        { "name": "Jo", "wins": 15, "matchesPlayed": 53 },
         { "name": "Rhys", "wins": 0, "matchesPlayed": 1 },
-        { "name": "Ollie", "wins": 3, "matchesPlayed": 23 },
-        { "name": "Josh", "wins": 0, "matchesPlayed": 5}
+        { "name": "Ollie", "wins": 3, "matchesPlayed": 27 },
+        { "name": "Josh", "wins": 0, "matchesPlayed": 7}
     ]
 }
