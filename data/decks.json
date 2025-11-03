@@ -19,7 +19,7 @@
             "commander": "Ghen, Arcanum Weaver",
             "matchesPlayed": 7,
             "wins": 2,
-            "active": true
+            "active": false
         },
         {
             "name": "Rhys French Lessons",
@@ -38,7 +38,7 @@
         {
             "name": "Artifact Black",
             "commander": "Ashnod, Flesh Mechanist",
-            "matchesPlayed": 20,
+            "matchesPlayed": 21,
             "wins": 7,
             "active": true
         },
@@ -52,7 +52,7 @@
         {
             "name": "Saruman",
             "commander": "Saruman of Many Colors",
-            "matchesPlayed": 11,
+            "matchesPlayed": 12,
             "wins": 4,
             "active": true
         },
@@ -66,7 +66,7 @@
         {
             "name": "Baelyn",
             "commander": "Baylen, the Haymaker",
-            "matchesPlayed": 10,
+            "matchesPlayed": 11,
             "wins": 3,
             "active": true
         },
@@ -150,7 +150,7 @@
         {
             "name": "Greasy Dragons",
             "commander": "Ureni of the Unwritten",
-            "matchesPlayed": 6,
+            "matchesPlayed": 7,
             "wins": 3,
             "active": true
         },
@@ -241,8 +241,8 @@
         {
             "name": "Cloni Macaroni",
             "commander": "The Master, Formed Anew",
-            "matchesPlayed": 8,
-            "wins": 5,
+            "matchesPlayed": 10,
+            "wins": 6,
             "active": true
         },
         {
@@ -255,8 +255,8 @@
         {
             "name": "Terrorids",
             "commander": "Elesh Norn",
-            "matchesPlayed": 9,
-            "wins": 0,
+            "matchesPlayed": 10,
+            "wins": 1,
             "active": true
         },
         {
@@ -269,35 +269,35 @@
         {
             "name": "Gotta have HOPE",
             "commander": "Hope Estheim",
-            "matchesPlayed": 3,
-            "wins": 0,
+            "matchesPlayed": 5,
+            "wins": 1,
             "active": true
         },
         {
             "name": "The Frog is Loose",
             "commander": "The Gitrog, Ravenous Ride",
-            "matchesPlayed": 2,
+            "matchesPlayed": 4,
             "wins": 1,
             "active": true
         },
         {
             "name": "Terraisms",
             "commander": "Terra, Herald of Hope",
-            "matchesPlayed": 5,
+            "matchesPlayed": 7,
             "wins": 1,
             "active": true
         },
         {
             "name": "Junkerton",
             "commander": "Rose, Cutthroat Raider",
-            "matchesPlayed": 4,
+            "matchesPlayed": 5,
             "wins": 1,
             "active": true
         },
         {
             "name": "Abzan deetz nuts out",
             "commander": "Felothar the Steadfast",
-            "matchesPlayed": 2,
+            "matchesPlayed": 3,
             "wins": 0,
             "active": true
         },
@@ -311,6 +311,27 @@
         {
             "name": "Masters of Evil",
             "commander": "Davros, Dalek Creator",
+            "matchesPlayed": 2,
+            "wins": 0,
+            "active": true
+        },
+        {
+            "name": "Markeus Calgar",
+            "commander": "Marneus Calgar",
+            "matchesPlayed": 2,
+            "wins": 2,
+            "active": true
+        },
+        {
+            "name": "Blame Game",
+            "commander": "Nelly Borca, Impulsive Accuser",
+            "matchesPlayed": 1,
+            "wins": 0,
+            "active": true
+        },
+        {
+            "name": "Family Matters",
+            "commander": "Zinna, Valley's Voice",
             "matchesPlayed": 1,
             "wins": 0,
             "active": true
