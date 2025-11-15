@@ -122,7 +122,7 @@
         {
             "name": "Women Wielding sWords",
             "commander": "Éowyn, Shieldmaiden",
-            "matchesPlayed": 11,
+            "matchesPlayed": 12,
             "wins": 2,
             "active": true
         },
@@ -262,7 +262,7 @@
         {
             "name": "5 In The Pink, 4 In The Stink",
             "commander": "Nine-Fingers Keene",
-            "matchesPlayed": 5,
+            "matchesPlayed": 6,
             "wins": 0,
             "active": true
         },
@@ -304,8 +304,8 @@
         {   
             "name": "Necron Dynasties",
             "commander": "Szarekh, the Silent King",
-            "matchesPlayed": 1,
-            "wins": 0,
+            "matchesPlayed": 3,
+            "wins": 1,
             "active": true
         },
         {
@@ -334,6 +334,27 @@
             "commander": "Zinna, Valley's Voice",
             "matchesPlayed": 1,
             "wins": 0,
+            "active": true
+        },
+        {
+            "name": "The Ruinous Rampage",
+            "commander": "Abaddon the Despoiler",
+            "matchesPlayed": 2,
+            "wins": 1,
+            "active": true
+        },
+        {
+            "name": "Tyranid Swarm",
+            "commander": "The Swarmlord",
+            "matchesPlayed": 2,
+            "wins": 0,
+            "active": true
+        },
+        {
+            "name": "Quick Draw",
+            "commander": "Stella Lee, Wild Card",
+            "matchesPlayed": 1,
+            "wins": 1,
             "active": true
         }
     ]
