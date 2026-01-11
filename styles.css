@@ -23,10 +23,6 @@ th, td {
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;
-
-    a {
-        text-decoration: none;
-    }
 }
 
 th {
@@ -64,10 +60,32 @@ footer {
 }
 
 #toggle-inactive-decks:hover {
-    background-color: #2a2a2e;
+    background-color: #3a3a3f;
 }
 
 #toggle-inactive-decks:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+th a, td a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Sortable headers */
+th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+th.sortable:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.35);
+}
+
+.commander-image {
+    width: 100px;
+    height: auto;
+    border-radius: 4px;
 }
