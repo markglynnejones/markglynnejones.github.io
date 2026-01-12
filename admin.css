@@ -1,0 +1,131 @@
+.center {
+  text-align: center;
+}
+
+.small {
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+.card {
+  width: min(1100px, 95%);
+  margin: 22px auto;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.row.between {
+  justify-content: space-between;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+  flex: 1;
+}
+
+label {
+  font-weight: 700;
+}
+
+input,
+select,
+button {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: #fff;
+  font-weight: 600;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.danger {
+  border-color: rgba(176, 0, 32, 0.6);
+}
+
+.players-area {
+  margin-top: 14px;
+}
+
+.actions {
+  margin-top: 14px;
+}
+
+.notice {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.error {
+  background: #b00020;
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 12px auto;
+  width: min(1100px, 95%);
+  font-weight: 800;
+  white-space: pre-wrap;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table thead th {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.w-date {
+  width: 140px;
+}
+
+.w-winner {
+  width: 160px;
+}
+
+.w-action {
+  width: 120px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.03);
+  margin-right: 6px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — Match Entry</title>
+
+    <!-- Use your site styles too (optional but nice) -->
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1 class="center">Admin — Match Entry</h1>
+      <p class="center small">
+        Generates updated <code>data/matches-2026.json</code> for you to commit.
+      </p>
+    </header>
+
+    <div id="error" class="error" style="display: none;"></div>
+
+    <main id="app" style="display: none;">
+      <section class="card">
+        <h2>1) Add Match</h2>
+
+        <div class="row">
+          <div class="field">
+            <label for="match-date">Date</label>
+            <input id="match-date" type="date" />
+          </div>
+
+          <div class="field">
+            <label for="pod-size">Pod size</label>
+            <select id="pod-size">
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4" selected>4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="winner">Winner</label>
+            <select id="winner">
+              <option value="">Select winner…</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="players-area" class="players-area"></div>
+
+        <div class="row actions">
+          <button id="add-match" type="button">Add Match</button>
+          <button id="clear-form" type="button">Clear Form</button>
+          <span id="form-note" class="small"></span>
+        </div>
+
+        <div class="notice">
+          <div class="small">
+            <strong>Note:</strong> This password gate is only a deterrent (not secure on GitHub Pages).
+            If you want proper protection later, we can do private repo / separate admin repo / Cloudflare Access.
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2) Current 2026 Matches</h2>
+
+        <div class="row between">
+          <div class="small" id="matches-count"></div>
+          <div class="row">
+            <button id="download-json" type="button">Download matches-2026.json</button>
+          </div>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="w-date">Date</th>
+              <th>Players</th>
+              <th class="w-winner">Winner</th>
+              <th class="w-action">Action</th>
+            </tr>
+          </thead>
+          <tbody id="matches-body"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
