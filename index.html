@@ -60,16 +60,40 @@
         <table id="singles-table">
           <thead>
             <tr>
-              <th id="sort-player" class="sortable" scope="col" role="button" tabindex="0">
+              <th
+                id="sort-player"
+                class="sortable"
+                scope="col"
+                role="button"
+                tabindex="0"
+              >
                 Player <span id="arrow-player"></span>
               </th>
-              <th id="sort-wins-singles" class="sortable" scope="col" role="button" tabindex="0">
+              <th
+                id="sort-wins-singles"
+                class="sortable"
+                scope="col"
+                role="button"
+                tabindex="0"
+              >
                 Total Wins <span id="arrow-wins-singles"></span>
               </th>
-              <th id="sort-matches-singles" class="sortable" scope="col" role="button" tabindex="0">
+              <th
+                id="sort-matches-singles"
+                class="sortable"
+                scope="col"
+                role="button"
+                tabindex="0"
+              >
                 Matches Played <span id="arrow-matches-singles"></span>
               </th>
-              <th id="sort-winrate-singles" class="sortable" scope="col" role="button" tabindex="0">
+              <th
+                id="sort-winrate-singles"
+                class="sortable"
+                scope="col"
+                role="button"
+                tabindex="0"
+              >
                 Win Rate <span id="arrow-winrate-singles"></span>
               </th>
             </tr>
@@ -77,6 +101,60 @@
 
           <tbody id="wins-table-body"></tbody>
         </table>
+      </section>
+
+      <!-- NEW: Player deck stats -->
+      <section>
+        <h2 style="text-align: center;">Player Deck Stats (2026 match log)</h2>
+
+        <div
+          style="
+            width: 80%;
+            margin: 0 auto 12px auto;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <label for="player-deck-select"><strong>Player:</strong></label>
+          <select id="player-deck-select">
+            <option value="">Loading…</option>
+          </select>
+
+          <span id="player-deck-note" style="opacity: 0.8;"></span>
+        </div>
+
+        <table id="player-decks-table">
+          <thead>
+            <tr>
+              <th>Deck</th>
+              <th>Wins</th>
+              <th>Matches</th>
+              <th>Win Rate</th>
+            </tr>
+          </thead>
+          <tbody id="player-decks-body"></tbody>
+        </table>
+      </section>
+
+      <!-- NEW: Wins over time chart -->
+      <section>
+        <h2 style="text-align: center;">Wins Over Time (2026 match log)</h2>
+
+        <div
+          style="
+            width: 80%;
+            margin: 0 auto 12px auto;
+            text-align: center;
+            opacity: 0.85;
+          "
+        >
+          <span id="wins-over-time-note"></span>
+        </div>
+
+        <div id="wins-over-time-chart" style="width: 80%; margin: 0 auto 24px auto;"></div>
       </section>
 
       <section>
@@ -94,19 +172,43 @@
         <table id="decks-table">
           <thead>
             <tr>
-              <th id="sort-deck-name" class="sortable" scope="col" role="button" tabindex="0">
+              <th
+                id="sort-deck-name"
+                class="sortable"
+                scope="col"
+                role="button"
+                tabindex="0"
+              >
                 Deck Name <span id="arrow-sort-deck-name"></span>
               </th>
               <th scope="col">Commander</th>
               <th scope="col">Colours</th>
               <th scope="col">Combinations</th>
-              <th id="sort-wins" class="sortable" scope="col" role="button" tabindex="0">
+              <th
+                id="sort-wins"
+                class="sortable"
+                scope="col"
+                role="button"
+                tabindex="0"
+              >
                 Wins <span id="arrow-sort-wins"></span>
               </th>
-              <th id="sort-matches" class="sortable" scope="col" role="button" tabindex="0">
+              <th
+                id="sort-matches"
+                class="sortable"
+                scope="col"
+                role="button"
+                tabindex="0"
+              >
                 Matches Played <span id="arrow-sort-matches"></span>
               </th>
-              <th id="sort-winrate" class="sortable" scope="col" role="button" tabindex="0">
+              <th
+                id="sort-winrate"
+                class="sortable"
+                scope="col"
+                role="button"
+                tabindex="0"
+              >
                 Win Percentage <span id="arrow-sort-winrate"></span>
               </th>
               <th scope="col">Image</th>
