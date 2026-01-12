@@ -1,0 +1,278 @@
+{
+  "decks": [
+    {
+      "id": "rhys-french-lessons",
+      "name": "Rhys French Lessons",
+      "commander": "Glarb, Calamity's Augur",
+      "active": true
+    },
+    {
+      "id": "graveyard-overdrive",
+      "name": "Graveyard Overdrive",
+      "commander": "Disa, the Restless",
+      "active": true
+    },
+    {
+      "id": "artifact-black",
+      "name": "Artifact Black",
+      "commander": "Ashnod, Flesh Mechanist",
+      "active": true
+    },
+    {
+      "id": "saruman",
+      "name": "Saruman",
+      "commander": "Saruman of Many Colors",
+      "active": true
+    },
+    {
+      "id": "baelyn",
+      "name": "Baelyn",
+      "commander": "Baylen, the Haymaker",
+      "active": true
+    },
+    {
+      "id": "ahoy-mateys",
+      "name": "Ahoy Matey's",
+      "commander": "Admiral Brass, Unsinkable",
+      "active": true
+    },
+    {
+      "id": "the-vamp-clamp",
+      "name": "The Vamp Clamp",
+      "commander": "Edgar Markov",
+      "active": true
+    },
+    {
+      "id": "uwu-otters",
+      "name": "UWU Otters",
+      "commander": "Bria, Riptide Rogue",
+      "active": true
+    },
+    {
+      "id": "alexios",
+      "name": "ALEXIOS",
+      "commander": "Alexios, Deimos of Kosmos",
+      "active": true
+    },
+    {
+      "id": "women-wielding-swords",
+      "name": "Women Wielding sWords",
+      "commander": "Éowyn, Shieldmaiden",
+      "active": true
+    },
+    {
+      "id": "jelly-belly",
+      "name": "Jelly Belly",
+      "commander": "Jeleva, Nephalia's Scourge",
+      "active": true
+    },
+    {
+      "id": "ring-sting",
+      "name": "Ring Sting",
+      "commander": [
+        "Frodo, Adventurous Hobbit",
+        "Sam, Loyal Attendant"
+      ],
+      "active": true
+    },
+    {
+      "id": "fishes",
+      "name": "Fishes",
+      "commander": "Hakbal of the Surging Soul",
+      "active": true
+    },
+    {
+      "id": "greasy-dragons",
+      "name": "Greasy Dragons",
+      "commander": "Ureni of the Unwritten",
+      "active": true
+    },
+    {
+      "id": "i-hope-you-like-sagas",
+      "name": "I Hope You Like Sagas",
+      "commander": "Tom Bombadil",
+      "active": true
+    },
+    {
+      "id": "veloci-ramp-tor",
+      "name": "Veloci-ramp-tor",
+      "commander": "Pantlaza, Sun-Favored",
+      "active": true
+    },
+    {
+      "id": "peace-offering",
+      "name": "Peace Offering",
+      "commander": "Ms. Bumbleflower",
+      "active": true
+    },
+    {
+      "id": "all-but-one-mana",
+      "name": "All but one Mana",
+      "commander": "Ovika, Enigma Goliath",
+      "active": true
+    },
+    {
+      "id": "mishra-s-burnished-banner",
+      "name": "Mishra's Burnished Banner",
+      "commander": "Mishra, Eminent One",
+      "active": true
+    },
+    {
+      "id": "revival-trance",
+      "name": "Revival Trance",
+      "commander": "Terra, Herald of Hope",
+      "active": true
+    },
+    {
+      "id": "world-shaper",
+      "name": "World Shaper",
+      "commander": "Hearthhull, the WorldSeed",
+      "active": true
+    },
+    {
+      "id": "counter-intelligence",
+      "name": "Counter Intelligence",
+      "commander": "Inspirit, Flagship Vessel",
+      "active": true
+    },
+    {
+      "id": "limit-break",
+      "name": "Limit Break",
+      "commander": "Cloud, Ex-SOLDIER",
+      "active": true
+    },
+    {
+      "id": "counter-blitz",
+      "name": "Counter Blitz",
+      "commander": "Tidus, Yuna's Guardian",
+      "active": true
+    },
+    {
+      "id": "cloni-macaroni",
+      "name": "Cloni Macaroni",
+      "commander": "The Master, Formed Anew",
+      "active": true
+    },
+    {
+      "id": "this-is-a-crossover-episode",
+      "name": "This is a crossover episode",
+      "commander": "Deadpool, Trading Card",
+      "active": true
+    },
+    {
+      "id": "terrorids",
+      "name": "Terrorids",
+      "commander": "Elesh Norn",
+      "active": true
+    },
+    {
+      "id": "5-in-the-pink-4-in-the-stink",
+      "name": "5 In The Pink, 4 In The Stink",
+      "commander": "Nine-Fingers Keene",
+      "active": true
+    },
+    {
+      "id": "gotta-have-hope",
+      "name": "Gotta have HOPE",
+      "commander": "Hope Estheim",
+      "active": true
+    },
+    {
+      "id": "the-frog-is-loose",
+      "name": "The Frog is Loose",
+      "commander": "The Gitrog, Ravenous Ride",
+      "active": true
+    },
+    {
+      "id": "terraisms",
+      "name": "Terraisms",
+      "commander": "Terra, Herald of Hope",
+      "active": true
+    },
+    {
+      "id": "junkerton",
+      "name": "Junkerton",
+      "commander": "Rose, Cutthroat Raider",
+      "active": true
+    },
+    {
+      "id": "abzan-deetz-nuts-out",
+      "name": "Abzan deetz nuts out",
+      "commander": "Felothar the Steadfast",
+      "active": true
+    },
+    {
+      "id": "necron-dynasties",
+      "name": "Necron Dynasties",
+      "commander": "Szarekh, the Silent King",
+      "active": true
+    },
+    {
+      "id": "masters-of-evil",
+      "name": "Masters of Evil",
+      "commander": "Davros, Dalek Creator",
+      "active": true
+    },
+    {
+      "id": "markeus-calgar",
+      "name": "Markeus Calgar",
+      "commander": "Marneus Calgar",
+      "active": true
+    },
+    {
+      "id": "blame-game",
+      "name": "Blame Game",
+      "commander": "Nelly Borca, Impulsive Accuser",
+      "active": true
+    },
+    {
+      "id": "family-matters",
+      "name": "Family Matters",
+      "commander": "Zinna, Valley's Voice",
+      "active": true
+    },
+    {
+      "id": "the-ruinous-rampage",
+      "name": "The Ruinous Rampage",
+      "commander": "Abaddon the Despoiler",
+      "active": true
+    },
+    {
+      "id": "tyranid-swarm",
+      "name": "Tyranid Swarm",
+      "commander": "The Swarmlord",
+      "active": true
+    },
+    {
+      "id": "quick-draw",
+      "name": "Quick Draw",
+      "commander": "Stella Lee, Wild Card",
+      "active": true
+    },
+    {
+        "id": "zombieland",
+        "name": "Zombieland",
+        "commander": "Dee Kay, Finder of the Lost",
+        "active": true
+    },
+    {
+        "id": "tricky-terrain",
+        "name": "Tricky Terrain",
+        "commander": "Omo, Queen of Vesuva",
+        "active": true
+    },
+    {
+        "id": "blood-in-the-water",
+        "name": "Blood In the Water",
+        "commander": "Jaws, Relentless Predator",
+        "active": true
+    },
+    {
+        "id": "big-stompy-stomp",
+        "name": "Big Stompy Stomp",
+        "commander": "Ghalta, Stampede Tyrant",
+        "active": true
+    }
+
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "matches": [
+    {
+      "date": "2026-01-04",
+      "players": [
+        { "name": "Jo", "deckId": "fishes" },
+        { "name": "Jake", "deckId": "baelyn" },
+        { "name": "Mark", "deckId": "the-vamp-clamp" },
+        { "name": "Liam", "deckId": "zombieland" }
+      ],
+      "winner": "Jake"
+    },
+    {
+      "date": "2026-01-04",
+      "players": [
+        { "name": "Jo", "deckId": "tricky-terrain" },
+        { "name": "Jake", "deckId": "uwu-otters" },
+        { "name": "Mark", "deckId": "the-vamp-clamp" },
+        { "name": "Liam", "deckId": "zombieland" }
+      ],
+      "winner": "Liam"
+    },
+    {
+      "date": "2026-01-04",
+      "players": [
+        { "name": "Jo", "deckId": "ahoy-mateys" },
+        { "name": "Jake", "deckId": "this-is-a-crossover-episode" },
+        { "name": "Mark", "deckId": "big-stompy-stomp" },
+        { "name": "Liam", "deckId": "tricky-terrain" }
+      ],
+      "winner": "Liam"
+    },
+    {
+      "date": "2026-01-04",
+      "players": [
+        { "name": "Jo", "deckId": "peace-offering" },
+        { "name": "Jake", "deckId": "blood-in-the-water" },
+        { "name": "Mark", "deckId": "zombieland" },
+        { "name": "Liam", "deckId": "this-is-a-crossover-episode" }
+      ],
+      "winner": "Mark"
+    },
+    {
+      "date": "2026-01-04",
+      "players": [
+        { "name": "Jo", "deckId": "peace-offering" },
+        { "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "name": "Mark", "deckId": "blood-in-the-water" },
+        { "name": "Liam", "deckId": "junkerton" }
+      ],
+      "winner": "Liam"
+    }
+  ]
+}
