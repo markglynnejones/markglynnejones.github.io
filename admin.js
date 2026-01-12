@@ -46,7 +46,7 @@ function downloadText(filename, text) {
   URL.revokeObjectURL(url);
 }
 
-function slug(s) {
+function slugify(s) {
   return String(s || "")
     .trim()
     .toLowerCase()
@@ -54,30 +54,56 @@ function slug(s) {
     .replace(/(^-|-$)/g, "");
 }
 
+function todayISO() {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+function parseCommanders(input) {
+  const raw = String(input || "").trim();
+  if (!raw) return [];
+  // Allow partners etc. with |
+  return raw
+    .split("|")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 // ----------------------------
 // Data
 // ----------------------------
-let deckDefinitions = null;
-let matches2026 = null;
 let players2025 = null;
+let deckDefinitions = null;
 
+// Matches are loaded per-year
+let selectedYear = String(new Date().getFullYear());
+let matchesByYear = new Map(); // year -> {matches: [...]}
+
+// Deck maps
 const deckById = new Map();
 
-function buildDeckMaps() {
+function rebuildDeckMaps() {
   deckById.clear();
   for (const d of deckDefinitions?.decks || []) {
     deckById.set(d.id, d);
   }
 }
 
-function getAllKnownPlayers() {
+function getActiveDecks() {
+  return (deckDefinitions?.decks || []).filter((d) => d.active);
+}
+
+function getAllKnownPlayers(currentMatches) {
   const set = new Set();
 
-  // from 2025 totals
+  // 2025 totals players
   for (const p of players2025?.players || []) set.add(p.name);
 
-  // from existing 2026 matches
-  for (const m of matches2026?.matches || []) {
+  // players from matches in this year
+  for (const m of currentMatches?.matches || []) {
     for (const pl of m.players || []) set.add(pl.name);
   }
 
@@ -85,20 +111,90 @@ function getAllKnownPlayers() {
 }
 
 // ----------------------------
-// Form rendering
+// Year handling (auto-year support)
 // ----------------------------
-function renderPlayerRows(podSize) {
+async function loadMatchesForYear(year) {
+  // Cache
+  if (matchesByYear.has(year)) return matchesByYear.get(year);
+
+  const path = `data/matches-${year}.json`;
+  try {
+    const data = await fetchJSON(path);
+    if (!data || typeof data !== "object") throw new Error("Invalid JSON structure.");
+    if (!Array.isArray(data.matches)) data.matches = [];
+    matchesByYear.set(year, data);
+    return data;
+  } catch (e) {
+    // If the file doesn't exist yet, start a fresh structure (user can download + commit it)
+    const fresh = { matches: [] };
+    matchesByYear.set(year, fresh);
+    return fresh;
+  }
+}
+
+function setYearSelectOptions(years) {
+  const sel = $("match-year");
+  sel.innerHTML = "";
+  years
+    .slice()
+    .sort((a, b) => Number(a) - Number(b))
+    .forEach((y) => {
+      const opt = document.createElement("option");
+      opt.value = y;
+      opt.textContent = y;
+      sel.appendChild(opt);
+    });
+}
+
+function getYearsList() {
+  // We can't discover repo files at runtime, so we maintain a simple local list.
+  // Default: previous, current, next (easy)
+  const current = new Date().getFullYear();
+  const base = new Set([String(current - 1), String(current), String(current + 1)]);
+
+  // also include any years the user added this session
+  for (const y of matchesByYear.keys()) base.add(String(y));
+
+  return Array.from(base);
+}
+
+function updateDownloadMatchesButtonLabel() {
+  $("download-matches").textContent = `Download matches-${selectedYear}.json`;
+}
+
+// ----------------------------
+// Matches form + rendering
+// ----------------------------
+let editingIndex = null; // null = add mode; number = edit mode
+
+function refreshWinnerOptions(podSize) {
+  const winnerSelect = $("winner");
+  const names = [];
+
+  for (let i = 0; i < podSize; i++) {
+    const v = $(`player-${i}`)?.value;
+    if (v && v !== "__NEW__") names.push(v);
+  }
+
+  const uniq = Array.from(new Set(names));
+  const current = winnerSelect.value;
+
+  winnerSelect.innerHTML =
+    `<option value="">Select winner…</option>` +
+    uniq.map((n) => `<option value="${n}">${n}</option>`).join("");
+
+  if (uniq.includes(current)) winnerSelect.value = current;
+}
+
+function renderPlayerRows(podSize, currentMatches) {
   const area = $("players-area");
   area.innerHTML = "";
 
-  const players = getAllKnownPlayers();
-  const decks = (deckDefinitions?.decks || []).filter((d) => d.active);
+  const players = getAllKnownPlayers(currentMatches);
+  const decks = getActiveDecks();
 
   const row = document.createElement("div");
   row.className = "row";
-
-  const winnerSelect = $("winner");
-  winnerSelect.innerHTML = `<option value="">Select winner…</option>`;
 
   for (let i = 0; i < podSize; i++) {
     const wrap = document.createElement("div");
@@ -124,7 +220,6 @@ function renderPlayerRows(podSize) {
 
     row.appendChild(wrap);
 
-    // Player change: allow adding new
     setTimeout(() => {
       const ps = $(playerId);
       ps.addEventListener("change", () => {
@@ -135,61 +230,40 @@ function renderPlayerRows(podSize) {
             const opt = document.createElement("option");
             opt.value = clean;
             opt.textContent = clean;
-            ps.insertBefore(opt, ps.options[2]); // after __NEW__
+            ps.insertBefore(opt, ps.options[2]);
             ps.value = clean;
-            refreshWinnerOptions(podSize);
           } else {
             ps.value = "";
           }
-        } else {
-          refreshWinnerOptions(podSize);
         }
+        refreshWinnerOptions(podSize);
+      });
+
+      const ds = $(deckId);
+      ds.addEventListener("change", () => {
+        // placeholder for future validations
       });
     }, 0);
   }
 
   area.appendChild(row);
-
-  // initial populate (in case defaults later)
   refreshWinnerOptions(podSize);
 }
 
-function refreshWinnerOptions(podSize) {
-  const winnerSelect = $("winner");
-
-  const names = [];
-  for (let i = 0; i < podSize; i++) {
-    const v = $(`player-${i}`)?.value;
-    if (v && v !== "__NEW__") names.push(v);
-  }
-
-  const uniq = Array.from(new Set(names));
-  const current = winnerSelect.value;
-
-  winnerSelect.innerHTML =
-    `<option value="">Select winner…</option>` +
-    uniq.map((n) => `<option value="${n}">${n}</option>`).join("");
-
-  if (uniq.includes(current)) winnerSelect.value = current;
-}
-
-function clearForm() {
+function clearMatchForm(currentMatches) {
   $("form-note").textContent = "";
+  $("form-note").style.color = "inherit";
 
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, "0");
-  const dd = String(today.getDate()).padStart(2, "0");
-  $("match-date").value = `${yyyy}-${mm}-${dd}`;
-
+  $("match-date").value = todayISO();
   $("pod-size").value = "4";
-  renderPlayerRows(4);
   $("winner").value = "";
+
+  editingIndex = null;
+  $("save-match").textContent = "Add Match";
+
+  renderPlayerRows(4, currentMatches);
 }
 
-// ----------------------------
-// Validation + add match
-// ----------------------------
 function validateAndBuildMatch() {
   const date = $("match-date").value;
   const podSize = Number($("pod-size").value);
@@ -218,23 +292,16 @@ function validateAndBuildMatch() {
   return { match: { date, players, winner } };
 }
 
-function addMatchToList(match) {
-  if (!matches2026.matches) matches2026.matches = [];
-  matches2026.matches.push(match);
-
-  // Sort by date (ascending)
-  matches2026.matches.sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+function sortMatchesByDate(matchesObj) {
+  matchesObj.matches.sort((a, b) => (a.date || "").localeCompare(b.date || ""));
 }
 
-// ----------------------------
-// Render matches table
-// ----------------------------
-function renderMatchesTable() {
+function renderMatchesTable(currentMatches) {
   const body = $("matches-body");
   body.innerHTML = "";
 
-  const matches = matches2026?.matches || [];
-  $("matches-count").textContent = `${matches.length} match(es) in matches-2026.json`;
+  const matches = currentMatches?.matches || [];
+  $("matches-count").textContent = `${matches.length} match(es) in matches-${selectedYear}.json`;
 
   matches.forEach((m, idx) => {
     const tr = document.createElement("tr");
@@ -250,7 +317,10 @@ function renderMatchesTable() {
       <td>${m.date || ""}</td>
       <td>${playersHtml}</td>
       <td><strong>${m.winner || ""}</strong></td>
-      <td><button type="button" data-idx="${idx}" class="remove-btn danger">Remove</button></td>
+      <td>
+        <button type="button" data-idx="${idx}" class="edit-btn">Edit</button>
+        <button type="button" data-idx="${idx}" class="remove-btn danger">Remove</button>
+      </td>
     `;
 
     body.appendChild(tr);
@@ -261,10 +331,165 @@ function renderMatchesTable() {
       const i = Number(btn.getAttribute("data-idx"));
       if (!Number.isFinite(i)) return;
       if (!confirm("Remove this match?")) return;
-      matches2026.matches.splice(i, 1);
-      renderMatchesTable();
+      currentMatches.matches.splice(i, 1);
+      renderMatchesTable(currentMatches);
+      if (editingIndex === i) clearMatchForm(currentMatches);
     });
   });
+
+  document.querySelectorAll(".edit-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const i = Number(btn.getAttribute("data-idx"));
+      if (!Number.isFinite(i)) return;
+      startEditMatch(i, currentMatches);
+    });
+  });
+}
+
+function startEditMatch(index, currentMatches) {
+  const m = currentMatches.matches[index];
+  if (!m) return;
+
+  editingIndex = index;
+  $("save-match").textContent = "Save Changes";
+
+  const podSize = (m.players || []).length || 4;
+
+  $("match-date").value = m.date || todayISO();
+  $("pod-size").value = String(podSize);
+
+  renderPlayerRows(podSize, currentMatches);
+
+  // Fill players/decks
+  (m.players || []).forEach((p, i) => {
+    const ps = $(`player-${i}`);
+    const ds = $(`deck-${i}`);
+
+    if (ps) ps.value = p.name;
+    if (ds) ds.value = p.deckId;
+  });
+
+  refreshWinnerOptions(podSize);
+  $("winner").value = m.winner || "";
+
+  $("form-note").textContent = `Editing match #${index + 1}`;
+}
+
+function upsertMatch(currentMatches, match) {
+  if (!Array.isArray(currentMatches.matches)) currentMatches.matches = [];
+
+  if (editingIndex === null) {
+    currentMatches.matches.push(match);
+  } else {
+    currentMatches.matches[editingIndex] = match;
+  }
+
+  sortMatchesByDate(currentMatches);
+  editingIndex = null;
+  $("save-match").textContent = "Add Match";
+}
+
+// ----------------------------
+// Deck management
+// ----------------------------
+function renderDecksTable() {
+  const body = $("decks-body");
+  body.innerHTML = "";
+
+  const decks = deckDefinitions?.decks || [];
+  const sorted = decks.slice().sort((a, b) => a.name.localeCompare(b.name));
+
+  for (const d of sorted) {
+    const commanders = Array.isArray(d.commander) ? d.commander : [d.commander].filter(Boolean);
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><strong>${d.name}</strong><div class="small">id: <code>${d.id}</code></div></td>
+      <td>${commanders.map((c) => `<div>${c}</div>`).join("")}</td>
+      <td>${d.active ? "Yes" : "No"}</td>
+      <td>
+        <button type="button" data-id="${d.id}" class="toggle-active-btn">${d.active ? "Deactivate" : "Activate"}</button>
+      </td>
+    `;
+    body.appendChild(tr);
+  }
+
+  document.querySelectorAll(".toggle-active-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-id");
+      const deck = deckDefinitions.decks.find((x) => x.id === id);
+      if (!deck) return;
+      deck.active = !deck.active;
+      rebuildDeckMaps();
+      renderDecksTable();
+      refreshDeckDropdownsForCurrentForm();
+    });
+  });
+}
+
+function refreshDeckDropdownsForCurrentForm() {
+  const currentMatches = matchesByYear.get(selectedYear) || { matches: [] };
+  const podSize = Number($("pod-size").value) || 4;
+
+  // Capture current selections
+  const selections = [];
+  for (let i = 0; i < podSize; i++) {
+    selections.push({
+      player: $(`player-${i}`)?.value || "",
+      deck: $(`deck-${i}`)?.value || "",
+    });
+  }
+
+  // Re-render rows (keeps winner options logic)
+  renderPlayerRows(podSize, currentMatches);
+
+  // Restore values
+  for (let i = 0; i < podSize; i++) {
+    const ps = $(`player-${i}`);
+    const ds = $(`deck-${i}`);
+    if (ps) ps.value = selections[i].player;
+    if (ds) ds.value = selections[i].deck;
+  }
+
+  refreshWinnerOptions(podSize);
+}
+
+function addDeckFromForm() {
+  const name = String($("deck-name").value || "").trim();
+  const commanders = parseCommanders($("deck-commander").value);
+  const active = $("deck-active").value === "true";
+
+  if (!name) return { error: "Deck name is required." };
+  if (commanders.length === 0) return { error: "Commander(s) is required." };
+
+  const idBase = slugify(name);
+  if (!idBase) return { error: "Deck name produced an invalid id." };
+
+  const existingNames = new Set((deckDefinitions?.decks || []).map((d) => d.name.toLowerCase()));
+  if (existingNames.has(name.toLowerCase())) return { error: "A deck with that name already exists." };
+
+  const existingIds = new Set((deckDefinitions?.decks || []).map((d) => d.id));
+  let id = idBase;
+  let n = 2;
+  while (existingIds.has(id)) {
+    id = `${idBase}-${n++}`;
+  }
+
+  const deck = {
+    id,
+    name,
+    commander: commanders.length === 1 ? commanders[0] : commanders,
+    active,
+  };
+
+  deckDefinitions.decks.push(deck);
+  rebuildDeckMaps();
+
+  $("deck-name").value = "";
+  $("deck-commander").value = "";
+  $("deck-active").value = "true";
+
+  return { deck };
 }
 
 // ----------------------------
@@ -278,26 +503,81 @@ function renderMatchesTable() {
   }
 
   try {
-    [players2025, deckDefinitions, matches2026] = await Promise.all([
+    // Load base shared data
+    [players2025, deckDefinitions] = await Promise.all([
       fetchJSON("data/players-2025.json"),
       fetchJSON("data/deck-definitions.json"),
-      fetchJSON("data/matches-2026.json"),
     ]);
 
-    buildDeckMaps();
+    if (!deckDefinitions || typeof deckDefinitions !== "object") deckDefinitions = { decks: [] };
+    if (!Array.isArray(deckDefinitions.decks)) deckDefinitions.decks = [];
 
-    if (!matches2026 || typeof matches2026 !== "object") matches2026 = { matches: [] };
-    if (!Array.isArray(matches2026.matches)) matches2026.matches = [];
+    rebuildDeckMaps();
+
+    // Init year dropdown with sensible defaults
+    const years = getYearsList();
+    setYearSelectOptions(years);
+
+    // Choose current year if present
+    selectedYear = String(new Date().getFullYear());
+    $("match-year").value = years.includes(selectedYear) ? selectedYear : years[0];
+
+    // Load matches for selected year
+    selectedYear = $("match-year").value;
+    const currentMatches = await loadMatchesForYear(selectedYear);
 
     $("app").style.display = "";
+    updateDownloadMatchesButtonLabel();
 
+    // Render initial UI
+    clearMatchForm(currentMatches);
+    renderMatchesTable(currentMatches);
+    renderDecksTable();
+
+    // Wire year change
+    $("match-year").addEventListener("change", async () => {
+      selectedYear = $("match-year").value;
+      updateDownloadMatchesButtonLabel();
+      const m = await loadMatchesForYear(selectedYear);
+      clearMatchForm(m);
+      renderMatchesTable(m);
+    });
+
+    // Add year button
+    $("add-year").addEventListener("click", async () => {
+      const val = String($("custom-year").value || "").trim();
+      if (!/^\d{4}$/.test(val)) {
+        alert("Enter a valid 4-digit year (e.g. 2027).");
+        return;
+      }
+
+      // Ensure option exists
+      const yearsNow = getYearsList();
+      yearsNow.push(val);
+      setYearSelectOptions(Array.from(new Set(yearsNow)));
+
+      $("match-year").value = val;
+      selectedYear = val;
+      updateDownloadMatchesButtonLabel();
+
+      // Load (creates fresh structure if missing)
+      const m = await loadMatchesForYear(selectedYear);
+      clearMatchForm(m);
+      renderMatchesTable(m);
+
+      $("custom-year").value = "";
+    });
+
+    // Wire pod size
     $("pod-size").addEventListener("change", () => {
       const size = Number($("pod-size").value);
-      renderPlayerRows(size);
+      const m = matchesByYear.get(selectedYear) || { matches: [] };
+      renderPlayerRows(size, m);
       $("winner").value = "";
     });
 
-    $("add-match").addEventListener("click", () => {
+    // Save match (add or edit)
+    $("save-match").addEventListener("click", () => {
       const { error, match } = validateAndBuildMatch();
       if (error) {
         $("form-note").textContent = error;
@@ -305,22 +585,51 @@ function renderMatchesTable() {
         return;
       }
 
-      addMatchToList(match);
-      renderMatchesTable();
+      const m = matchesByYear.get(selectedYear) || { matches: [] };
+      upsertMatch(m, match);
+      renderMatchesTable(m);
 
-      $("form-note").textContent = "Match added. Don’t forget to download + commit.";
+      $("form-note").textContent = "Saved. Download + commit when ready.";
       $("form-note").style.color = "inherit";
+
+      clearMatchForm(m);
     });
 
-    $("clear-form").addEventListener("click", clearForm);
-
-    $("download-json").addEventListener("click", () => {
-      const text = JSON.stringify(matches2026, null, 2) + "\n";
-      downloadText("matches-2026.json", text);
+    $("clear-form").addEventListener("click", () => {
+      const m = matchesByYear.get(selectedYear) || { matches: [] };
+      clearMatchForm(m);
     });
 
-    clearForm();
-    renderMatchesTable();
+    // Download matches for selected year
+    $("download-matches").addEventListener("click", () => {
+      const m = matchesByYear.get(selectedYear) || { matches: [] };
+      const text = JSON.stringify(m, null, 2) + "\n";
+      downloadText(`matches-${selectedYear}.json`, text);
+    });
+
+    // Add deck
+    $("add-deck").addEventListener("click", () => {
+      $("deck-note").textContent = "";
+      $("deck-note").style.color = "inherit";
+
+      const { error } = addDeckFromForm();
+      if (error) {
+        $("deck-note").textContent = error;
+        $("deck-note").style.color = "#b00020";
+        return;
+      }
+
+      renderDecksTable();
+      refreshDeckDropdownsForCurrentForm();
+
+      $("deck-note").textContent = "Deck added. Download deck-definitions.json and commit it.";
+    });
+
+    // Download deck definitions
+    $("download-decks").addEventListener("click", () => {
+      const text = JSON.stringify(deckDefinitions, null, 2) + "\n";
+      downloadText("deck-definitions.json", text);
+    });
   } catch (e) {
     showError(e?.message || String(e));
     console.error(e);

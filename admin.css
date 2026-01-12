@@ -28,12 +28,21 @@
   justify-content: space-between;
 }
 
+.row.tight {
+  gap: 8px;
+}
+
 .field {
   display: flex;
   flex-direction: column;
   gap: 6px;
   min-width: 220px;
   flex: 1;
+}
+
+.field-inline {
+  min-width: 160px;
+  flex: 0 0 auto;
 }
 
 label {
@@ -48,6 +57,10 @@ button {
   border: 1px solid rgba(0, 0, 0, 0.18);
   background: #fff;
   font-weight: 600;
+}
+
+input[type="number"] {
+  max-width: 160px;
 }
 
 button {

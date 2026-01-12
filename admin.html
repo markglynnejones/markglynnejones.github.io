@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin — Match Entry</title>
 
-    <!-- Use your site styles too (optional but nice) -->
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="admin.css" />
   </head>
@@ -14,15 +13,37 @@
     <header>
       <h1 class="center">Admin — Match Entry</h1>
       <p class="center small">
-        Generates updated <code>data/matches-2026.json</code> for you to commit.
+        Adds matches + decks, then downloads updated JSON for you to commit.
       </p>
     </header>
 
     <div id="error" class="error" style="display: none;"></div>
 
     <main id="app" style="display: none;">
+      <!-- MATCHES -->
       <section class="card">
-        <h2>1) Add Match</h2>
+        <div class="row between">
+          <h2 style="margin: 0;">1) Matches</h2>
+
+          <div class="row">
+            <div class="field field-inline">
+              <label for="match-year">Year</label>
+              <select id="match-year"></select>
+            </div>
+
+            <div class="field field-inline">
+              <label for="custom-year">Add year</label>
+              <div class="row tight">
+                <input id="custom-year" type="number" inputmode="numeric" placeholder="e.g. 2027" />
+                <button id="add-year" type="button">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="small">
+          Editing matches updates the in-memory list. Use <strong>Download matches-YYYY.json</strong> and commit it.
+        </p>
 
         <div class="row">
           <div class="field">
@@ -52,26 +73,15 @@
         <div id="players-area" class="players-area"></div>
 
         <div class="row actions">
-          <button id="add-match" type="button">Add Match</button>
+          <button id="save-match" type="button">Add Match</button>
           <button id="clear-form" type="button">Clear Form</button>
           <span id="form-note" class="small"></span>
         </div>
 
-        <div class="notice">
-          <div class="small">
-            <strong>Note:</strong> This password gate is only a deterrent (not secure on GitHub Pages).
-            If you want proper protection later, we can do private repo / separate admin repo / Cloudflare Access.
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>2) Current 2026 Matches</h2>
-
-        <div class="row between">
+        <div class="row between" style="margin-top: 12px;">
           <div class="small" id="matches-count"></div>
           <div class="row">
-            <button id="download-json" type="button">Download matches-2026.json</button>
+            <button id="download-matches" type="button">Download matches-YYYY.json</button>
           </div>
         </div>
 
@@ -85,6 +95,67 @@
             </tr>
           </thead>
           <tbody id="matches-body"></tbody>
+        </table>
+
+        <div class="notice">
+          <div class="small">
+            <strong>Note:</strong> This password gate is only a deterrent (not secure on GitHub Pages).
+            We can harden later (private admin repo, Cloudflare Access, etc.).
+          </div>
+        </div>
+      </section>
+
+      <!-- DECKS -->
+      <section class="card">
+        <div class="row between">
+          <h2 style="margin: 0;">2) Decks</h2>
+          <button id="download-decks" type="button">Download deck-definitions.json</button>
+        </div>
+
+        <p class="small">
+          Add decks here to update <code>data/deck-definitions.json</code>. Deck dropdowns update instantly.
+        </p>
+
+        <div class="row">
+          <div class="field">
+            <label for="deck-name">Deck name</label>
+            <input id="deck-name" type="text" placeholder="e.g. Zombieland" />
+          </div>
+
+          <div class="field">
+            <label for="deck-commander">Commander(s)</label>
+            <input
+              id="deck-commander"
+              type="text"
+              placeholder="e.g. Dee Kay, Finder of the Lost (or use | for partners)"
+            />
+            <div class="small">Tip: separate multiple commanders with <code>|</code> (partners etc.)</div>
+          </div>
+
+          <div class="field field-inline">
+            <label for="deck-active">Active</label>
+            <select id="deck-active">
+              <option value="true" selected>Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row actions">
+          <button id="add-deck" type="button">Add Deck</button>
+          <span id="deck-note" class="small"></span>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Deck</th>
+              <th>Commander(s)</th>
+              <th style="width: 110px;">Active</th>
+              <th style="width: 120px;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="decks-body"></tbody>
         </table>
       </section>
     </main>
