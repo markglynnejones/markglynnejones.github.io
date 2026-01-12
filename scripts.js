@@ -41,10 +41,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // Utilities
   // -----------------------------
   function fetchJSON(path) {
-    return fetch(path).then((res) => {
-      if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
+    // Helpful: show the fully resolved URL in errors
+    const resolved = new URL(path, window.location.href).toString();
+
+    return fetch(path, { cache: "no-store" }).then((res) => {
+      if (!res.ok) throw new Error(`Failed to load ${path} (${res.status}). URL: ${resolved}`);
       return res.json();
     });
+  }
+
+  function showFatalError(message, error) {
+    const banner = document.createElement("div");
+    banner.style.background = "#b00020";
+    banner.style.color = "white";
+    banner.style.padding = "12px";
+    banner.style.margin = "12px";
+    banner.style.borderRadius = "6px";
+    banner.style.fontWeight = "bold";
+    banner.innerHTML = `
+      <div>❌ Data loading error</div>
+      <div style="margin-top: 6px;">${message}</div>
+      <pre style="white-space: pre-wrap; font-weight: normal; margin-top: 8px;">${String(error)}</pre>
+    `;
+    document.body.prepend(banner);
   }
 
   function normaliseCommanderName(name) {
@@ -298,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function mergeDecksOverall(decks25, decks26) {
-    // Merge by deck name (you said names are stable/unique ✅)
+    // Merge by deck name (stable/unique ✅)
     const map = new Map();
 
     for (const d of decks25) {
@@ -326,10 +345,10 @@ document.addEventListener("DOMContentLoaded", () => {
       entry.wins += d.wins ?? 0;
       entry.matchesPlayed += d.matchesPlayed ?? 0;
 
-      // If either says active, keep it active (nice for overall)
+      // If either says active, keep it active
       entry.active = entry.active || !!d.active;
 
-      // Prefer commanders if missing (or keep 2025 commanders)
+      // Prefer commanders if missing
       if ((!entry.commanders || entry.commanders.length === 0) && d.commanders?.length) {
         entry.commanders = d.commanders;
       }
@@ -700,6 +719,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   function getTabData(tabKey) {
     const players25 = players2025?.players ?? [];
+
     const decks25raw = decks2025?.decks ?? [];
     const decks25 = decks25raw.map((d) => ({
       name: d.name,
@@ -718,7 +738,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (tabKey === "2026") {
-      // Helpful: include deck definitions with 0 matches (so you can see everything in 2026)
+      // Include deck definitions with 0 matches in 2026 so they appear
       const defs = deckDefinitions?.decks ?? [];
       const existingNames = new Set(decks26.map((d) => d.name));
 
@@ -742,7 +762,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // overall
     const playersOverall = mergePlayersOverall(players25, players26);
-    const decksOverall = mergeDecksOverall(decks25, decks26);
+    const decksOverall = mergeDecksOverall(decks25raw, decks26);
 
     return { players: playersOverall, decks: decksOverall };
   }
@@ -781,5 +801,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       selectTab("overall");
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      showFatalError("One or more JSON files failed to load.", err.message || err);
+      console.error(err);
+    });
 });
