@@ -42,7 +42,7 @@
         </div>
 
         <p class="small">
-          Editing matches updates the in-memory list. Use <strong>Download matches-YYYY.json</strong> and commit it.
+          Edit/add matches in-memory, then <strong>download</strong> and commit. Notes are optional.
         </p>
 
         <div class="row">
@@ -68,9 +68,39 @@
               <option value="">Select winner…</option>
             </select>
           </div>
+
+          <div class="field">
+            <label for="mvp">MVP (optional)</label>
+            <select id="mvp">
+              <option value="">None</option>
+            </select>
+          </div>
         </div>
 
         <div id="players-area" class="players-area"></div>
+
+        <details class="details">
+          <summary><strong>Optional notes</strong> (rulings, highlight, etc.)</summary>
+
+          <div class="row" style="margin-top: 12px;">
+            <div class="field">
+              <label for="highlight">Highlight</label>
+              <textarea id="highlight" rows="2" placeholder="e.g. Turn 5 lethal out of nowhere"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="rulings">Weird rulings / notes</label>
+              <textarea id="rulings" rows="2" placeholder="e.g. Stack interaction with…"></textarea>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 12px;">
+            <div class="field">
+              <label for="notes">Anything else</label>
+              <textarea id="notes" rows="3" placeholder="Politics, vibes, salt, whatever…"></textarea>
+            </div>
+          </div>
+        </details>
 
         <div class="row actions">
           <button id="save-match" type="button">Add Match</button>
@@ -99,21 +129,59 @@
 
         <div class="notice">
           <div class="small">
-            <strong>Note:</strong> This password gate is only a deterrent (not secure on GitHub Pages).
-            We can harden later (private admin repo, Cloudflare Access, etc.).
+            <strong>Note:</strong> Password gate is only a deterrent (not secure on GitHub Pages). We can harden later.
           </div>
         </div>
+      </section>
+
+      <!-- BULK IMPORT -->
+      <section class="card">
+        <div class="row between">
+          <h2 style="margin: 0;">2) Bulk Import</h2>
+          <div class="small">Paste logs → Preview → Import</div>
+        </div>
+
+        <p class="small">
+          Supported format: a date line (e.g. <code>04-01-26</code>) then blocks separated by dashes.
+          Player lines like <code>Jo - Hakbal</code>, add <code>- win</code> to mark the winner.
+          Deck resolution works by <strong>deck name</strong> or <strong>commander name</strong>.
+        </p>
+
+        <div class="field">
+          <label for="bulk-text">Paste match logs</label>
+          <textarea id="bulk-text" rows="10" placeholder="04-01-26 magic
+
+Jo - hakbal
+Jake - baylen - win
+Mark - markov
+Liam - zombieland
+
+---
+
+Jo - pirates
+Jake - deadpool
+Mark - ghalta
+Liam - land one - win"></textarea>
+        </div>
+
+        <div class="row actions">
+          <button id="bulk-preview" type="button">Preview Import</button>
+          <button id="bulk-import" type="button" disabled>Import Valid Matches</button>
+          <span id="bulk-note" class="small"></span>
+        </div>
+
+        <div id="bulk-preview-area" class="preview-area" style="display: none;"></div>
       </section>
 
       <!-- DECKS -->
       <section class="card">
         <div class="row between">
-          <h2 style="margin: 0;">2) Decks</h2>
+          <h2 style="margin: 0;">3) Decks</h2>
           <button id="download-decks" type="button">Download deck-definitions.json</button>
         </div>
 
         <p class="small">
-          Add decks here to update <code>data/deck-definitions.json</code>. Deck dropdowns update instantly.
+          Deck <code>id</code> stays stable so matches don’t break. You can edit name/commanders/active.
         </p>
 
         <div class="row">
@@ -127,9 +195,9 @@
             <input
               id="deck-commander"
               type="text"
-              placeholder="e.g. Dee Kay, Finder of the Lost (or use | for partners)"
+              placeholder="e.g. Dee Kay, Finder of the Lost (use | for partners)"
             />
-            <div class="small">Tip: separate multiple commanders with <code>|</code> (partners etc.)</div>
+            <div class="small">Separate multiple commanders with <code>|</code> (partners etc.)</div>
           </div>
 
           <div class="field field-inline">
@@ -142,7 +210,8 @@
         </div>
 
         <div class="row actions">
-          <button id="add-deck" type="button">Add Deck</button>
+          <button id="save-deck" type="button">Add Deck</button>
+          <button id="cancel-deck-edit" type="button" class="secondary" style="display:none;">Cancel Edit</button>
           <span id="deck-note" class="small"></span>
         </div>
 
@@ -152,7 +221,7 @@
               <th>Deck</th>
               <th>Commander(s)</th>
               <th style="width: 110px;">Active</th>
-              <th style="width: 120px;">Action</th>
+              <th style="width: 220px;">Action</th>
             </tr>
           </thead>
           <tbody id="decks-body"></tbody>
