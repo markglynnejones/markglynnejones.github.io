@@ -608,8 +608,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const results = await Promise.all(commanders.map(fetchCommanderFromScryfall));
 
-    const combinedColors = [...new Set(results.flatMap((r) => r.colors))].filter(Boolean);
-    const comboName = matchCombination(combinedColors);
+    let combinedColors = [...new Set(results.flatMap((r) => r.colors))].filter(Boolean);
+    let comboName = matchCombination(combinedColors);
+
+    // If combination is unknown, treat as colorless
+    if (comboName === "Unknown") {
+      combinedColors = ["Colorless"];
+      comboName = "Colorless";
+    }
 
     tdColours.innerHTML = combinedColors
       .map((color) => `<img class="mana-symbol" src="images/${color}.svg" alt="${color} mana" />`)
