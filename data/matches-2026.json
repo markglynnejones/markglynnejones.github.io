@@ -89,6 +89,51 @@
         { "name": "Liam", "deckId": "abzan-deetz-nuts-out" }
       ],
       "winner": "Liam"
+    },
+    {
+      "date": "2026-02-08",
+      "players": [
+        { "name": "Mark", "deckId": "markeus-calgar" },
+        { "name": "Ollie", "deckId": "toms-zoo" },
+        { "name": "Liam", "deckId": "cloni-macaroni" }
+      ],
+      "winner": "Liam"
+    },
+    {
+      "date": "2026-02-08",
+      "players": [
+        { "name": "Mark", "deckId": "blight-curse" },
+        { "name": "Ollie", "deckId": "ha-ha-sephiroth" },
+        { "name": "Liam", "deckId": "artifact-black" }
+      ],
+      "winner": "Mark"
+    },
+    {
+      "date": "2026-02-08",
+      "players": [
+        { "name": "Mark", "deckId": "the-vamp-clamp" },
+        { "name": "Ollie", "deckId": "scions-spellcraft" },
+        { "name": "Liam", "deckId": "zombieland" }
+      ],
+      "winner": "Liam"
+    },
+    {
+      "date": "2026-02-08",
+      "players": [
+        { "name": "Mark", "deckId": "gotta-have-hope" },
+        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
+        { "name": "Liam", "deckId": "world-shaper" }
+      ],
+      "winner": "Liam"
+    },
+    {
+      "date": "2026-02-08",
+      "players": [
+        { "name": "Mark", "deckId": "blood-in-the-water" },
+        { "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "name": "Liam", "deckId": "the-vamp-clamp" }
+      ],
+      "winner": "Ollie"
     }
   ]
 }

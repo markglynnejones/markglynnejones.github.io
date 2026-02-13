@@ -278,7 +278,30 @@
         "name": "Eldrazi Incursion",
         "commander": "Ulalek, Fused Atrocity",
         "active": true
+    },
+    {
+        "id": "toms-zoo",
+        "name": "Tom's Zoo",
+        "commander": "Tom Bombadil",
+        "active": true
+    },
+    {
+        "id": "blight-curse",
+        "name": "Blight Curse",
+        "commander": "Auntie Ool, Cursewretch",
+        "active": true
+    },
+    {
+        "id": "ha-ha-sephiroth",
+        "name": "Ha-Ha Sephiroth",
+        "commander": "Sephiroth, Fallen Hero",
+        "active": true
+    },
+    {
+        "id": "scions-spellcraft",
+        "name": "Scions & Spellcraft",
+        "commander": "Y'shtola, Night's Blessed",
+        "active": true
     }
-
   ]
 }
