@@ -176,10 +176,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
   }
-
   function mapScryfallColorsToNames(colors) {
     const mapping = { W: "White", U: "Blue", B: "Black", R: "Red", G: "Green" };
-    return Array.isArray(colors) ? colors.map((c) => mapping[c]).filter(Boolean) : [];
+    const mapped = Array.isArray(colors) ? colors.map((c) => mapping[c]).filter(Boolean) : [];
+    return mapped.length > 0 ? mapped : ["Colorless"];
   }
 
   async function fetchCommanderFromScryfall(commanderName) {
