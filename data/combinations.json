@@ -1,5 +1,6 @@
 {
     "combinations": {
+        "Colorless": ["Colorless"],
         "White": ["White"],
         "Blue": ["Blue"],
         "Black": ["Black"],
