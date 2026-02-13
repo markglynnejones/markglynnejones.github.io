@@ -272,6 +272,12 @@
         "name": "Big Stompy Stomp",
         "commander": "Ghalta, Stampede Tyrant",
         "active": true
+    },
+    {
+        "id": "eldrazi-incursion",
+        "name": "Eldrazi Incursion",
+        "commander": "Ulalek, Fused Atrocity",
+        "active": true
     }
 
   ]

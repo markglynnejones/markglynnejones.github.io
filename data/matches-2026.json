@@ -49,6 +49,46 @@
         { "name": "Liam", "deckId": "junkerton" }
       ],
       "winner": "Liam"
+    },
+    {
+      "date": "2026-01-17",
+      "players": [
+        { "name": "Jo", "deckId": "fishes" },
+        { "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "name": "Liam", "deckId": "zombieland" }
+      ],
+      "winner": "Ollie"
+    },
+    {
+      "date": "2026-01-17",
+      "players": [
+        { "name": "Jo", "deckId": "tricky-terrain" },
+        { "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
+        { "name": "Liam", "deckId": "zombieland" }
+      ],
+      "winner": "Jake"
+    },
+    {
+      "date": "2026-01-17",
+      "players": [
+        { "name": "Jo", "deckId": "peace-offering" },
+        { "name": "Jake", "deckId": "fishes" },
+        { "name": "Ollie", "deckId": "terraisms" },
+        { "name": "Liam", "deckId": "women-wielding-swords" }
+      ],
+      "winner": "Jo"
+    },
+    {
+      "date": "2026-01-17",
+      "players": [
+        { "name": "Jo", "deckId": "ahoy-mateys" },
+        { "name": "Jake", "deckId": "saruman" },
+        { "name": "Ollie", "deckId": "eldrazi-incursion" },
+        { "name": "Liam", "deckId": "abzan-deetz-nuts-out" }
+      ],
+      "winner": "Liam"
     }
   ]
 }
