@@ -302,6 +302,12 @@
         "name": "Scions & Spellcraft",
         "commander": "Y'shtola, Night's Blessed",
         "active": true
+    },
+    {
+        "id": "dance-of-the-elements",
+        "name": "Dance of the Elements",
+        "commander": "Ashling, the Limitless",
+        "active": true
     }
   ]
 }
