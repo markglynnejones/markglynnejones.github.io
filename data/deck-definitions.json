@@ -10,7 +10,7 @@
       "id": "graveyard-overdrive",
       "name": "Graveyard Overdrive",
       "commander": "Disa, the Restless",
-      "active": true
+      "active": false
     },
     {
       "id": "artifact-black",
@@ -34,7 +34,7 @@
       "id": "ahoy-mateys",
       "name": "Ahoy Matey's",
       "commander": "Admiral Brass, Unsinkable",
-      "active": true
+      "active": false
     },
     {
       "id": "the-vamp-clamp",
@@ -52,7 +52,7 @@
       "id": "alexios",
       "name": "ALEXIOS",
       "commander": "Alexios, Deimos of Kosmos",
-      "active": true
+      "active": false
     },
     {
       "id": "women-wielding-swords",
@@ -97,7 +97,7 @@
       "id": "veloci-ramp-tor",
       "name": "Veloci-ramp-tor",
       "commander": "Pantlaza, Sun-Favored",
-      "active": true
+      "active": false
     },
     {
       "id": "peace-offering",
@@ -115,7 +115,7 @@
       "id": "mishra-s-burnished-banner",
       "name": "Mishra's Burnished Banner",
       "commander": "Mishra, Eminent One",
-      "active": true
+      "active": false
     },
     {
       "id": "revival-trance",
@@ -127,13 +127,13 @@
       "id": "world-shaper",
       "name": "World Shaper",
       "commander": "Hearthhull, the WorldSeed",
-      "active": true
+      "active": false
     },
     {
       "id": "counter-intelligence",
       "name": "Counter Intelligence",
       "commander": "Inspirit, Flagship Vessel",
-      "active": true
+      "active": false
     },
     {
       "id": "limit-break",
@@ -211,7 +211,7 @@
       "id": "masters-of-evil",
       "name": "Masters of Evil",
       "commander": "Davros, Dalek Creator",
-      "active": true
+      "active": false
     },
     {
       "id": "markeus-calgar",
@@ -223,13 +223,13 @@
       "id": "blame-game",
       "name": "Blame Game",
       "commander": "Nelly Borca, Impulsive Accuser",
-      "active": true
+      "active": false
     },
     {
       "id": "family-matters",
       "name": "Family Matters",
       "commander": "Zinna, Valley's Voice",
-      "active": true
+      "active": false
     },
     {
       "id": "the-ruinous-rampage",
