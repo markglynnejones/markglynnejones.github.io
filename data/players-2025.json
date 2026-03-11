@@ -5,7 +5,7 @@
         { "name": "Jake", "wins": 15, "matchesPlayed": 81 },
         { "name": "Jo", "wins": 15, "matchesPlayed": 53 },
         { "name": "Rhys", "wins": 0, "matchesPlayed": 1 },
-        { "name": "Ollie", "wins": 1, "matchesPlayed": 32 },
+        { "name": "Ollie", "wins": 6, "matchesPlayed": 32 },
         { "name": "Josh", "wins": 0, "matchesPlayed": 7}
     ]
 }
