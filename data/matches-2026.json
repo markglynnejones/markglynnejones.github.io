@@ -178,6 +178,61 @@
         { "name": "Mark", "deckId": "blood-in-the-water" }
       ],
       "winner": "Mark"
+    },
+    {
+      "date": "2026-03-08",
+      "players": [
+        { "name": "Mark", "deckId": "ring-sting" },
+        { "name": "Liam", "deckId": "cloni-macaroni" },
+        { "name": "Ollie", "deckId": "toms-zoo" },
+        { "name": "Jo", "deckId": "fishes" },
+        { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" }
+      ],
+      "winner": "Mark"
+    },
+    {
+      "date": "2026-03-08",
+      "players": [
+        { "name": "Mark", "deckId": "hurtie-not-curie" },
+        { "name": "Liam", "deckId": "junkerton" },
+        { "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "name": "Jo", "deckId": "blood-in-the-water" },
+        { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" }
+      ],
+      "winner": "Mark"
+    },
+    {
+      "date": "2026-03-08",
+      "players": [
+        { "name": "Mark", "deckId": "why-are-there-so-many-wizards" },
+        { "name": "Liam", "deckId": "artifact-black" },
+        { "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "name": "Jo", "deckId": "peace-offering" },
+        { "name": "Jake", "deckId": "the-frog-is-loose" }
+      ],
+      "winner": "Liam"
+    },
+    {
+      "date": "2026-03-08",
+      "players": [
+        { "name": "Mark", "deckId": "abzan-deetz-nuts-out" },
+        { "name": "Liam", "deckId": "dance-of-the-elements" },
+        { "name": "Ollie", "deckId": "baelyn" },
+        { "name": "Jo", "deckId": "tricky-terrain" },
+        { "name": "Jake", "deckId": "women-wielding-swords" }
+      ],
+      "winner": "Jo"
+    },
+    {
+      "date": "2026-03-08",
+      "players": [
+        { "name": "Mark", "deckId": "hurtie-not-curie" },
+        { "name": "Liam", "deckId": "zombieland" },
+        { "name": "Ollie", "deckId": "scions-spellcraft" },
+        { "name": "Jo", "deckId": "peace-offering" },
+        { "name": "Jake", "deckId": "saruman" }
+      ],
+      "winner": "Liam"
     }
   ]
 }

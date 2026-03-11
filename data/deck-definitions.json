@@ -308,6 +308,24 @@
         "name": "Dance of the Elements",
         "commander": "Ashling, the Limitless",
         "active": true
+    },
+    {
+        "id": "ketrappa-the-rappa-the-papa",
+        "name": "Ketrappa the Rappa the Papa",
+        "commander": "Ketramose, the New Dawn",
+        "active": true
+    },
+    {
+        "id": "hurtie-not-curie",
+        "name": "Hurtie Not Curie",
+        "commander": "Curie, Emergent Intelligence",
+        "active": true
+    },
+    {
+        "id": "why-are-there-so-many-wizards",
+        "name": "Why are there so many Wizards",
+        "commander": "Kuja, Genome Sorcerer",
+        "active": true
     }
   ]
 }
