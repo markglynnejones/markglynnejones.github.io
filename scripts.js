@@ -1,4 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const {
+    buildMonthlyWins2026,
+    buildPlayerDeckStats2026,
+    buildStatsFromMatches,
+    decks2026RowsFromStats,
+    latestMatchDate,
+    mergeDecksOverall,
+    mergePlayersOverall,
+    pctText,
+    safeISODate,
+    winRate,
+  } = window.CommanderStats;
+
   // -----------------------------
   // Config
   // -----------------------------
@@ -94,27 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function setAriaSort(th, direction) {
     if (!th) return;
     th.setAttribute("aria-sort", direction);
-  }
-
-  function winRate(wins, matches) {
-    if (!matches || matches <= 0) return 0;
-    return wins / matches;
-  }
-
-  function pctText(rate) {
-    return `${(rate * 100).toFixed(2)}%`;
-  }
-
-  function safeISODate(dateStr) {
-    // supports "YYYY-MM-DD" (what we store) only
-    const d = new Date(dateStr);
-    return isNaN(d.getTime()) ? null : d;
-  }
-
-  function monthKey(dateObj) {
-    const y = dateObj.getFullYear();
-    const m = String(dateObj.getMonth() + 1).padStart(2, "0");
-    return `${y}-${m}`;
   }
 
   // -----------------------------
@@ -241,131 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return matchedKey || "Unknown";
   }
 
-  // -----------------------------
-  // Aggregation: 2026 from match logs
-  // -----------------------------
-  function buildStatsFromMatches(matchFile) {
-    const matches = matchFile?.matches ?? [];
-
-    const playerStats = new Map();
-    const deckStats = new Map();
-
-    for (const match of matches) {
-      const players = Array.isArray(match.players) ? match.players : [];
-      const winner = match.winner;
-
-      for (const p of players) {
-        const playerName = p?.name;
-        const deckId = p?.deckId;
-
-        if (playerName) {
-          if (!playerStats.has(playerName)) {
-            playerStats.set(playerName, { name: playerName, wins: 0, matchesPlayed: 0 });
-          }
-          const ps = playerStats.get(playerName);
-          ps.matchesPlayed += 1;
-          if (winner && winner === playerName) ps.wins += 1;
-        }
-
-        if (deckId) {
-          if (!deckStats.has(deckId)) {
-            deckStats.set(deckId, { deckId, wins: 0, matchesPlayed: 0 });
-          }
-          const ds = deckStats.get(deckId);
-          ds.matchesPlayed += 1;
-          if (winner && winner === playerName) ds.wins += 1;
-        }
-      }
-    }
-
-    return {
-      players: Array.from(playerStats.values()),
-      decksById: Array.from(deckStats.values()),
-    };
-  }
-
-  function decks2026RowsFromStats(decksById) {
-    const defs = Array.isArray(deckDefinitions?.decks) ? deckDefinitions.decks : [];
-    const defById = new Map(defs.map((d) => [d.id, d]));
-
-    return decksById.map((d) => {
-      const def = defById.get(d.deckId);
-
-      const name = def?.name ?? d.deckId;
-      const commandersRaw = def?.commander ?? [];
-      const commanders = Array.isArray(commandersRaw) ? commandersRaw : [commandersRaw];
-      const active = def?.active ?? true;
-
-      return {
-        name,
-        commanders,
-        active,
-        wins: d.wins,
-        matchesPlayed: d.matchesPlayed,
-      };
-    });
-  }
-
-  // Build per-player per-deck stats from 2026 match logs
-  function buildPlayerDeckStats2026(matchFile) {
-    const matches = matchFile?.matches ?? [];
-    const stats = new Map(); // player -> Map(deckId -> {wins,matches})
-
-    for (const match of matches) {
-      const players = Array.isArray(match.players) ? match.players : [];
-      const winner = match.winner;
-
-      for (const p of players) {
-        const playerName = p?.name;
-        const deckId = p?.deckId;
-        if (!playerName || !deckId) continue;
-
-        if (!stats.has(playerName)) stats.set(playerName, new Map());
-        const byDeck = stats.get(playerName);
-
-        if (!byDeck.has(deckId)) byDeck.set(deckId, { wins: 0, matchesPlayed: 0 });
-        const entry = byDeck.get(deckId);
-
-        entry.matchesPlayed += 1;
-        if (winner && winner === playerName) entry.wins += 1;
-      }
-    }
-
-    return stats;
-  }
-
-  // Monthly wins per player from 2026 match logs
-  function buildMonthlyWins2026(matchFile) {
-    const matches = matchFile?.matches ?? [];
-    const byMonth = new Map(); // "YYYY-MM" -> Map(player -> wins)
-
-    for (const match of matches) {
-      const d = safeISODate(match.date);
-      if (!d) continue;
-
-      const mk = monthKey(d);
-      if (!byMonth.has(mk)) byMonth.set(mk, new Map());
-      const winsMap = byMonth.get(mk);
-
-      const winner = match.winner;
-      if (!winner) continue;
-
-      winsMap.set(winner, (winsMap.get(winner) ?? 0) + 1);
-    }
-
-    // Sort months ascending
-    const months = Array.from(byMonth.keys()).sort();
-    return { months, byMonth };
-  }
-
-  function latestMatchDate(matchFile) {
-    const dates = (matchFile?.matches ?? [])
-      .map((match) => match.date)
-      .filter((date) => safeISODate(date))
-      .sort();
-    return dates.at(-1) || "";
-  }
-
   function renderLastUpdated() {
     const note = document.getElementById("last-updated-note");
     if (!note) return;
@@ -426,67 +293,6 @@ document.addEventListener("DOMContentLoaded", () => {
       tr.appendChild(tdPod);
       body.appendChild(tr);
     }
-  }
-
-  // -----------------------------
-  // Merge: Overall = 2025 totals + 2026 computed
-  // -----------------------------
-  function mergePlayersOverall(players25, players26) {
-    const map = new Map();
-
-    for (const p of players25) {
-      map.set(p.name, {
-        name: p.name,
-        wins: p.wins ?? 0,
-        matchesPlayed: p.matchesPlayed ?? 0,
-      });
-    }
-
-    for (const p of players26) {
-      if (!map.has(p.name)) map.set(p.name, { name: p.name, wins: 0, matchesPlayed: 0 });
-      const entry = map.get(p.name);
-      entry.wins += p.wins ?? 0;
-      entry.matchesPlayed += p.matchesPlayed ?? 0;
-    }
-
-    return Array.from(map.values());
-  }
-
-  function mergeDecksOverall(decks25raw, decks26) {
-    const map = new Map();
-
-    for (const d of decks25raw) {
-      map.set(d.name, {
-        name: d.name,
-        commanders: Array.isArray(d.commander) ? d.commander : [d.commander],
-        active: !!d.active,
-        wins: d.wins ?? 0,
-        matchesPlayed: d.matchesPlayed ?? 0,
-      });
-    }
-
-    for (const d of decks26) {
-      if (!map.has(d.name)) {
-        map.set(d.name, {
-          name: d.name,
-          commanders: d.commanders,
-          active: !!d.active,
-          wins: 0,
-          matchesPlayed: 0,
-        });
-      }
-
-      const entry = map.get(d.name);
-      entry.wins += d.wins ?? 0;
-      entry.matchesPlayed += d.matchesPlayed ?? 0;
-      entry.active = entry.active || !!d.active;
-
-      if ((!entry.commanders || entry.commanders.length === 0) && d.commanders?.length) {
-        entry.commanders = d.commanders;
-      }
-    }
-
-    return Array.from(map.values());
   }
 
   // -----------------------------
@@ -728,7 +534,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const stats26 = buildStatsFromMatches(matches2026);
     const players26 = stats26.players;
-    const decks26 = decks2026RowsFromStats(stats26.decksById);
+    const decks26 = decks2026RowsFromStats(stats26.decksById, deckDefinitions);
 
     if (tabKey === "2025") return { players: players25, decks: decks25 };
 
@@ -818,7 +624,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -----------------------------
-  // Singles & Decks rendering (same as before)
+  // Singles & Decks rendering
   // -----------------------------
   function updateSinglesSortArrows() {
     const mapping = {
