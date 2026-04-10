@@ -23,3 +23,9 @@ Run a data sanity check before pushing:
 ```bash
 npm run check
 ```
+
+Run importer tests:
+
+```bash
+npm test
+```

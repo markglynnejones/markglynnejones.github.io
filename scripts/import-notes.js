@@ -467,4 +467,13 @@ function main() {
   console.log(`Updated ${path.relative(REPO_ROOT, DECKS_PATH)}.`);
 }
 
-main();
+module.exports = {
+  appendMatches,
+  parseNotes,
+  resolveDeck,
+  suggestedDeckStub,
+};
+
+if (require.main === module) {
+  main();
+}
