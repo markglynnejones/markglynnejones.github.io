@@ -396,17 +396,21 @@ function appendMatches(matchesData, matches) {
   if (!Array.isArray(matchesData.matches)) matchesData.matches = [];
   const existing = new Set(matchesData.matches.map(matchSignature));
   let added = 0;
+  let skipped = 0;
 
   for (const match of matches) {
     const signature = matchSignature(match);
-    if (existing.has(signature)) continue;
+    if (existing.has(signature)) {
+      skipped += 1;
+      continue;
+    }
     matchesData.matches.push(match);
     existing.add(signature);
     added += 1;
   }
 
   matchesData.matches.sort((a, b) => String(a.date).localeCompare(String(b.date)));
-  return added;
+  return { added, skipped };
 }
 
 function printSummary(result, deckDefinitions) {
@@ -456,15 +460,14 @@ function main() {
   }
 
   const years = Array.from(new Set(result.matches.map((match) => match.date.slice(0, 4))));
+  console.log(`Parsed ${result.matches.length} match(es).`);
   for (const year of years) {
     const matchesPath = path.join(REPO_ROOT, "data", `matches-${year}.json`);
     const matchesData = readJson(matchesPath, { matches: [] });
-    const added = appendMatches(matchesData, result.matches.filter((match) => match.date.startsWith(year)));
+    const { added, skipped } = appendMatches(matchesData, result.matches.filter((match) => match.date.startsWith(year)));
     writeJson(matchesPath, matchesData);
-    console.log(`Updated ${path.relative(REPO_ROOT, matchesPath)} (${added} new match(es)).`);
+    console.log(`Updated ${path.relative(REPO_ROOT, matchesPath)}: added ${added}, skipped ${skipped} already imported.`);
   }
-
-  console.log(`Updated ${path.relative(REPO_ROOT, DECKS_PATH)}.`);
 }
 
 module.exports = {

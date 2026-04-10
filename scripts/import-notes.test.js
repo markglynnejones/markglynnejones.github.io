@@ -88,9 +88,9 @@ test("appendMatches skips exact duplicates", () => {
   const [match] = parseFixture().matches;
   const matchesData = { matches: [structuredClone(match)] };
 
-  const added = appendMatches(matchesData, [structuredClone(match)]);
+  const result = appendMatches(matchesData, [structuredClone(match)]);
 
-  assert.strictEqual(added, 0);
+  assert.deepStrictEqual(result, { added: 0, skipped: 1 });
   assert.strictEqual(matchesData.matches.length, 1);
 });
 
