@@ -21,7 +21,7 @@ function test(name, fn) {
 }
 
 function parseFixture() {
-  const raw = fs.readFileSync(path.join(REPO_ROOT, "data", "raw", "2026-04-06-magic.txt"), "utf8");
+  const raw = fs.readFileSync(path.join(REPO_ROOT, "data", "raw", "2026", "2026-04-06-magic.txt"), "utf8");
   return parseNotes(raw, "2026", deckDefinitions, playerAliases);
 }
 

@@ -42,8 +42,9 @@ function main() {
     process.exit(1);
   }
 
+  const year = date.slice(0, 4);
   const fileName = `${date}-${normalise(description)}.txt`;
-  const filePath = path.join(REPO_ROOT, "data", "raw", fileName);
+  const filePath = path.join(REPO_ROOT, "data", "raw", year, fileName);
 
   if (fs.existsSync(filePath)) {
     console.error(`${path.relative(REPO_ROOT, filePath)} already exists.`);
