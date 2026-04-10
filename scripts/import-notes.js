@@ -10,25 +10,6 @@ const PLAYER_ALIASES = new Map([
   ["olly", "Ollie"],
 ]);
 
-const NEW_DECK_HINTS = [
-  {
-    id: "bad-misc",
-    name: "Bad Misc",
-    commander: "Ragost, Deft Gastronaut",
-    active: true,
-    aliases: ["bad misc", "bd misc", "ragost", "ragost deft gastronomaut"],
-    tokens: ["bad misc", "bd misc", "ragost", "ragost deft gastronomaut"],
-  },
-  {
-    id: "big-sues",
-    name: "Big Sue's",
-    commander: ["Susan Foreman", "The Twelfth Doctor"],
-    active: true,
-    aliases: ["big sues", "big sue's", "susan foreman", "the twelveth doctor", "the twelfth doctor"],
-    tokens: ["big sues", "big sue's", "susan foreman", "the twelveth doctor", "the twelfth doctor"],
-  },
-];
-
 function usage() {
   console.log(`Usage: node scripts/import-notes.js <notes-file> [--year 2026] [--write]
 
@@ -54,6 +35,91 @@ function titleCase(value) {
     .trim()
     .replace(/\s+/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function uniqueById(decks) {
+  const seen = new Set();
+  const unique = [];
+  for (const deck of decks) {
+    if (seen.has(deck.id)) continue;
+    seen.add(deck.id);
+    unique.push(deck);
+  }
+  return unique;
+}
+
+function commanderText(deck) {
+  return (Array.isArray(deck.commander) ? deck.commander : [deck.commander]).filter(Boolean).join(" / ");
+}
+
+function deckLabel(deck) {
+  const commander = commanderText(deck);
+  return commander ? `${deck.id}: ${deck.name} (${commander})` : `${deck.id}: ${deck.name}`;
+}
+
+function deckSearchValues(deck) {
+  const commanders = Array.isArray(deck.commander) ? deck.commander : [deck.commander];
+  return [deck.id, deck.name, ...(deck.aliases || []), ...commanders.filter(Boolean)].filter(Boolean);
+}
+
+function scoreDeckAgainstTokens(deck, tokens) {
+  const deckValues = deckSearchValues(deck).map(normalise);
+  let score = 0;
+
+  for (const token of tokens) {
+    if (!token) continue;
+    const tokenWords = token.split(" ").filter(Boolean);
+    for (const value of deckValues) {
+      if (!value) continue;
+      if (value === token) score += 100;
+      else if (value.includes(token)) score += 50;
+      else if (token.includes(value)) score += 40;
+
+      const valueWords = new Set(value.split(" ").filter(Boolean));
+      for (const word of tokenWords) {
+        if (valueWords.has(word)) score += 10;
+        else if ([...valueWords].some((valueWord) => valueWord.startsWith(word) || word.startsWith(valueWord))) score += 4;
+      }
+    }
+  }
+
+  return score;
+}
+
+function closestDecks(tokens, decks, limit = 5) {
+  return decks
+    .map((deck) => ({ deck, score: scoreDeckAgainstTokens(deck, tokens) }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score || a.deck.name.localeCompare(b.deck.name))
+    .slice(0, limit)
+    .map((entry) => entry.deck);
+}
+
+function suggestedDeckStub(tokens) {
+  const source = tokens.map((token) => token.trim()).filter(Boolean).at(-1) || tokens[0] || "unknown deck";
+  const name = titleCase(source);
+  return {
+    id: slugify(source),
+    name,
+    commander: "",
+    active: true,
+    aliases: [normalise(source)],
+  };
+}
+
+function formatResolveError(message, tokens, decks) {
+  const normalisedTokens = tokens.map(normalise).filter(Boolean);
+  const suggestions = closestDecks(normalisedTokens, decks);
+  const lines = [message];
+
+  if (suggestions.length) {
+    lines.push("Closest existing decks:");
+    suggestions.forEach((deck) => lines.push(`  - ${deckLabel(deck)}`));
+  }
+
+  lines.push("Suggested new deck stub:");
+  lines.push(JSON.stringify(suggestedDeckStub(tokens), null, 2));
+  return lines.join("\n");
 }
 
 function parseArgs(argv) {
@@ -178,31 +244,62 @@ function buildDeckLookup(deckDefinitions) {
 function resolveDeck(tokens, deckDefinitions) {
   const lookup = buildDeckLookup(deckDefinitions);
   const normalisedTokens = tokens.map(normalise).filter(Boolean);
+  const exactMatches = [];
 
   for (const token of normalisedTokens) {
     const exact = lookup.exact.get(token) || [];
-    if (exact.length === 1) return { deckId: exact[0].id, matched: token };
-    if (exact.length > 1) return { error: `Ambiguous deck token "${token}".` };
-  }
-
-  for (const token of normalisedTokens) {
-    const contains = lookup.decks.filter((deck) => {
-      const keys = [deck.id, deck.name, ...(deck.aliases || [])];
-      const commanders = Array.isArray(deck.commander) ? deck.commander : [deck.commander];
-      keys.push(...commanders.filter(Boolean));
-      return keys.some((key) => normalise(key).includes(token));
-    });
-    if (contains.length === 1) return { deckId: contains[0].id, matched: token };
-    if (contains.length > 1) return { error: `Ambiguous deck token "${token}".` };
-  }
-
-  for (const hint of NEW_DECK_HINTS) {
-    if (normalisedTokens.some((token) => hint.tokens.map(normalise).includes(token))) {
-      return { deckId: hint.id, newDeck: hint };
+    if (exact.length === 1) exactMatches.push({ token, deck: exact[0] });
+    if (exact.length > 1) {
+      return {
+        error: formatResolveError(
+          `Ambiguous deck token "${token}" matched ${exact.map((deck) => deck.name).join(", ")}.`,
+          tokens,
+          exact
+        ),
+      };
     }
   }
 
-  return { error: `Couldn't resolve deck from "${tokens.join(" / ")}".` };
+  const exactDecks = uniqueById(exactMatches.map((match) => match.deck));
+  if (exactDecks.length === 1) return { deckId: exactDecks[0].id, matched: exactMatches[0].token };
+  if (exactDecks.length > 1) {
+    return {
+      error: formatResolveError(
+        `Conflicting deck tokens "${tokens.join(" / ")}" matched ${exactDecks.map((deck) => deck.name).join(", ")}.`,
+        tokens,
+        exactDecks
+      ),
+    };
+  }
+
+  const containsMatches = [];
+  for (const token of normalisedTokens) {
+    const contains = lookup.decks.filter((deck) => deckSearchValues(deck).some((key) => normalise(key).includes(token)));
+    if (contains.length === 1) containsMatches.push({ token, deck: contains[0] });
+    if (contains.length > 1) {
+      return {
+        error: formatResolveError(
+          `Ambiguous deck token "${token}" matched ${contains.map((deck) => deck.name).join(", ")}.`,
+          tokens,
+          contains
+        ),
+      };
+    }
+  }
+
+  const containsDecks = uniqueById(containsMatches.map((match) => match.deck));
+  if (containsDecks.length === 1) return { deckId: containsDecks[0].id, matched: containsMatches[0].token };
+  if (containsDecks.length > 1) {
+    return {
+      error: formatResolveError(
+        `Conflicting deck tokens "${tokens.join(" / ")}" matched ${containsDecks.map((deck) => deck.name).join(", ")}.`,
+        tokens,
+        containsDecks
+      ),
+    };
+  }
+
+  return { error: formatResolveError(`Couldn't resolve deck from "${tokens.join(" / ")}".`, tokens, lookup.decks) };
 }
 
 function canonicalPlayerName(name) {
@@ -223,8 +320,8 @@ function parsePlayerLine(line, deckDefinitions) {
   const deckTokens = parts.slice(1).filter((part) => normalise(part) !== "win");
   const resolved = resolveDeck(deckTokens, deckDefinitions);
 
-  if (resolved.error) return { error: `${resolved.error} Line: "${line}".` };
-  return { player: { name, deckId: resolved.deckId }, winner: hasWin ? name : null, newDeck: resolved.newDeck || null };
+  if (resolved.error) return { error: `Line: "${line}".\n${resolved.error}` };
+  return { player: { name, deckId: resolved.deckId }, winner: hasWin ? name : null };
 }
 
 function parseNotes(text, fallbackYear, deckDefinitions) {
@@ -241,7 +338,6 @@ function parseNotes(text, fallbackYear, deckDefinitions) {
 
   const matches = [];
   const errors = [];
-  const newDecks = new Map();
 
   blocks.forEach((block, index) => {
     const date = block.map((line) => parseDateFromLine(line, fallbackYear)).find(Boolean) || fallbackDate;
@@ -262,7 +358,6 @@ function parseNotes(text, fallbackYear, deckDefinitions) {
       }
 
       players.push(parsed.player);
-      if (parsed.newDeck) newDecks.set(parsed.newDeck.id, parsed.newDeck);
 
       if (parsed.winner) {
         if (winner && winner !== parsed.winner) {
@@ -290,17 +385,7 @@ function parseNotes(text, fallbackYear, deckDefinitions) {
     matches.push({ date, players, winner });
   });
 
-  return { matches, errors, newDecks: Array.from(newDecks.values()) };
-}
-
-function ensureDecks(deckDefinitions, newDecks) {
-  const existing = new Set((deckDefinitions.decks || []).map((deck) => deck.id));
-  for (const deck of newDecks) {
-    if (existing.has(deck.id)) continue;
-    const { tokens, ...deckDefinition } = deck;
-    deckDefinitions.decks.push(deckDefinition);
-    existing.add(deck.id);
-  }
+  return { matches, errors };
 }
 
 function matchSignature(match) {
@@ -327,21 +412,12 @@ function appendMatches(matchesData, matches) {
 function printSummary(result, deckDefinitions) {
   const deckById = new Map((deckDefinitions.decks || []).map((deck) => [deck.id, deck]));
 
-  if (result.newDecks.length) {
-    console.log("New decks:");
-    for (const deck of result.newDecks) {
-      const commanders = Array.isArray(deck.commander) ? deck.commander.join(" / ") : deck.commander;
-      console.log(`- ${deck.id}: ${deck.name} (${commanders})`);
-    }
-    console.log("");
-  }
-
   if (result.matches.length) {
     console.log("Matches:");
     result.matches.forEach((match, index) => {
       console.log(`${index + 1}. ${match.date} - winner: ${match.winner}`);
       for (const player of match.players) {
-        const deckName = deckById.get(player.deckId)?.name || result.newDecks.find((deck) => deck.id === player.deckId)?.name || player.deckId;
+        const deckName = deckById.get(player.deckId)?.name || player.deckId;
         console.log(`   ${player.name}: ${deckName} [${player.deckId}]`);
       }
     });
@@ -378,9 +454,6 @@ function main() {
     console.log("Preview only. Re-run with --write to update JSON.");
     return;
   }
-
-  ensureDecks(deckDefinitions, result.newDecks);
-  writeJson(DECKS_PATH, deckDefinitions);
 
   const years = Array.from(new Set(result.matches.map((match) => match.date.slice(0, 4))));
   for (const year of years) {

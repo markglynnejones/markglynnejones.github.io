@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "import": "node scripts/import-notes.js"
+  }
+}
