@@ -5,10 +5,7 @@ const path = require("path");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DECKS_PATH = path.join(REPO_ROOT, "data", "deck-definitions.json");
-
-const PLAYER_ALIASES = new Map([
-  ["olly", "Ollie"],
-]);
+const PLAYER_ALIASES_PATH = path.join(REPO_ROOT, "data", "player-aliases.json");
 
 function usage() {
   console.log(`Usage: node scripts/import-notes.js <notes-file> [--year 2026] [--write]
@@ -148,6 +145,14 @@ function parseArgs(argv) {
 function readJson(filePath, fallback) {
   if (!fs.existsSync(filePath)) return fallback;
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+function buildPlayerAliases(aliasData) {
+  const aliases = new Map();
+  for (const [alias, canonical] of Object.entries(aliasData || {})) {
+    aliases.set(normalise(alias), canonical);
+  }
+  return aliases;
 }
 
 function writeJson(filePath, data) {
@@ -302,12 +307,12 @@ function resolveDeck(tokens, deckDefinitions) {
   return { error: formatResolveError(`Couldn't resolve deck from "${tokens.join(" / ")}".`, tokens, lookup.decks) };
 }
 
-function canonicalPlayerName(name) {
+function canonicalPlayerName(name, playerAliases) {
   const key = normalise(name);
-  return PLAYER_ALIASES.get(key) || titleCase(name);
+  return playerAliases.get(key) || titleCase(name);
 }
 
-function parsePlayerLine(line, deckDefinitions) {
+function parsePlayerLine(line, deckDefinitions, playerAliases) {
   const parts = String(line || "")
     .split(/\s+-\s+/)
     .map((part) => part.trim())
@@ -315,7 +320,7 @@ function parsePlayerLine(line, deckDefinitions) {
 
   if (parts.length < 2) return { error: `Can't parse line "${line}". Expected: Player - Deck [- win].` };
 
-  const name = canonicalPlayerName(parts[0]);
+  const name = canonicalPlayerName(parts[0], playerAliases);
   const hasWin = parts.some((part) => normalise(part) === "win");
   const deckTokens = parts.slice(1).filter((part) => normalise(part) !== "win");
   const resolved = resolveDeck(deckTokens, deckDefinitions);
@@ -324,7 +329,7 @@ function parsePlayerLine(line, deckDefinitions) {
   return { player: { name, deckId: resolved.deckId }, winner: hasWin ? name : null };
 }
 
-function parseNotes(text, fallbackYear, deckDefinitions) {
+function parseNotes(text, fallbackYear, deckDefinitions, playerAliases = new Map()) {
   const blocks = splitIntoBlocks(text);
   let fallbackDate = null;
 
@@ -351,7 +356,7 @@ function parseNotes(text, fallbackYear, deckDefinitions) {
     let winner = null;
 
     for (const line of playerLines) {
-      const parsed = parsePlayerLine(line, deckDefinitions);
+      const parsed = parsePlayerLine(line, deckDefinitions, playerAliases);
       if (parsed.error) {
         errors.push(`Block ${index + 1}: ${parsed.error}`);
         return;
@@ -444,8 +449,9 @@ function main() {
 
   const notesPath = path.resolve(process.cwd(), args.file);
   const deckDefinitions = readJson(DECKS_PATH, { decks: [] });
+  const playerAliases = buildPlayerAliases(readJson(PLAYER_ALIASES_PATH, {}));
   const notes = fs.readFileSync(notesPath, "utf8");
-  const result = parseNotes(notes, args.year, deckDefinitions);
+  const result = parseNotes(notes, args.year, deckDefinitions, playerAliases);
 
   printSummary(result, deckDefinitions);
 
@@ -472,6 +478,7 @@ function main() {
 
 module.exports = {
   appendMatches,
+  buildPlayerAliases,
   parseNotes,
   resolveDeck,
   suggestedDeckStub,

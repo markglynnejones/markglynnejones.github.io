@@ -4,10 +4,11 @@ const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
 
-const { appendMatches, parseNotes, suggestedDeckStub } = require("./import-notes");
+const { appendMatches, buildPlayerAliases, parseNotes, suggestedDeckStub } = require("./import-notes");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const deckDefinitions = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "deck-definitions.json"), "utf8"));
+const playerAliases = buildPlayerAliases(JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "player-aliases.json"), "utf8")));
 
 function test(name, fn) {
   try {
@@ -21,7 +22,7 @@ function test(name, fn) {
 
 function parseFixture() {
   const raw = fs.readFileSync(path.join(REPO_ROOT, "data", "raw", "2026-04-06-magic.txt"), "utf8");
-  return parseNotes(raw, "2026", deckDefinitions);
+  return parseNotes(raw, "2026", deckDefinitions, playerAliases);
 }
 
 test("parses the 2026-04-06 raw note fixture", () => {
@@ -55,7 +56,8 @@ test("reports unknown decks with suggestions and a stub", () => {
 Jake - weird frog thing - win
 Jo - bad misc`,
     "2026",
-    deckDefinitions
+    deckDefinitions,
+    playerAliases
   );
 
   assert.strictEqual(result.matches.length, 0);
@@ -74,7 +76,8 @@ test("fails conflicting deck tokens instead of guessing", () => {
 Jake - bumble - bad misc - win
 Jo - bad misc`,
     "2026",
-    deckDefinitions
+    deckDefinitions,
+    playerAliases
   );
 
   assert.strictEqual(result.matches.length, 0);

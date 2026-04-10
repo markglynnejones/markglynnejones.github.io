@@ -212,6 +212,22 @@ function checkCombinations(combinationsData) {
   }
 }
 
+function checkPlayerAliases(playerAliases) {
+  if (!playerAliases || typeof playerAliases !== "object" || Array.isArray(playerAliases)) {
+    fail("data/player-aliases.json must contain an alias-to-player object.");
+    return;
+  }
+
+  const seen = new Set();
+  for (const [alias, canonical] of Object.entries(playerAliases)) {
+    const key = normalise(alias);
+    if (!key) fail("data/player-aliases.json contains an empty alias.");
+    if (!isNonEmptyString(canonical)) fail(`Player alias "${alias}" must point at a non-empty player name.`);
+    if (seen.has(key)) fail(`Duplicate normalised player alias "${key}" in data/player-aliases.json.`);
+    seen.add(key);
+  }
+}
+
 function checkStaticReferences() {
   const html = fs.readFileSync(path.join(REPO_ROOT, "index.html"), "utf8");
   const refs = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map((match) => match[1]);
@@ -229,12 +245,14 @@ function main() {
   const decks2025 = readJson(path.join(DATA_DIR, "decks-2025.json"));
   const players2025 = readJson(path.join(DATA_DIR, "players-2025.json"));
   const combinationsData = readJson(path.join(DATA_DIR, "combinations.json"));
+  const playerAliases = readJson(path.join(DATA_DIR, "player-aliases.json"));
   readJson(path.join(DATA_DIR, "doubles.json"));
 
   const deckById = checkDeckDefinitions(deckDefinitions);
   checkHistoricDecks(decks2025);
   checkHistoricPlayers(players2025);
   checkCombinations(combinationsData);
+  checkPlayerAliases(playerAliases);
 
   for (const file of fs.readdirSync(DATA_DIR).filter((name) => /^matches-\d{4}\.json$/.test(name)).sort()) {
     checkMatchesFile(path.join(DATA_DIR, file), deckById);
