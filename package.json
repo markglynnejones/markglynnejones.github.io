@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "check": "node scripts/check-data.js",
     "import": "node scripts/import-notes.js"
   }
 }
