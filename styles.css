@@ -12,6 +12,11 @@ header {
   padding: 1rem 0;
 }
 
+.header-note {
+  margin: 8px 0 0;
+  opacity: 0.85;
+}
+
 /* Tabs */
 .tabs {
   display: flex;
@@ -193,6 +198,37 @@ thead th {
   border: 1px solid rgba(0, 0, 0, 0.18);
   background: #fff;
   min-width: 220px;
+}
+
+.table-controls {
+  width: min(620px, 100%);
+  margin: 0 auto 12px auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.table-controls input {
+  min-width: 220px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: #fff;
+}
+
+.section-note {
+  text-align: center;
+  opacity: 0.8;
+}
+
+.recent-pod {
+  text-align: center;
+}
+
+.recent-pod p {
+  margin: 4px 0;
 }
 
 /* Chart container: framed */

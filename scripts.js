@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   let selectedTab = "overall";
   let showInactiveDecks = false;
+  let playerSearchQuery = "";
+  let deckSearchQuery = "";
 
   const sortIcons = { up: "↑", down: "↓", both: "↕" };
 
@@ -68,6 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function normaliseCommanderName(name) {
     return (name || "").split("//")[0].trim().toLowerCase();
+  }
+
+  function normaliseText(value) {
+    return String(value || "").trim().toLowerCase();
   }
 
   function makeSortable(th, onActivate) {
@@ -352,6 +358,76 @@ document.addEventListener("DOMContentLoaded", () => {
     return { months, byMonth };
   }
 
+  function latestMatchDate(matchFile) {
+    const dates = (matchFile?.matches ?? [])
+      .map((match) => match.date)
+      .filter((date) => safeISODate(date))
+      .sort();
+    return dates.at(-1) || "";
+  }
+
+  function renderLastUpdated() {
+    const note = document.getElementById("last-updated-note");
+    if (!note) return;
+
+    const latest = latestMatchDate(matches2026);
+    note.textContent = latest ? `Latest match logged: ${latest}` : "No 2026 matches logged yet.";
+  }
+
+  function shortDisplayDate(isoDate) {
+    const [year, month, day] = String(isoDate || "").split("-");
+    if (!year || !month || !day) return isoDate || "";
+    return `${day}/${month}/${year.slice(-2)}`;
+  }
+
+  function renderRecentMatches() {
+    const body = document.getElementById("recent-matches-body");
+    const note = document.getElementById("recent-matches-note");
+    if (!body || !note) return;
+
+    body.innerHTML = "";
+
+    const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
+    if (!tabUses2026Log) {
+      note.textContent = "Not available for 2025 (no match log).";
+      return;
+    }
+
+    const recent = [...(matches2026?.matches ?? [])]
+      .filter((match) => safeISODate(match.date))
+      .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+      .slice(0, 5);
+
+    note.textContent = recent.length ? "Latest 5 matches from the 2026 match log." : "No 2026 matches logged yet.";
+
+    for (const match of recent) {
+      const tr = document.createElement("tr");
+
+      const tdDate = document.createElement("td");
+      const tdWinner = document.createElement("td");
+      const tdPod = document.createElement("td");
+      const players = match.players || [];
+
+      tdDate.textContent = shortDisplayDate(match.date);
+      tdWinner.textContent = match.winner || "Unknown";
+      tdPod.className = "recent-pod";
+
+      const playerLine = document.createElement("p");
+      playerLine.textContent = players.map((player) => player.name).join(" · ");
+
+      const deckLine = document.createElement("p");
+      deckLine.textContent = players.map((player) => `(${deckNameFromId(player.deckId)})`).join(" · ");
+
+      tdPod.appendChild(playerLine);
+      tdPod.appendChild(deckLine);
+
+      tr.appendChild(tdDate);
+      tr.appendChild(tdWinner);
+      tr.appendChild(tdPod);
+      body.appendChild(tr);
+    }
+  }
+
   // -----------------------------
   // Merge: Overall = 2025 totals + 2026 computed
   // -----------------------------
@@ -479,7 +555,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     body.innerHTML = "";
 
-    const sorted = getSinglesSortedPlayers(players);
+    const query = normaliseText(playerSearchQuery);
+    const filtered = query
+      ? players.filter((p) => normaliseText(p.name).includes(query))
+      : players;
+    const sorted = getSinglesSortedPlayers(filtered);
 
     for (const p of sorted) {
       const tr = document.createElement("tr");
@@ -499,6 +579,12 @@ document.addEventListener("DOMContentLoaded", () => {
       tr.appendChild(tdMatches);
       tr.appendChild(tdWinRate);
 
+      body.appendChild(tr);
+    }
+
+    if (sorted.length === 0) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td colspan="4">No players match your search.</td>`;
       body.appendChild(tr);
     }
 
@@ -725,6 +811,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     updateToggleButton();
+  }
+
+  function wireSearchControls(onChange) {
+    const playerSearch = document.getElementById("player-search");
+    const deckSearch = document.getElementById("deck-search");
+
+    if (playerSearch) {
+      playerSearch.addEventListener("input", () => {
+        playerSearchQuery = playerSearch.value;
+        onChange();
+      });
+    }
+
+    if (deckSearch) {
+      deckSearch.addEventListener("input", () => {
+        deckSearchQuery = deckSearch.value;
+        onChange();
+      });
+    }
   }
 
   // -----------------------------
@@ -1040,6 +1145,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderForSelectedTab() {
     const { players, decks } = getTabData(selectedTab);
 
+    renderLastUpdated();
+    renderRecentMatches();
     renderSinglesTable(players);
     renderDecksTable(decks);
 
@@ -1167,7 +1274,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     body.innerHTML = "";
 
-    const sorted = getSinglesSortedPlayers(players);
+    const query = normaliseText(playerSearchQuery);
+    const filtered = query
+      ? players.filter((p) => normaliseText(p.name).includes(query))
+      : players;
+    const sorted = getSinglesSortedPlayers(filtered);
 
     for (const p of sorted) {
       const tr = document.createElement("tr");
@@ -1177,6 +1288,12 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${p.matchesPlayed ?? 0}</td>
         <td>${pctText(winRate(p.wins, p.matchesPlayed))}</td>
       `;
+      body.appendChild(tr);
+    }
+
+    if (sorted.length === 0) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td colspan="4">No players match your search.</td>`;
       body.appendChild(tr);
     }
 
@@ -1308,6 +1425,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let rows = deckRows;
     if (!showInactiveDecks) rows = rows.filter((r) => r.active);
+    const query = normaliseText(deckSearchQuery);
+    if (query) {
+      rows = rows.filter((r) => {
+        const commanders = (r.commanders || []).join(" ");
+        return normaliseText(`${r.name} ${commanders}`).includes(query);
+      });
+    }
 
     const sorted = getSortedDeckRows(rows);
 
@@ -1353,6 +1477,12 @@ document.addEventListener("DOMContentLoaded", () => {
         tdCombinations.textContent = "Unknown";
         tdImage.textContent = "Unavailable";
       });
+    }
+
+    if (sorted.length === 0) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td colspan="9">No decks match your search.</td>`;
+      body.appendChild(tr);
     }
 
     updateDecksSortArrows();
@@ -1428,6 +1558,7 @@ document.addEventListener("DOMContentLoaded", () => {
       wireSinglesSorting(rerender);
       wireDecksSorting(rerender);
       wireInactiveToggle(rerender);
+      wireSearchControls(rerender);
 
       selectTab("overall");
     })

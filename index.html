@@ -10,6 +10,7 @@
   <body>
     <header>
       <h1>Commander Wins Tracker</h1>
+      <p id="last-updated-note" class="header-note">Loading match data…</p>
     </header>
 
     <nav class="tabs" role="tablist" aria-label="Year tabs">
@@ -56,6 +57,11 @@
     <main id="tab-panel" role="tabpanel" aria-labelledby="tab-overall">
       <section>
         <h2 style="text-align: center;">Singles Wins Table</h2>
+
+        <div class="table-controls">
+          <label for="player-search"><strong>Search players:</strong></label>
+          <input id="player-search" type="search" placeholder="e.g. Jo" />
+        </div>
 
         <table id="singles-table">
           <thead>
@@ -139,6 +145,22 @@
         </table>
       </section>
 
+      <section id="recent-matches-section">
+        <h2 style="text-align: center;">Recent Matches</h2>
+        <p id="recent-matches-note" class="section-note"></p>
+
+        <table id="recent-matches-table">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Winner</th>
+              <th scope="col">Pod</th>
+            </tr>
+          </thead>
+          <tbody id="recent-matches-body"></tbody>
+        </table>
+      </section>
+
       <!-- NEW: Wins over time chart -->
       <section>
         <h2 style="text-align: center;">Wins Over Time (2026 match log)</h2>
@@ -168,6 +190,11 @@
         >
           Hide Inactive Decks
         </button>
+
+        <div class="table-controls">
+          <label for="deck-search"><strong>Search decks:</strong></label>
+          <input id="deck-search" type="search" placeholder="Deck or commander" />
+        </div>
 
         <table id="decks-table">
           <thead>
