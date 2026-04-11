@@ -3,6 +3,6 @@
     "check": "node scripts/check-data.js",
     "import": "node scripts/import-notes.js",
     "notes:new": "node scripts/new-note.js",
-    "test": "node scripts/import-notes.test.js && node scripts/stats.test.js"
+    "test": "node scripts/import-notes.test.js && node scripts/stats.test.js && node scripts/check-data.test.js"
   }
 }
