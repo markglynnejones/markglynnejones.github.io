@@ -4,6 +4,7 @@
     "decks:find": "node scripts/find-deck.js",
     "import": "node scripts/import-notes.js",
     "notes:new": "node scripts/new-note.js",
-    "test": "node scripts/import-notes.test.js && node scripts/stats.test.js && node scripts/check-data.test.js && node scripts/scryfall.test.js && node scripts/find-deck.test.js"
+    "smoke": "node scripts/smoke.test.js",
+    "test": "node scripts/import-notes.test.js && node scripts/stats.test.js && node scripts/check-data.test.js && node scripts/scryfall.test.js && node scripts/find-deck.test.js && npm run smoke"
   }
 }
