@@ -48,6 +48,12 @@ npm run import -- data/raw/2026/2026-04-06-magic.txt --year 2026 --write
 
 The importer understands shorthand deck aliases from `data/deck-definitions.json`, player aliases from `data/player-aliases.json`, and writes into `data/matches-YYYY.json`. If it cannot resolve a deck, it suggests the closest existing decks and prints a new-deck stub you can add to `data/deck-definitions.json`.
 
+Check a deck alias before importing:
+
+```bash
+npm run decks:find -- terra
+```
+
 Create a new raw note file:
 
 ```bash
