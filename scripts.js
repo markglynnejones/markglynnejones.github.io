@@ -106,6 +106,22 @@ document.addEventListener("DOMContentLoaded", () => {
     th.setAttribute("aria-sort", direction);
   }
 
+  function appendTextCell(row, text) {
+    const cell = document.createElement("td");
+    cell.textContent = String(text);
+    row.appendChild(cell);
+    return cell;
+  }
+
+  function appendEmptyRow(body, colspan, message) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = colspan;
+    cell.textContent = message;
+    row.appendChild(cell);
+    body.appendChild(row);
+  }
+
   // -----------------------------
   // Combinations
   // -----------------------------
@@ -256,19 +272,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (const r of rows) {
       const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${r.deckName}</td>
-        <td>${r.wins}</td>
-        <td>${r.matchesPlayed}</td>
-        <td>${pctText(r.winrate)}</td>
-      `;
+      appendTextCell(tr, r.deckName);
+      appendTextCell(tr, r.wins);
+      appendTextCell(tr, r.matchesPlayed);
+      appendTextCell(tr, pctText(r.winrate));
       body.appendChild(tr);
     }
 
     if (rows.length === 0) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td colspan="4">No matches logged for this player yet.</td>`;
-      body.appendChild(tr);
+      appendEmptyRow(body, 4, "No matches logged for this player yet.");
     }
   }
 
@@ -586,19 +598,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (const p of sorted) {
       const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${p.name}</td>
-        <td>${p.wins ?? 0}</td>
-        <td>${p.matchesPlayed ?? 0}</td>
-        <td>${pctText(winRate(p.wins, p.matchesPlayed))}</td>
-      `;
+      appendTextCell(tr, p.name);
+      appendTextCell(tr, p.wins ?? 0);
+      appendTextCell(tr, p.matchesPlayed ?? 0);
+      appendTextCell(tr, pctText(winRate(p.wins, p.matchesPlayed)));
       body.appendChild(tr);
     }
 
     if (sorted.length === 0) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td colspan="4">No players match your search.</td>`;
-      body.appendChild(tr);
+      appendEmptyRow(body, 4, "No players match your search.");
     }
 
     updateSinglesSortArrows();
@@ -784,9 +792,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (sorted.length === 0) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td colspan="9">No decks match your search.</td>`;
-      body.appendChild(tr);
+      appendEmptyRow(body, 9, "No decks match your search.");
     }
 
     updateDecksSortArrows();

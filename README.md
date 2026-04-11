@@ -2,6 +2,16 @@
 
 ## Import match notes
 
+Typical flow:
+
+```bash
+npm run notes:new -- 2026-04-13 magic
+npm run import -- data/raw/2026/2026-04-13-magic.txt --year 2026
+npm run import -- data/raw/2026/2026-04-13-magic.txt --year 2026 --write
+npm test
+npm run check
+```
+
 Paste rough match notes into `data/raw/YYYY/YYYY-MM-DD-description.txt`, then preview:
 
 ```bash
@@ -22,7 +32,7 @@ Create a new raw note file:
 npm run notes:new -- 2026-04-13 magic
 ```
 
-## Check data
+## Check and test
 
 Run a data sanity check before pushing:
 
@@ -30,7 +40,7 @@ Run a data sanity check before pushing:
 npm run check
 ```
 
-Run importer tests:
+Run the test suite:
 
 ```bash
 npm test
