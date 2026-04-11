@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   const YEARS = ["2025", "2026"];
   const TAB_KEYS = ["overall", ...YEARS];
+  const RECENT_MATCH_LIMITS = [5, 10, 20];
 
   // -----------------------------
   // State
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let showInactiveDecks = false;
   let playerSearchQuery = "";
   let deckSearchQuery = "";
+  let recentMatchesLimit = RECENT_MATCH_LIMITS[0];
 
   const sortIcons = { up: "↑", down: "↓", both: "↕" };
 
@@ -155,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderRecentMatches() {
     const body = document.getElementById("recent-matches-body");
     const note = document.getElementById("recent-matches-note");
+    const showMoreButton = document.getElementById("show-more-recent-matches");
     if (!body || !note) return;
 
     body.innerHTML = "";
@@ -162,15 +165,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
     if (!tabUses2026Log) {
       note.textContent = "Not available for 2025 (no match log).";
+      if (showMoreButton) showMoreButton.hidden = true;
       return;
     }
 
-    const recent = [...(matches2026?.matches ?? [])]
+    const datedMatches = [...(matches2026?.matches ?? [])]
       .filter((match) => safeISODate(match.date))
-      .sort((a, b) => String(b.date).localeCompare(String(a.date)))
-      .slice(0, 5);
+      .sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    const recent = datedMatches.slice(0, recentMatchesLimit);
 
-    note.textContent = recent.length ? "Latest 5 matches from the 2026 match log." : "No 2026 matches logged yet.";
+    note.textContent = recent.length
+      ? `Latest ${recent.length} of ${datedMatches.length} matches from the 2026 match log.`
+      : "No 2026 matches logged yet.";
+
+    if (showMoreButton) {
+      const nextLimit = nextRecentMatchLimit();
+      const hasMore = recent.length < datedMatches.length && nextLimit > recentMatchesLimit;
+      showMoreButton.hidden = !hasMore;
+      showMoreButton.textContent = `Show ${nextLimit} matches`;
+    }
 
     for (const match of recent) {
       const tr = document.createElement("tr");
@@ -198,6 +211,10 @@ document.addEventListener("DOMContentLoaded", () => {
       tr.appendChild(tdPod);
       body.appendChild(tr);
     }
+  }
+
+  function nextRecentMatchLimit() {
+    return RECENT_MATCH_LIMITS.find((limit) => limit > recentMatchesLimit) || recentMatchesLimit;
   }
 
   // -----------------------------
@@ -835,6 +852,16 @@ document.addEventListener("DOMContentLoaded", () => {
     updateToggleButton();
   }
 
+  function wireRecentMatchesControls(onChange) {
+    const btn = document.getElementById("show-more-recent-matches");
+    if (!btn) return;
+
+    btn.addEventListener("click", () => {
+      recentMatchesLimit = nextRecentMatchLimit();
+      onChange();
+    });
+  }
+
   function wireSearchControls(onChange) {
     const playerSearch = document.getElementById("player-search");
     const deckSearch = document.getElementById("deck-search");
@@ -887,6 +914,7 @@ document.addEventListener("DOMContentLoaded", () => {
       wireSinglesSorting(rerender);
       wireDecksSorting(rerender);
       wireInactiveToggle(rerender);
+      wireRecentMatchesControls(rerender);
       wireSearchControls(rerender);
 
       selectTab("overall");

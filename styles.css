@@ -54,6 +54,7 @@ footer {
 .tab:focus,
 .sortable:focus,
 #toggle-inactive-decks:focus,
+.secondary-button:focus,
 #player-deck-select:focus,
 .table-controls input:focus {
   outline: 3px solid rgba(0, 0, 0, 0.35);
@@ -143,7 +144,8 @@ thead th.sortable:hover {
   min-width: 220px;
 }
 
-#toggle-inactive-decks {
+#toggle-inactive-decks,
+.secondary-button {
   display: block;
   margin: 0 auto 12px auto;
   padding: 10px 14px;
@@ -157,8 +159,13 @@ thead th.sortable:hover {
   transition: background-color 0.3s ease;
 }
 
-#toggle-inactive-decks:hover {
+#toggle-inactive-decks:hover,
+.secondary-button:hover {
   background: rgba(0, 0, 0, 0.04);
+}
+
+.secondary-button[hidden] {
+  display: none;
 }
 
 .mana-symbol {
