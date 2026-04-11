@@ -56,7 +56,7 @@
 
     <main id="tab-panel" role="tabpanel" aria-labelledby="tab-overall">
       <section>
-        <h2 style="text-align: center;">Singles Wins Table</h2>
+        <h2 class="section-heading">Singles Wins Table</h2>
 
         <div class="table-controls">
           <label for="player-search"><strong>Search players:</strong></label>
@@ -109,27 +109,16 @@
         </table>
       </section>
 
-      <!-- NEW: Player deck stats -->
       <section>
-        <h2 style="text-align: center;">Player Deck Stats (2026 match log)</h2>
+        <h2 class="section-heading">Player Deck Stats (2026 match log)</h2>
 
-        <div
-          style="
-            width: 80%;
-            margin: 0 auto 12px auto;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-          "
-        >
+        <div class="field-row">
           <label for="player-deck-select"><strong>Player:</strong></label>
           <select id="player-deck-select">
             <option value="">Loading…</option>
           </select>
 
-          <span id="player-deck-note" style="opacity: 0.8;"></span>
+          <span id="player-deck-note" class="muted-note"></span>
         </div>
 
         <table id="player-decks-table">
@@ -146,7 +135,7 @@
       </section>
 
       <section id="recent-matches-section">
-        <h2 style="text-align: center;">Recent Matches</h2>
+        <h2 class="section-heading">Recent Matches</h2>
         <p id="recent-matches-note" class="section-note"></p>
 
         <table id="recent-matches-table">
@@ -161,26 +150,18 @@
         </table>
       </section>
 
-      <!-- NEW: Wins over time chart -->
       <section>
-        <h2 style="text-align: center;">Wins Over Time (2026 match log)</h2>
+        <h2 class="section-heading">Wins Over Time (2026 match log)</h2>
 
-        <div
-          style="
-            width: 80%;
-            margin: 0 auto 12px auto;
-            text-align: center;
-            opacity: 0.85;
-          "
-        >
+        <div class="chart-note">
           <span id="wins-over-time-note"></span>
         </div>
 
-        <div id="wins-over-time-chart" style="width: 80%; margin: 0 auto 24px auto;"></div>
+        <div id="wins-over-time-chart" class="chart-frame"></div>
       </section>
 
       <section>
-        <h2 style="text-align: center;">Decks Played</h2>
+        <h2 class="section-heading">Decks Played</h2>
 
         <button
           id="toggle-inactive-decks"
