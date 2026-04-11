@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     safeISODate,
     winRate,
   } = window.CommanderStats;
+  const commanderScryfall = window.CommanderScryfall.createCommanderScryfallClient();
 
   // -----------------------------
   // Config
@@ -81,10 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.prepend(banner);
   }
 
-  function normaliseCommanderName(name) {
-    return (name || "").split("//")[0].trim().toLowerCase();
-  }
-
   function normaliseText(value) {
     return String(value || "").trim().toLowerCase();
   }
@@ -107,114 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function setAriaSort(th, direction) {
     if (!th) return;
     th.setAttribute("aria-sort", direction);
-  }
-
-  // -----------------------------
-  // Scryfall caching + throttling
-  // -----------------------------
-  const SCRYFALL_CACHE_KEY = "commanderScryfallCache_v1";
-  const SCRYFALL_CACHE_TTL_MS = 1000 * 60 * 60 * 24 * 30;
-
-  const commanderCache = new Map();
-
-  function loadCommanderCacheFromStorage() {
-    try {
-      const raw = localStorage.getItem(SCRYFALL_CACHE_KEY);
-      if (!raw) return;
-
-      const parsed = JSON.parse(raw);
-      const now = Date.now();
-
-      for (const [key, value] of Object.entries(parsed)) {
-        if (!value || typeof value !== "object") continue;
-        if (!value.cachedAt || now - value.cachedAt > SCRYFALL_CACHE_TTL_MS) continue;
-        commanderCache.set(key, value);
-      }
-    } catch {
-      // ignore
-    }
-  }
-
-  let saveCacheTimer = null;
-  function saveCommanderCacheToStorageDebounced() {
-    try {
-      if (saveCacheTimer) clearTimeout(saveCacheTimer);
-      saveCacheTimer = setTimeout(() => {
-        const obj = Object.fromEntries(commanderCache.entries());
-        localStorage.setItem(SCRYFALL_CACHE_KEY, JSON.stringify(obj));
-      }, 250);
-    } catch {
-      // ignore
-    }
-  }
-
-  const MAX_SCRYFALL_CONCURRENCY = 6;
-  let activeScryfall = 0;
-  const scryfallQueue = [];
-
-  function runWithScryfallLimit(taskFn) {
-    return new Promise((resolve, reject) => {
-      scryfallQueue.push({ taskFn, resolve, reject });
-      drainScryfallQueue();
-    });
-  }
-
-  function drainScryfallQueue() {
-    while (activeScryfall < MAX_SCRYFALL_CONCURRENCY && scryfallQueue.length) {
-      const job = scryfallQueue.shift();
-      activeScryfall++;
-
-      Promise.resolve()
-        .then(job.taskFn)
-        .then(job.resolve)
-        .catch(job.reject)
-        .finally(() => {
-          activeScryfall--;
-          drainScryfallQueue();
-        });
-    }
-  }
-  function mapScryfallColorsToNames(colors) {
-    const mapping = { W: "White", U: "Blue", B: "Black", R: "Red", G: "Green" };
-    const mapped = Array.isArray(colors) ? colors.map((c) => mapping[c]).filter(Boolean) : [];
-    return mapped.length > 0 ? mapped : ["Colorless"];
-  }
-
-  async function fetchCommanderFromScryfall(commanderName) {
-    const key = normaliseCommanderName(commanderName);
-    if (!key) return { colors: [], image: null };
-
-    if (commanderCache.has(key)) {
-      const cached = commanderCache.get(key);
-      return { colors: cached.colors || [], image: cached.image || null };
-    }
-
-    return runWithScryfallLimit(async () => {
-      if (commanderCache.has(key)) {
-        const cached = commanderCache.get(key);
-        return { colors: cached.colors || [], image: cached.image || null };
-      }
-
-      const url = `https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(key)}`;
-      const res = await fetch(url, { headers: { Accept: "application/json" } });
-
-      if (!res.ok) {
-        commanderCache.set(key, { colors: [], image: null, cachedAt: Date.now() });
-        saveCommanderCacheToStorageDebounced();
-        return { colors: [], image: null };
-      }
-
-      const cardData = await res.json();
-      const face = Array.isArray(cardData.card_faces) ? cardData.card_faces[0] : cardData;
-
-      const colors = mapScryfallColorsToNames(face?.colors);
-      const image = face?.image_uris?.normal ?? cardData?.image_uris?.normal ?? null;
-
-      commanderCache.set(key, { colors, image, cachedAt: Date.now() });
-      saveCommanderCacheToStorageDebounced();
-
-      return { colors, image };
-    });
   }
 
   // -----------------------------
@@ -813,7 +702,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tdCombinations.textContent = "…";
     tdImage.textContent = "…";
 
-    const results = await Promise.all(commanders.map(fetchCommanderFromScryfall));
+    const results = await Promise.all(commanders.map(commanderScryfall.fetchCommander));
     const combinedColors = [...new Set(results.flatMap((r) => r.colors))].filter(Boolean);
     const comboName = matchCombination(combinedColors);
 
@@ -962,7 +851,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   // Boot
   // -----------------------------
-  loadCommanderCacheFromStorage();
+  commanderScryfall.loadCacheFromStorage();
 
   Promise.all([
     fetchJSON("data/players-2025.json"),
