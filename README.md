@@ -18,6 +18,28 @@ Paste rough match notes into `data/raw/YYYY/YYYY-MM-DD-description.txt`, then pr
 npm run import -- data/raw/2026/2026-04-06-magic.txt --year 2026
 ```
 
+Example note format:
+
+```text
+06/04 magic
+
+Jake - ring sting
+Jo - bad misc - win
+Liam - big sues
+Ollie - toms zoo
+Mark - tricky terrain
+
+---
+
+Jake - ketramose - win
+Jo - bad misc
+Liam - big sues
+Ollie - ha ha sephiroth
+Mark - ghalta
+```
+
+That becomes dated matches in `data/matches-2026.json`, with `win` marking the winner and deck names resolved through the aliases.
+
 If the preview looks right, write the JSON updates:
 
 ```bash
