@@ -226,6 +226,9 @@
       "id": "necron-dynasties",
       "name": "Necron Dynasties",
       "commander": "Szarekh, the Silent King",
+      "aliases": [
+        "necrons"
+      ],
       "active": true
     },
     {
@@ -353,7 +356,8 @@
       "name": "Ketrappa the Rappa the Papa",
       "commander": "Ketramose, the New Dawn",
       "aliases": [
-        "ketramose"
+        "ketramose",
+        "katramose"
       ],
       "active": true
     },
@@ -395,6 +399,15 @@
         "susan foreman",
         "the twelveth doctor",
         "the twelfth doctor"
+      ]
+    },
+    {
+      "id": "faries",
+      "name": "Faries",
+      "commander": "Alela, Cunning Conqueror",
+      "active": true,
+      "aliases": [
+        "faries"
       ]
     }
   ]
