@@ -377,6 +377,39 @@
         { "name": "Mark", "deckId": "faries" }
       ],
       "winner": "Mark"
+    },
+    {
+      "date": "2026-05-04",
+      "players": [
+        { "name": "Mark", "deckId": "prismari-performance" },
+        { "name": "Jake", "deckId": "quantum-quandrix" },
+        { "name": "Ollie", "deckId": "lorehold-legacies" },
+        { "name": "Liam", "deckId": "witherbloom-witchcraft" },
+        { "name": "Jo", "deckId": "silverquill-statement" }
+      ],
+      "winner": "Liam"
+    },
+    {
+      "date": "2026-05-04",
+      "players": [
+        { "name": "Mark", "deckId": "witherbloom-witchcraft" },
+        { "name": "Jake", "deckId": "silverquill-statement" },
+        { "name": "Ollie", "deckId": "prismari-performance" },
+        { "name": "Liam", "deckId": "lorehold-legacies" },
+        { "name": "Jo", "deckId": "quantum-quandrix" }
+      ],
+      "winner": "Jo"
+    },
+    {
+      "date": "2026-05-04",
+      "players": [
+        { "name": "Mark", "deckId": "quintorius" },
+        { "name": "Jake", "deckId": "saruman" },
+        { "name": "Ollie", "deckId": "rogue-one" },
+        { "name": "Liam", "deckId": "ring-sting" },
+        { "name": "Jo", "deckId": "squirrelled-away" }
+      ],
+      "winner": "Jo"
     }
   ]
 }

@@ -22,6 +22,9 @@
       "id": "saruman",
       "name": "Saruman",
       "commander": "Saruman of Many Colors",
+      "aliases": [
+        "saurman"
+      ],
       "active": true
     },
     {
@@ -77,7 +80,8 @@
         "Sam, Loyal Attendant"
       ],
       "aliases": [
-        "sam and frodo"
+        "sam and frodo",
+        "hobbits"
       ],
       "active": true
     },
@@ -408,6 +412,90 @@
       "active": true,
       "aliases": [
         "faries"
+      ]
+    },
+    {
+      "id": "prismari-performance",
+      "name": "Prismari Artistry",
+      "commander": "Rootha, Mastering the Moment",
+      "active": true,
+      "aliases": [
+        "prismari",
+        "prismatic"
+      ]
+    },
+    {
+      "id": "quantum-quandrix",
+      "name": "Quandrix Unlimited",
+      "commander": "Zimone, Infinite Analyst",
+      "active": true,
+      "aliases": [
+        "quandrix"
+      ]
+    },
+    {
+      "id": "lorehold-legacies",
+      "name": "Lorehold Spirit",
+      "commander": "Quintorius, History Chaser",
+      "active": true,
+      "aliases": [
+        "lorehold"
+      ]
+    },
+    {
+      "id": "witherbloom-witchcraft",
+      "name": "Witherbloom Pestilence",
+      "commander": "Dina, Essence Brewer",
+      "active": true,
+      "aliases": [
+        "witherbloom",
+        "wiherbloom"
+      ]
+    },
+    {
+      "id": "silverquill-statement",
+      "name": "Silverquill Influence",
+      "commander": "Killian, Decisive Mentor",
+      "active": true,
+      "aliases": [
+        "silverquill",
+        "ailverquill"
+      ]
+    },
+    {
+      "id": "quintorius",
+      "name": "Quintorius",
+      "commander": "Quintorius, Field Historian",
+      "active": true,
+      "aliases": [
+        "quinteros",
+        "quintero's"
+      ]
+    },
+    {
+      "id": "rogue-one",
+      "name": "Rogue One",
+      "commander": [
+        "Thrasios, Triton Hero",
+        "Vial Smasher the Fierce"
+      ],
+      "active": true,
+      "aliases": [
+        "rogue 1",
+        "rouge 1",
+        "thrassion",
+        "thrasios",
+        "vial smasher"
+      ]
+    },
+    {
+      "id": "squirrelled-away",
+      "name": "Squirrelled Away",
+      "commander": "Hazel of the Rootbloom",
+      "active": true,
+      "aliases": [
+        "squirreled away",
+        "squirrelled away"
       ]
     }
   ]
