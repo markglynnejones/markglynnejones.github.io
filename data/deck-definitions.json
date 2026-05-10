@@ -176,6 +176,9 @@
       "id": "cloni-macaroni",
       "name": "Cloni Macaroni",
       "commander": "The Master, Formed Anew",
+      "aliases": [
+        "master"
+      ],
       "active": true
     },
     {
@@ -464,10 +467,13 @@
     },
     {
       "id": "quintorius",
-      "name": "Quintorius",
+      "name": "An Elephant Never Forgets",
       "commander": "Quintorius, Field Historian",
       "active": true,
       "aliases": [
+        "quinny",
+        "quintorius",
+        "quintorios",
         "quinteros",
         "quintero's"
       ]
