@@ -51,6 +51,7 @@ test("page keeps the core render targets", () => {
     "tab-2026",
     "wins-table-body",
     "player-decks-body",
+    "latest-session-summary",
     "recent-matches-body",
     "show-more-recent-matches",
     "wins-over-time-chart",

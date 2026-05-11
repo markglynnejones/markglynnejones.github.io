@@ -4,7 +4,7 @@ const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
 
-const { appendMatches, buildPlayerAliases, parseNotes, suggestedDeckStub } = require("./import-notes");
+const { appendMatches, buildPlayerAliases, parseNotes, suggestedDeckStub, summariseDeckDefinitionChanges } = require("./import-notes");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const deckDefinitions = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "deck-definitions.json"), "utf8"));
@@ -105,4 +105,25 @@ test("suggestedDeckStub creates a usable starter deck", () => {
     active: true,
     aliases: ["weird frog thing"],
   });
+});
+
+test("summariseDeckDefinitionChanges reports added and changed decks", () => {
+  const before = {
+    decks: [
+      { id: "a", name: "A", commander: "One", active: true },
+      { id: "b", name: "B", commander: "Two", active: true },
+    ],
+  };
+  const after = {
+    decks: [
+      { id: "a", name: "A", commander: "One", active: true },
+      { id: "b", name: "Bee", commander: "Two", active: true },
+      { id: "c", name: "C", commander: "Three", active: true },
+    ],
+  };
+
+  const result = summariseDeckDefinitionChanges(before, after);
+
+  assert.deepStrictEqual(result.added.map((deck) => deck.id), ["c"]);
+  assert.deepStrictEqual(result.changed.map((deck) => deck.id), ["b"]);
 });

@@ -4,6 +4,7 @@ const assert = require("assert");
 
 const {
   buildMonthlyWins2026,
+  buildLatestSessionSummary,
   buildPlayerDeckStats2026,
   buildStatsFromMatches,
   decks2026RowsFromStats,
@@ -130,6 +131,31 @@ test("buildMonthlyWins2026 groups dated wins by month", () => {
 
 test("latestMatchDate ignores invalid dates", () => {
   assert.strictEqual(latestMatchDate(sampleMatches), "2026-05-01");
+});
+
+test("buildLatestSessionSummary describes the newest dated match group", () => {
+  const summary = buildLatestSessionSummary({
+    matches: [
+      ...sampleMatches.matches,
+      {
+        date: "2026-05-01",
+        players: [
+          { name: "Jake", deckId: "ring-sting" },
+          { name: "Jo", deckId: "bad-misc" },
+        ],
+        winner: "Jo",
+      },
+    ],
+  });
+
+  assert.strictEqual(summary.date, "2026-05-01");
+  assert.strictEqual(summary.matchesPlayed, 2);
+  assert.deepStrictEqual(summary.players, ["Jake", "Jo", "Mark"]);
+  assert.deepStrictEqual(summary.deckIds, ["bad-misc", "ghalta", "ring-sting"]);
+  assert.deepStrictEqual(summary.winsByPlayer, [
+    { name: "Jake", wins: 1 },
+    { name: "Jo", wins: 1 },
+  ]);
 });
 
 test("mergePlayersOverall and mergeDecksOverall combine historic and match data", () => {

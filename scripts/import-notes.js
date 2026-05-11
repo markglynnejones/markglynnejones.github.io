@@ -418,6 +418,38 @@ function appendMatches(matchesData, matches) {
   return { added, skipped };
 }
 
+function summariseDeckDefinitionChanges(beforeData, afterData) {
+  const beforeById = new Map((beforeData?.decks || []).map((deck) => [deck.id, deck]));
+  const afterById = new Map((afterData?.decks || []).map((deck) => [deck.id, deck]));
+  const added = [];
+  const changed = [];
+
+  for (const [id, afterDeck] of afterById.entries()) {
+    const beforeDeck = beforeById.get(id);
+    if (!beforeDeck) {
+      added.push(afterDeck);
+      continue;
+    }
+
+    if (JSON.stringify(beforeDeck) !== JSON.stringify(afterDeck)) changed.push(afterDeck);
+  }
+
+  return { added, changed };
+}
+
+function printDeckDefinitionChanges(beforeData, afterData) {
+  const { added, changed } = summariseDeckDefinitionChanges(beforeData, afterData);
+
+  if (!added.length && !changed.length) {
+    console.log("Deck definitions: no changes made by importer.");
+    return;
+  }
+
+  console.log("Deck definitions:");
+  for (const deck of added) console.log(`  added ${deckLabel(deck)}`);
+  for (const deck of changed) console.log(`  changed ${deckLabel(deck)}`);
+}
+
 function printSummary(result, deckDefinitions) {
   const deckById = new Map((deckDefinitions.decks || []).map((deck) => [deck.id, deck]));
 
@@ -449,6 +481,7 @@ function main() {
 
   const notesPath = path.resolve(process.cwd(), args.file);
   const deckDefinitions = readJson(DECKS_PATH, { decks: [] });
+  const deckDefinitionsBeforeWrite = JSON.parse(JSON.stringify(deckDefinitions));
   const playerAliases = buildPlayerAliases(readJson(PLAYER_ALIASES_PATH, {}));
   const notes = fs.readFileSync(notesPath, "utf8");
   const result = parseNotes(notes, args.year, deckDefinitions, playerAliases);
@@ -467,6 +500,7 @@ function main() {
 
   const years = Array.from(new Set(result.matches.map((match) => match.date.slice(0, 4))));
   console.log(`Parsed ${result.matches.length} match(es).`);
+  printDeckDefinitionChanges(deckDefinitionsBeforeWrite, deckDefinitions);
   for (const year of years) {
     const matchesPath = path.join(REPO_ROOT, "data", `matches-${year}.json`);
     const matchesData = readJson(matchesPath, { matches: [] });
@@ -481,6 +515,7 @@ module.exports = {
   buildPlayerAliases,
   parseNotes,
   resolveDeck,
+  summariseDeckDefinitionChanges,
   suggestedDeckStub,
 };
 

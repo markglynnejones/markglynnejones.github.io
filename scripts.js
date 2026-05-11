@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const {
     buildMonthlyWins2026,
+    buildLatestSessionSummary,
     buildPlayerDeckStats2026,
     buildStatsFromMatches,
     decks2026RowsFromStats,
@@ -211,6 +212,61 @@ document.addEventListener("DOMContentLoaded", () => {
       tr.appendChild(tdPod);
       body.appendChild(tr);
     }
+  }
+
+  function renderLatestSessionSummary() {
+    const container = document.getElementById("latest-session-summary");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
+    if (!tabUses2026Log) {
+      container.hidden = true;
+      return;
+    }
+
+    const summary = buildLatestSessionSummary(matches2026);
+    if (!summary.date) {
+      container.hidden = true;
+      return;
+    }
+
+    container.hidden = false;
+
+    const heading = document.createElement("h3");
+    heading.textContent = `Latest session: ${shortDisplayDate(summary.date)}`;
+
+    const stats = document.createElement("div");
+    stats.className = "latest-session-stats";
+
+    const statItems = [
+      ["Games", summary.matchesPlayed],
+      ["Players", summary.players.length],
+      ["Decks", summary.deckIds.length],
+    ];
+
+    for (const [label, value] of statItems) {
+      const item = document.createElement("div");
+      const valueEl = document.createElement("strong");
+      const labelEl = document.createElement("span");
+
+      valueEl.textContent = String(value);
+      labelEl.textContent = label;
+      item.appendChild(valueEl);
+      item.appendChild(labelEl);
+      stats.appendChild(item);
+    }
+
+    const winners = document.createElement("p");
+    winners.className = "latest-session-winners";
+    winners.textContent = summary.winsByPlayer.length
+      ? summary.winsByPlayer.map((player) => `${player.name} ${player.wins}`).join(" · ")
+      : "No winners recorded";
+
+    container.appendChild(heading);
+    container.appendChild(stats);
+    container.appendChild(winners);
   }
 
   function nextRecentMatchLimit() {
@@ -479,6 +535,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const { players, decks } = getTabData(selectedTab);
 
     renderLastUpdated();
+    renderLatestSessionSummary();
     renderRecentMatches();
     renderSinglesTable(players);
     renderDecksTable(decks);

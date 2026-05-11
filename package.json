@@ -3,6 +3,8 @@
     "check": "node scripts/check-data.js",
     "decks:find": "node scripts/find-deck.js",
     "import": "node scripts/import-notes.js",
+    "notes:import-new": "node scripts/import-latest.js --write",
+    "notes:preview-new": "node scripts/import-latest.js",
     "notes:new": "node scripts/new-note.js",
     "smoke": "node scripts/smoke.test.js",
     "test": "node scripts/import-notes.test.js && node scripts/stats.test.js && node scripts/check-data.test.js && node scripts/scryfall.test.js && node scripts/find-deck.test.js && npm run smoke"

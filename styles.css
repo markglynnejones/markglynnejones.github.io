@@ -97,6 +97,52 @@ main section {
   text-align: center;
 }
 
+.latest-session-summary {
+  width: min(720px, 100%);
+  margin: 0 auto 14px auto;
+  padding: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.latest-session-summary[hidden] {
+  display: none;
+}
+
+.latest-session-summary h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+}
+
+.latest-session-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.latest-session-stats div {
+  padding: 8px;
+  border-radius: 6px;
+  background: #f4f4f4;
+}
+
+.latest-session-stats strong,
+.latest-session-stats span {
+  display: block;
+}
+
+.latest-session-stats span {
+  margin-top: 2px;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.latest-session-winners {
+  margin: 10px 0 0 0;
+}
+
 .chart-note {
   width: 80%;
   margin: 0 auto 12px auto;

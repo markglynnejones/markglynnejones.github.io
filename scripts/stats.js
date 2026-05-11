@@ -148,6 +148,34 @@
     return dates.at(-1) || "";
   }
 
+  function buildLatestSessionSummary(matchFile) {
+    const matches = (matchFile?.matches ?? []).filter((match) => safeISODate(match.date));
+    const latestDate = matches.map((match) => match.date).sort().at(-1) || "";
+    const sessionMatches = latestDate ? matches.filter((match) => match.date === latestDate) : [];
+    const winsByPlayer = new Map();
+    const players = new Set();
+    const deckIds = new Set();
+
+    for (const match of sessionMatches) {
+      if (match.winner) winsByPlayer.set(match.winner, (winsByPlayer.get(match.winner) ?? 0) + 1);
+
+      for (const player of match.players || []) {
+        if (player.name) players.add(player.name);
+        if (player.deckId) deckIds.add(player.deckId);
+      }
+    }
+
+    return {
+      date: latestDate,
+      matchesPlayed: sessionMatches.length,
+      players: Array.from(players).sort(),
+      deckIds: Array.from(deckIds).sort(),
+      winsByPlayer: Array.from(winsByPlayer.entries())
+        .map(([name, wins]) => ({ name, wins }))
+        .sort((a, b) => b.wins - a.wins || a.name.localeCompare(b.name)),
+    };
+  }
+
   function mergePlayersOverall(players25, players26) {
     const map = new Map();
 
@@ -208,6 +236,7 @@
 
   return {
     buildMonthlyWins2026,
+    buildLatestSessionSummary,
     buildPlayerDeckStats2026,
     buildStatsFromMatches,
     decks2026RowsFromStats,
