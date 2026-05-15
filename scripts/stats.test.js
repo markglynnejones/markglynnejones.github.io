@@ -6,6 +6,7 @@ const {
   buildMonthlyWins2026,
   buildLatestSessionSummary,
   buildPlayerDeckStats2026,
+  buildSessionSummaries,
   buildStatsFromMatches,
   decks2026RowsFromStats,
   latestMatchDate,
@@ -96,6 +97,7 @@ test("decks2026RowsFromStats joins deck definitions", () => {
           id: "bad-misc",
           name: "Bad Misc",
           commander: "Ragost, Deft Gastronaut",
+          owner: "Jo",
           active: true,
         },
       ],
@@ -104,8 +106,10 @@ test("decks2026RowsFromStats joins deck definitions", () => {
 
   assert.deepStrictEqual(rows, [
     {
+      deckId: "bad-misc",
       name: "Bad Misc",
       commanders: ["Ragost, Deft Gastronaut"],
+      owner: "Jo",
       active: true,
       wins: 2,
       matchesPlayed: 5,
@@ -158,6 +162,18 @@ test("buildLatestSessionSummary describes the newest dated match group", () => {
   ]);
 });
 
+test("buildSessionSummaries groups matches by date newest first", () => {
+  const sessions = buildSessionSummaries(sampleMatches);
+
+  assert.deepStrictEqual(
+    sessions.map((session) => ({ date: session.date, matchesPlayed: session.matchesPlayed })),
+    [
+      { date: "2026-05-01", matchesPlayed: 1 },
+      { date: "2026-04-06", matchesPlayed: 1 },
+    ]
+  );
+});
+
 test("mergePlayersOverall and mergeDecksOverall combine historic and match data", () => {
   assert.deepStrictEqual(
     mergePlayersOverall(
@@ -172,9 +188,9 @@ test("mergePlayersOverall and mergeDecksOverall combine historic and match data"
 
   assert.deepStrictEqual(
     mergeDecksOverall(
-      [{ name: "Old Deck", commander: "Old Commander", active: false, wins: 1, matchesPlayed: 4 }],
+      [{ name: "Old Deck", commander: "Old Commander", owner: "Jake", active: false, wins: 1, matchesPlayed: 4 }],
       [{ name: "Old Deck", commanders: ["Old Commander"], active: true, wins: 2, matchesPlayed: 3 }]
     ),
-    [{ name: "Old Deck", commanders: ["Old Commander"], active: true, wins: 3, matchesPlayed: 7 }]
+    [{ deckId: "", name: "Old Deck", commanders: ["Old Commander"], owner: "Jake", active: true, wins: 3, matchesPlayed: 7 }]
   );
 });

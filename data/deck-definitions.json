@@ -470,6 +470,9 @@
       "name": "An Elephant Never Forgets",
       "commander": "Quintorius, Field Historian",
       "active": true,
+      "owner": "Mark",
+      "needsReview": true,
+      "reviewNote": "Confirm final deck name and Quintorius spelling after first session.",
       "aliases": [
         "quinny",
         "quintorius",

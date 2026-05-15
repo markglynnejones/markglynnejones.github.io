@@ -34,7 +34,7 @@ test("index.html references existing local assets", () => {
 });
 
 test("browser scripts load in dependency order", () => {
-  const scriptRefs = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map((match) => match[1]);
+  const scriptRefs = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map((match) => match[1].split(/[?#]/)[0]);
 
   assert.deepStrictEqual(scriptRefs, [
     "scripts/stats.js",
@@ -54,6 +54,7 @@ test("page keeps the core render targets", () => {
     "latest-session-summary",
     "recent-matches-body",
     "show-more-recent-matches",
+    "sessions-body",
     "wins-over-time-chart",
     "decks-table-body",
   ];
@@ -61,6 +62,11 @@ test("page keeps the core render targets", () => {
   for (const id of requiredIds) {
     assert.match(html, new RegExp(`id="${id}"`), `${id} should exist`);
   }
+});
+
+test("sessions render as tabbed compact panels", () => {
+  assert.match(html, /id="sessions-body" class="sessions-list"/);
+  assert.doesNotMatch(html, /id="sessions-table"/);
 });
 
 test("helper modules expose the globals used by scripts.js", () => {

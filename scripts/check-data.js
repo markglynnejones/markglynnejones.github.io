@@ -77,6 +77,14 @@ function checkDeckDefinitions(deckDefinitions, issues) {
     if (!isNonEmptyString(deck.id)) issues.fail(`${label} must have a non-empty id.`);
     if (!isNonEmptyString(deck.name)) issues.fail(`${label} (${deck.id || "missing id"}) must have a non-empty name.`);
     if (typeof deck.active !== "boolean") issues.fail(`${label} (${deck.id || "missing id"}) must have a boolean active value.`);
+    if (deck.owner !== undefined && !isNonEmptyString(deck.owner)) issues.fail(`${label} (${deck.id || "missing id"}) has an empty owner.`);
+    if (deck.needsReview !== undefined && typeof deck.needsReview !== "boolean") {
+      issues.fail(`${label} (${deck.id || "missing id"}) needsReview must be boolean when present.`);
+    }
+    if (deck.reviewNote !== undefined && !isNonEmptyString(deck.reviewNote)) {
+      issues.fail(`${label} (${deck.id || "missing id"}) has an empty reviewNote.`);
+    }
+    if (deck.needsReview === true) issues.warn(`${label} (${deck.id}) is marked needsReview.`);
 
     const commanders = commanderList(deck);
     if (!commanders.length || commanders.some((commander) => !isNonEmptyString(commander))) {

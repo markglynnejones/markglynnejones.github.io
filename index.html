@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Commander Wins Tracker</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=deck-links" />
   </head>
 
   <body>
@@ -160,6 +160,12 @@
         </button>
       </section>
 
+      <section id="sessions-section">
+        <h2 class="section-heading">Sessions</h2>
+        <p id="sessions-note" class="section-note"></p>
+        <div id="sessions-body" class="sessions-list"></div>
+      </section>
+
       <section>
         <h2 class="section-heading">Wins Over Time (2026 match log)</h2>
 
@@ -200,6 +206,7 @@
                 Deck Name <span id="arrow-sort-deck-name"></span>
               </th>
               <th scope="col">Commander</th>
+              <th scope="col">Owner</th>
               <th scope="col">Colours</th>
               <th scope="col">Combinations</th>
               <th
@@ -243,8 +250,8 @@
       <p>Magic: The Gathering - Commander Wins Tracker</p>
     </footer>
 
-    <script src="scripts/stats.js"></script>
-    <script src="scripts/scryfall.js"></script>
-    <script src="scripts.js"></script>
+    <script src="scripts/stats.js?v=deck-links"></script>
+    <script src="scripts/scryfall.js?v=deck-links"></script>
+    <script src="scripts.js?v=deck-links"></script>
   </body>
 </html>

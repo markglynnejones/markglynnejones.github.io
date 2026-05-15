@@ -90,6 +90,38 @@ test("validateData accepts a valid data set", () => {
   assert.deepStrictEqual(result.warnings, []);
 });
 
+test("validateData accepts optional deck owner and review metadata", () => {
+  const data = validData({
+    deckDefinitions: {
+      decks: [
+        {
+          id: "bad-misc",
+          name: "Bad Misc",
+          commander: "Ragost, Deft Gastronaut",
+          owner: "Jo",
+          active: true,
+          needsReview: true,
+          reviewNote: "Confirm spelling.",
+          aliases: ["bad misc"],
+        },
+        {
+          id: "big-sues",
+          name: "Big Sue's",
+          commander: ["Susan Foreman", "The Twelfth Doctor"],
+          active: true,
+          aliases: ["big sues"],
+        },
+      ],
+    },
+  });
+
+  const result = validateData(data);
+
+  assert.deepStrictEqual(result.errors, []);
+  assert.strictEqual(result.warnings.length, 1);
+  assert.match(result.warnings[0], /needsReview/);
+});
+
 test("validateData catches unknown deck ids", () => {
   const data = validData({
     matchesFiles: [

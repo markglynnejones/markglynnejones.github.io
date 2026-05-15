@@ -47,6 +47,12 @@ Import the latest raw file:
 npm run notes:import-new -- --year 2026
 ```
 
+Run the full pre-commit workflow for the latest raw file:
+
+```bash
+npm run notes:commit -- --year 2026
+```
+
 Import a specific file:
 
 ```bash

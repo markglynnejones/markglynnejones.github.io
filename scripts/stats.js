@@ -82,8 +82,10 @@
       const def = defById.get(deckStats.deckId);
 
       return {
+        deckId: deckStats.deckId,
         name: def?.name ?? deckStats.deckId,
         commanders: commanderList(def),
+        owner: def?.owner ?? "",
         active: def?.active ?? true,
         wins: deckStats.wins,
         matchesPlayed: deckStats.matchesPlayed,
@@ -139,6 +141,44 @@
     };
   }
 
+  function buildSessionSummaries(matchFile) {
+    const sessionsByDate = new Map();
+
+    for (const match of matchFile?.matches ?? []) {
+      if (!safeISODate(match.date)) continue;
+      if (!sessionsByDate.has(match.date)) {
+        sessionsByDate.set(match.date, {
+          date: match.date,
+          matchesPlayed: 0,
+          players: new Set(),
+          deckIds: new Set(),
+          winsByPlayer: new Map(),
+        });
+      }
+
+      const session = sessionsByDate.get(match.date);
+      session.matchesPlayed += 1;
+      if (match.winner) session.winsByPlayer.set(match.winner, (session.winsByPlayer.get(match.winner) ?? 0) + 1);
+
+      for (const player of match.players || []) {
+        if (player.name) session.players.add(player.name);
+        if (player.deckId) session.deckIds.add(player.deckId);
+      }
+    }
+
+    return Array.from(sessionsByDate.values())
+      .map((session) => ({
+        date: session.date,
+        matchesPlayed: session.matchesPlayed,
+        players: Array.from(session.players).sort(),
+        deckIds: Array.from(session.deckIds).sort(),
+        winsByPlayer: Array.from(session.winsByPlayer.entries())
+          .map(([name, wins]) => ({ name, wins }))
+          .sort((a, b) => b.wins - a.wins || a.name.localeCompare(b.name)),
+      }))
+      .sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  }
+
   function latestMatchDate(matchFile) {
     const dates = (matchFile?.matches ?? [])
       .map((match) => match.date)
@@ -149,30 +189,12 @@
   }
 
   function buildLatestSessionSummary(matchFile) {
-    const matches = (matchFile?.matches ?? []).filter((match) => safeISODate(match.date));
-    const latestDate = matches.map((match) => match.date).sort().at(-1) || "";
-    const sessionMatches = latestDate ? matches.filter((match) => match.date === latestDate) : [];
-    const winsByPlayer = new Map();
-    const players = new Set();
-    const deckIds = new Set();
-
-    for (const match of sessionMatches) {
-      if (match.winner) winsByPlayer.set(match.winner, (winsByPlayer.get(match.winner) ?? 0) + 1);
-
-      for (const player of match.players || []) {
-        if (player.name) players.add(player.name);
-        if (player.deckId) deckIds.add(player.deckId);
-      }
-    }
-
-    return {
-      date: latestDate,
-      matchesPlayed: sessionMatches.length,
-      players: Array.from(players).sort(),
-      deckIds: Array.from(deckIds).sort(),
-      winsByPlayer: Array.from(winsByPlayer.entries())
-        .map(([name, wins]) => ({ name, wins }))
-        .sort((a, b) => b.wins - a.wins || a.name.localeCompare(b.name)),
+    return buildSessionSummaries(matchFile)[0] || {
+      date: "",
+      matchesPlayed: 0,
+      players: [],
+      deckIds: [],
+      winsByPlayer: [],
     };
   }
 
@@ -202,8 +224,10 @@
 
     for (const deck of decks25raw) {
       map.set(deck.name, {
+        deckId: deck.id ?? "",
         name: deck.name,
         commanders: commanderList(deck),
+        owner: deck.owner ?? "",
         active: !!deck.active,
         wins: deck.wins ?? 0,
         matchesPlayed: deck.matchesPlayed ?? 0,
@@ -213,8 +237,10 @@
     for (const deck of decks26) {
       if (!map.has(deck.name)) {
         map.set(deck.name, {
+          deckId: deck.deckId ?? "",
           name: deck.name,
           commanders: deck.commanders,
+          owner: deck.owner ?? "",
           active: !!deck.active,
           wins: 0,
           matchesPlayed: 0,
@@ -225,6 +251,8 @@
       entry.wins += deck.wins ?? 0;
       entry.matchesPlayed += deck.matchesPlayed ?? 0;
       entry.active = entry.active || !!deck.active;
+      if (!entry.deckId && deck.deckId) entry.deckId = deck.deckId;
+      if (!entry.owner && deck.owner) entry.owner = deck.owner;
 
       if ((!entry.commanders || entry.commanders.length === 0) && deck.commanders?.length) {
         entry.commanders = deck.commanders;
@@ -238,6 +266,7 @@
     buildMonthlyWins2026,
     buildLatestSessionSummary,
     buildPlayerDeckStats2026,
+    buildSessionSummaries,
     buildStatsFromMatches,
     decks2026RowsFromStats,
     latestMatchDate,

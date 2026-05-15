@@ -6,8 +6,8 @@ Typical flow:
 
 ```bash
 npm run notes:new -- 2026-04-13 magic
-npm run import -- data/raw/2026/2026-04-13-magic.txt --year 2026
-npm run import -- data/raw/2026/2026-04-13-magic.txt --year 2026 --write
+npm run notes:preview-new -- --year 2026
+npm run notes:import-new -- --year 2026
 npm test
 npm run check
 ```
@@ -58,6 +58,28 @@ Create a new raw note file:
 
 ```bash
 npm run notes:new -- 2026-04-13 magic
+```
+
+Run the usual pre-commit workflow for the latest raw note:
+
+```bash
+npm run notes:commit -- --year 2026
+```
+
+Review decks that have been marked for follow-up:
+
+```bash
+npm run decks:review
+```
+
+Deck definitions can include optional `owner`, `needsReview`, and `reviewNote` fields. `needsReview: true` is reported by `npm run decks:review` and as a warning in `npm run check`.
+
+## Live site
+
+GitHub Pages publishes this repository at:
+
+```text
+https://markglynnejones.github.io/
 ```
 
 ## Check and test
