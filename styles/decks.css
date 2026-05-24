@@ -1,0 +1,49 @@
+#player-deck-select,
+.table-controls input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: #ffffff;
+  min-width: 220px;
+}
+
+#toggle-inactive-decks,
+.secondary-button {
+  display: block;
+  margin: 0 auto 12px auto;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: #ffffff;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#toggle-inactive-decks:hover,
+.secondary-button:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.secondary-button[hidden] {
+  display: none;
+}
+
+.mana-symbol {
+  width: 20px;
+  vertical-align: middle;
+}
+
+.commander-image {
+  width: 100px;
+  height: auto;
+  border-radius: 4px;
+}
+
+#decks-table tr:target {
+  outline: 3px solid #d7b45a;
+  outline-offset: -3px;
+  background: #fff7d6;
+}

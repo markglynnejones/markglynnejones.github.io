@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
     winRate,
   } = window.CommanderStats;
   const commanderScryfall = window.CommanderScryfall.createCommanderScryfallClient();
+  const commanderSessions = window.CommanderSessions;
+  const commanderDecks = window.CommanderDecks;
+  const commanderRecentMatches = window.CommanderRecentMatches;
 
   // -----------------------------
   // Config
@@ -158,289 +161,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderRecentMatches() {
-    const body = document.getElementById("recent-matches-body");
-    const note = document.getElementById("recent-matches-note");
-    const showMoreButton = document.getElementById("show-more-recent-matches");
-    if (!body || !note) return;
-
-    body.innerHTML = "";
-
-    const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
-    if (!tabUses2026Log) {
-      note.textContent = "Not available for 2025 (no match log).";
-      if (showMoreButton) showMoreButton.hidden = true;
-      return;
-    }
-
-    const datedMatches = [...(matches2026?.matches ?? [])]
-      .filter((match) => safeISODate(match.date))
-      .sort((a, b) => String(b.date).localeCompare(String(a.date)));
-    const recent = datedMatches.slice(0, recentMatchesLimit);
-
-    note.textContent = recent.length
-      ? `Latest ${recent.length} of ${datedMatches.length} matches from the 2026 match log.`
-      : "No 2026 matches logged yet.";
-
-    if (showMoreButton) {
-      const nextLimit = nextRecentMatchLimit();
-      const hasMore = recent.length < datedMatches.length && nextLimit > recentMatchesLimit;
-      showMoreButton.hidden = !hasMore;
-      showMoreButton.textContent = `Show ${nextLimit} matches`;
-    }
-
-    for (const match of recent) {
-      const tr = document.createElement("tr");
-
-      const tdDate = document.createElement("td");
-      const tdWinner = document.createElement("td");
-      const tdPod = document.createElement("td");
-      const players = match.players || [];
-
-      tdDate.textContent = shortDisplayDate(match.date);
-      tdWinner.textContent = match.winner || "Unknown";
-      tdPod.className = "recent-pod";
-
-      const playerLine = document.createElement("p");
-      playerLine.textContent = players.map((player) => player.name).join(" · ");
-
-      const deckLine = document.createElement("p");
-      deckLine.textContent = players.map((player) => `(${deckNameFromId(player.deckId)})`).join(" · ");
-
-      tdPod.appendChild(playerLine);
-      tdPod.appendChild(deckLine);
-
-      tr.appendChild(tdDate);
-      tr.appendChild(tdWinner);
-      tr.appendChild(tdPod);
-      body.appendChild(tr);
-    }
+    if (!commanderRecentMatches?.renderRecentMatches) return;
+    commanderRecentMatches.renderRecentMatches({
+      selectedTab,
+      matches: matches2026,
+      recentMatchesLimit,
+      nextRecentMatchLimit,
+      safeISODate,
+      shortDisplayDate,
+      deckNameFromId,
+    });
   }
 
   function renderSessions() {
-    const container = document.getElementById("sessions-body");
-    const note = document.getElementById("sessions-note");
-    if (!container || !note) return;
-
-    container.innerHTML = "";
-
-    const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
-    if (!tabUses2026Log) {
-      note.textContent = "Not available for 2025 (no match log).";
-      const empty = document.createElement("p");
-      empty.className = "empty-state";
-      empty.textContent = "No session log available for this tab.";
-      container.appendChild(empty);
-      return;
-    }
-
-    const sessions = buildSessionSummaries(matches2026);
-    note.textContent = sessions.length ? `${sessions.length} session(s) from the 2026 match log.` : "No sessions logged yet.";
-
-    if (!sessions.length) {
-      const empty = document.createElement("p");
-      empty.className = "empty-state";
-      empty.textContent = "No sessions logged yet.";
-      container.appendChild(empty);
-      return;
-    }
-
-    if (!selectedSessionDate || !sessions.some((session) => session.date === selectedSessionDate)) {
-      selectedSessionDate = sessions[0].date;
-    }
-
-    const tabs = document.createElement("div");
-    tabs.className = "session-tabs";
-    tabs.setAttribute("role", "tablist");
-    tabs.setAttribute("aria-label", "Session dates");
-
-    const panel = document.createElement("div");
-    panel.className = "session-panel";
-
-    for (const session of sessions) {
-      const button = document.createElement("button");
-      const selected = session.date === selectedSessionDate;
-
-      button.type = "button";
-      button.className = "session-tab";
-      button.id = `session-tab-${session.date}`;
-      button.setAttribute("role", "tab");
-      button.setAttribute("aria-selected", String(selected));
-      button.setAttribute("aria-controls", "session-panel");
-      button.tabIndex = selected ? 0 : -1;
-      button.innerHTML = `<span>${shortDisplayDate(session.date)}</span><small>${session.matchesPlayed} games</small>`;
-      button.addEventListener("click", () => {
-        selectedSessionDate = session.date;
-        renderSessions();
-      });
-      button.addEventListener("keydown", (event) => {
-        const currentIndex = sessions.findIndex((entry) => entry.date === session.date);
-        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-          event.preventDefault();
-          const delta = event.key === "ArrowRight" ? 1 : -1;
-          const next = (currentIndex + delta + sessions.length) % sessions.length;
-          selectedSessionDate = sessions[next].date;
-          renderSessions();
-          document.getElementById(`session-tab-${selectedSessionDate}`)?.focus();
-        }
-      });
-
-      tabs.appendChild(button);
-    }
-
-    const selectedSession = sessions.find((session) => session.date === selectedSessionDate) || sessions[0];
-    panel.id = "session-panel";
-    panel.setAttribute("role", "tabpanel");
-    panel.setAttribute("aria-labelledby", `session-tab-${selectedSession.date}`);
-    panel.appendChild(sessionPanel(selectedSession));
-
-    container.appendChild(tabs);
-    container.appendChild(panel);
-  }
-
-  function sessionPanel(session) {
-    const article = document.createElement("article");
-    article.className = "session-card session-detail";
-
-    const header = document.createElement("div");
-    header.className = "session-card-header";
-
-    const title = document.createElement("h3");
-    title.textContent = shortDisplayDate(session.date);
-
-    const meta = document.createElement("div");
-    meta.className = "session-meta";
-    meta.appendChild(sessionMetric("Games", session.matchesPlayed));
-    meta.appendChild(sessionMetric("Players", session.players.length));
-    meta.appendChild(sessionMetric("Decks", session.deckIds.length));
-
-    header.appendChild(title);
-    header.appendChild(meta);
-
-    const winners = document.createElement("p");
-    winners.className = "session-line session-winners";
-    winners.appendChild(document.createElement("strong")).textContent = "Winners";
-    winners.appendChild(document.createTextNode(session.winsByPlayer.map((player) => `${player.name} ${player.wins}`).join(" · ")));
-
-    const games = document.createElement("div");
-    games.className = "session-games";
-
-    const sessionMatches = [...(matches2026?.matches ?? [])].filter((match) => match.date === session.date);
-    sessionMatches.forEach((match, index) => games.appendChild(sessionGame(match, index + 1)));
-
-    article.appendChild(header);
-    article.appendChild(winners);
-    article.appendChild(games);
-    return article;
-  }
-
-  function sessionGame(match, gameNumber) {
-    const game = document.createElement("div");
-    game.className = "session-game";
-
-    const header = document.createElement("div");
-    header.className = "session-game-header";
-
-    const title = document.createElement("strong");
-    title.textContent = `Game ${gameNumber}`;
-
-    const winner = document.createElement("span");
-    winner.className = "session-winner-badge";
-    winner.textContent = `Winner: ${match.winner || "Unknown"}`;
-
-    header.appendChild(title);
-    header.appendChild(winner);
-
-    const players = document.createElement("div");
-    players.className = "session-game-players";
-
-    for (const player of match.players || []) {
-      const item = document.createElement("span");
-      const name = document.createElement("strong");
-      const deck = document.createElement("a");
-
-      name.textContent = `${player.name}: `;
-      deck.href = `#${deckAnchorId(player.deckId)}`;
-      deck.textContent = deckNameFromId(player.deckId);
-      deck.addEventListener("click", (event) => {
-        event.preventDefault();
-        scrollToDeck(player.deckId);
-      });
-      item.appendChild(name);
-      item.appendChild(deck);
-      if (player.name === match.winner) item.className = "session-game-winner";
-      players.appendChild(item);
-    }
-
-    game.appendChild(header);
-    game.appendChild(players);
-    return game;
-  }
-
-  function sessionMetric(label, value) {
-    const item = document.createElement("span");
-    const strong = document.createElement("strong");
-    const small = document.createElement("small");
-
-    strong.textContent = String(value);
-    small.textContent = label;
-    item.appendChild(strong);
-    item.appendChild(small);
-    return item;
+    if (!commanderSessions?.renderSessions) return;
+    commanderSessions.renderSessions({
+      selectedTab,
+      matches: matches2026,
+      selectedSessionDate,
+      setSelectedSessionDate(nextDate) {
+        selectedSessionDate = nextDate;
+      },
+      buildSessionSummaries,
+      shortDisplayDate,
+      deckNameFromId,
+      deckAnchorId,
+      scrollToDeck,
+    });
   }
 
   function renderLatestSessionSummary() {
-    const container = document.getElementById("latest-session-summary");
-    if (!container) return;
-
-    container.innerHTML = "";
-
-    const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
-    if (!tabUses2026Log) {
-      container.hidden = true;
-      return;
-    }
-
-    const summary = buildLatestSessionSummary(matches2026);
-    if (!summary.date) {
-      container.hidden = true;
-      return;
-    }
-
-    container.hidden = false;
-
-    const heading = document.createElement("h3");
-    heading.textContent = `Latest session: ${shortDisplayDate(summary.date)}`;
-
-    const stats = document.createElement("div");
-    stats.className = "latest-session-stats";
-
-    const statItems = [
-      ["Games", summary.matchesPlayed],
-      ["Players", summary.players.length],
-      ["Decks", summary.deckIds.length],
-    ];
-
-    for (const [label, value] of statItems) {
-      const item = document.createElement("div");
-      const valueEl = document.createElement("strong");
-      const labelEl = document.createElement("span");
-
-      valueEl.textContent = String(value);
-      labelEl.textContent = label;
-      item.appendChild(valueEl);
-      item.appendChild(labelEl);
-      stats.appendChild(item);
-    }
-
-    const winners = document.createElement("p");
-    winners.className = "latest-session-winners";
-    winners.textContent = summary.winsByPlayer.length
-      ? summary.winsByPlayer.map((player) => `${player.name} ${player.wins}`).join(" · ")
-      : "No winners recorded";
-
-    container.appendChild(heading);
-    container.appendChild(stats);
-    container.appendChild(winners);
+    if (!commanderRecentMatches?.renderLatestSessionSummary) return;
+    commanderRecentMatches.renderLatestSessionSummary({
+      selectedTab,
+      matches: matches2026,
+      buildLatestSessionSummary,
+      shortDisplayDate,
+    });
   }
 
   function nextRecentMatchLimit() {
@@ -924,165 +681,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function updateDecksSortArrows() {
-    const idMap = {
-      name: "sort-deck-name",
-      wins: "sort-wins",
-      matches: "sort-matches",
-      winrate: "sort-winrate",
-    };
-
-    for (const thId of Object.values(idMap)) {
-      const th = document.getElementById(thId);
-      const arrow = document.getElementById(`arrow-${thId}`);
-      if (arrow) arrow.textContent = sortIcons.both;
-      setAriaSort(th, "none");
-    }
-
-    const activeThId = idMap[decksSortState.column];
-    const arrow = document.getElementById(`arrow-${activeThId}`);
-    const th = document.getElementById(activeThId);
-
-    if (arrow) arrow.textContent = decksSortState.ascending ? sortIcons.up : sortIcons.down;
-    setAriaSort(th, decksSortState.ascending ? "ascending" : "descending");
-  }
-
-  function getSortedDeckRows(deckRows) {
-    const arr = [...deckRows];
-
-    arr.sort((a, b) => {
-      const wrA = winRate(a.wins, a.matchesPlayed);
-      const wrB = winRate(b.wins, b.matchesPlayed);
-
-      let cmp = 0;
-      switch (decksSortState.column) {
-        case "name":
-          cmp = String(a.name).localeCompare(String(b.name));
-          break;
-        case "wins":
-          cmp = (a.wins ?? 0) - (b.wins ?? 0);
-          break;
-        case "matches":
-          cmp = (a.matchesPlayed ?? 0) - (b.matchesPlayed ?? 0);
-          break;
-        case "winrate":
-          cmp = wrA - wrB;
-          break;
-        default:
-          cmp = 0;
-      }
-
-      if (!decksSortState.ascending) cmp *= -1;
-      return cmp;
-    });
-
-    return arr;
-  }
-
-  async function fillDeckCommanderInfo({ commanders, tdColours, tdCombinations, tdImage }) {
-    tdColours.textContent = "…";
-    tdCombinations.textContent = "…";
-    tdImage.textContent = "…";
-
-    const results = await Promise.all(commanders.map(commanderScryfall.fetchCommander));
-    const combinedColors = [...new Set(results.flatMap((r) => r.colors))].filter(Boolean);
-    const comboName = matchCombination(combinedColors);
-
-    tdColours.innerHTML = combinedColors
-      .map((color) => `<img class="mana-symbol" src="images/${color}.svg" alt="${color} mana" />`)
-      .join(" ");
-
-    tdCombinations.textContent = comboName;
-
-    tdImage.innerHTML = results
-      .map((r, i) => {
-        const name = commanders[i];
-        if (!r.image) return `<span>Image not available</span>`;
-        return `<img class="commander-image" src="${r.image}" alt="${name} card art" loading="lazy" />`;
-      })
-      .join("<br>");
-  }
-
   function renderDecksTable(deckRows) {
-    const body = document.getElementById("decks-table-body");
-    if (!body) return;
-
-    body.innerHTML = "";
-
-    let rows = deckRows;
-    if (!showInactiveDecks) rows = rows.filter((r) => r.active);
-    const query = normaliseText(deckSearchQuery);
-    if (query) {
-      rows = rows.filter((r) => {
-        const commanders = (r.commanders || []).join(" ");
-        return normaliseText(`${r.name} ${r.owner || ""} ${commanders}`).includes(query);
-      });
-    }
-
-    const sorted = getSortedDeckRows(rows);
-
-    for (const r of sorted) {
-      const tr = document.createElement("tr");
-      if (r.deckId) tr.id = deckAnchorId(r.deckId);
-
-      const tdName = document.createElement("td");
-      const tdCommander = document.createElement("td");
-      const tdOwner = document.createElement("td");
-      const tdColours = document.createElement("td");
-      const tdCombinations = document.createElement("td");
-      const tdWins = document.createElement("td");
-      const tdMatches = document.createElement("td");
-      const tdWinPct = document.createElement("td");
-      const tdImage = document.createElement("td");
-      const tdActive = document.createElement("td");
-
-      tdName.textContent = r.name;
-      tdCommander.innerHTML = r.commanders.map((c) => `<span>${c}</span>`).join("<br>");
-      tdOwner.textContent = r.owner || "";
-      tdWins.textContent = String(r.wins ?? 0);
-      tdMatches.textContent = String(r.matchesPlayed ?? 0);
-      tdWinPct.textContent = pctText(winRate(r.wins, r.matchesPlayed));
-      tdActive.textContent = r.active ? "Yes" : "No";
-
-      tr.appendChild(tdName);
-      tr.appendChild(tdCommander);
-      tr.appendChild(tdOwner);
-      tr.appendChild(tdColours);
-      tr.appendChild(tdCombinations);
-      tr.appendChild(tdWins);
-      tr.appendChild(tdMatches);
-      tr.appendChild(tdWinPct);
-      tr.appendChild(tdImage);
-      tr.appendChild(tdActive);
-
-      body.appendChild(tr);
-
-      fillDeckCommanderInfo({
-        commanders: r.commanders,
-        tdColours,
-        tdCombinations,
-        tdImage,
-      }).catch(() => {
-        tdColours.textContent = "Unknown";
-        tdCombinations.textContent = "Unknown";
-        tdImage.textContent = "Unavailable";
-      });
-    }
-
-    if (sorted.length === 0) {
-      appendEmptyRow(body, 10, "No decks match your search.");
-    }
-
-    updateDecksSortArrows();
-    updateToggleButton();
-  }
-
-  function updateToggleButton() {
-    const btn = document.getElementById("toggle-inactive-decks");
-    if (!btn) return;
-
-    btn.textContent = showInactiveDecks ? "Hide Inactive Decks" : "Show Inactive Decks";
-    btn.setAttribute("aria-pressed", String(showInactiveDecks));
+    if (!commanderDecks?.renderDecksTable) return;
+    commanderDecks.renderDecksTable({
+      deckRows,
+      showInactiveDecks,
+      deckSearchQuery,
+      normaliseText,
+      deckAnchorId,
+      pctText,
+      winRate,
+      appendEmptyRow,
+      matchCombination,
+      fetchCommander: commanderScryfall.fetchCommander,
+      decksSortState,
+      setAriaSort,
+      sortIcons,
+    });
   }
 
   function wireDecksSorting(onChange) {
@@ -1110,7 +725,7 @@ document.addEventListener("DOMContentLoaded", () => {
       onChange();
     });
 
-    updateToggleButton();
+    commanderDecks?.updateToggleButton?.(showInactiveDecks);
   }
 
   function wireRecentMatchesControls(onChange) {
