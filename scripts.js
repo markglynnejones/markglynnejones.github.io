@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const commanderSessions = window.CommanderSessions;
   const commanderDecks = window.CommanderDecks;
   const commanderRecentMatches = window.CommanderRecentMatches;
+  const commanderSingles = window.CommanderSingles;
+  const commanderPlayerInsights = window.CommanderPlayerInsights;
 
   // -----------------------------
   // Config
@@ -204,19 +206,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return RECENT_MATCH_LIMITS.find((limit) => limit > recentMatchesLimit) || recentMatchesLimit;
   }
 
-  // -----------------------------
-  // Player deck stats render
-  // -----------------------------
-  function setPlayerDeckSectionsVisible(isVisible) {
-    const select = document.getElementById("player-deck-select");
-    const table = document.getElementById("player-decks-table");
-    const chart = document.getElementById("wins-over-time-chart");
-
-    // hide the whole section blocks by hiding their parent section
-    if (select?.closest("section")) select.closest("section").style.display = isVisible ? "" : "none";
-    if (chart?.closest("section")) chart.closest("section").style.display = isVisible ? "" : "none";
-  }
-
   function deckNameFromId(deckId) {
     const defs = deckDefinitions?.decks ?? [];
     const def = defs.find((d) => d.id === deckId);
@@ -247,203 +236,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function wirePlayerDeckSelect() {
-    const select = document.getElementById("player-deck-select");
-    if (!select) return;
-
-    select.addEventListener("change", () => {
-      selectedPlayerForDeckStats = select.value;
-      renderPlayerDeckStats();
-    });
-  }
-
   function renderPlayerDeckStats() {
-    const select = document.getElementById("player-deck-select");
-    const body = document.getElementById("player-decks-body");
-    const note = document.getElementById("player-deck-note");
-
-    if (!select || !body || !note) return;
-
-    body.innerHTML = "";
-
-    const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
-    if (!tabUses2026Log) {
-      note.textContent = "Not available for 2025 (no match log).";
-      return;
-    }
-
-    if (!playerDeckStats2026 || playersIn2026.length === 0) {
-      note.textContent = "No 2026 matches yet.";
-      return;
-    }
-
-    // Default selection
-    if (!selectedPlayerForDeckStats || !playersIn2026.includes(selectedPlayerForDeckStats)) {
-      selectedPlayerForDeckStats = playersIn2026[0];
-      select.value = selectedPlayerForDeckStats;
-    }
-
-    const byDeck = playerDeckStats2026.get(selectedPlayerForDeckStats) || new Map();
-    const rows = Array.from(byDeck.entries()).map(([deckId, stats]) => {
-      return {
-        deckId,
-        deckName: deckNameFromId(deckId),
-        wins: stats.wins,
-        matchesPlayed: stats.matchesPlayed,
-        winrate: winRate(stats.wins, stats.matchesPlayed),
-      };
+    if (!commanderPlayerInsights?.renderPlayerDeckStats) return;
+    commanderPlayerInsights.renderPlayerDeckStats({
+      selectedTab,
+      playerDeckStats2026,
+      playersIn2026,
+      selectedPlayer: selectedPlayerForDeckStats,
+      setSelectedPlayer(nextPlayer) {
+        selectedPlayerForDeckStats = nextPlayer;
+      },
+      deckNameFromId,
+      winRate,
+      pctText,
+      appendTextCell,
+      appendEmptyRow,
     });
-
-    rows.sort((a, b) => b.winrate - a.winrate || b.wins - a.wins || a.deckName.localeCompare(b.deckName));
-
-    note.textContent = `Showing ${selectedPlayerForDeckStats}'s deck performance from 2026 matches.`;
-
-    for (const r of rows) {
-      const tr = document.createElement("tr");
-      appendTextCell(tr, r.deckName);
-      appendTextCell(tr, r.wins);
-      appendTextCell(tr, r.matchesPlayed);
-      appendTextCell(tr, pctText(r.winrate));
-      body.appendChild(tr);
-    }
-
-    if (rows.length === 0) {
-      appendEmptyRow(body, 4, "No matches logged for this player yet.");
-    }
   }
 
-  function populatePlayerDeckSelect() {
-    const select = document.getElementById("player-deck-select");
-    if (!select) return;
-
-    select.innerHTML = "";
-
-    if (!playersIn2026.length) {
-      const opt = document.createElement("option");
-      opt.value = "";
-      opt.textContent = "No 2026 players";
-      select.appendChild(opt);
-      return;
-    }
-
-    for (const p of playersIn2026) {
-      const opt = document.createElement("option");
-      opt.value = p;
-      opt.textContent = p;
-      select.appendChild(opt);
-    }
-  }
-
-  // -----------------------------
-  // Chart render (monthly wins from 2026 matches)
-  // -----------------------------
   function renderWinsOverTimeChart() {
-    const container = document.getElementById("wins-over-time-chart");
-    const note = document.getElementById("wins-over-time-note");
-    if (!container || !note) return;
-
-    const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
-    if (!tabUses2026Log) {
-      container.innerHTML = "";
-      note.textContent = "Not available for 2025 (no match log).";
-      return;
-    }
-
-    const { months, byMonth } = buildMonthlyWins2026(matches2026);
-
-    if (!months.length) {
-      container.innerHTML = "";
-      note.textContent = "No dated matches in 2026 yet.";
-      return;
-    }
-
-    // Determine players set
-    const players = new Set();
-    for (const mk of months) {
-      const winsMap = byMonth.get(mk);
-      for (const p of winsMap.keys()) players.add(p);
-    }
-    const playerList = Array.from(players).sort();
-
-    // Aggregate totals per month for chart height baseline
-    const totalsPerMonth = months.map((mk) => {
-      const winsMap = byMonth.get(mk);
-      let total = 0;
-      for (const v of winsMap.values()) total += v;
-      return total;
+    if (!commanderPlayerInsights?.renderWinsOverTimeChart) return;
+    commanderPlayerInsights.renderWinsOverTimeChart({
+      selectedTab,
+      matches: matches2026,
+      buildMonthlyWins2026,
     });
-
-    const maxTotal = Math.max(...totalsPerMonth, 1);
-
-    note.textContent =
-      selectedTab === "overall"
-        ? "Overall tab chart is based on 2026 matches only."
-        : "Based on 2026 matches.";
-
-    // Simple SVG stacked bar chart (stacked by player)
-    const width = 900;
-    const height = 240;
-    const padding = 32;
-    const chartW = width - padding * 2;
-    const chartH = height - padding * 2;
-
-    const barCount = months.length;
-    const barW = Math.max(18, Math.floor(chartW / barCount) - 6);
-    const gap = 6;
-
-    // Colour palette (no hard requirements; browser default not available for SVG)
-    const palette = [
-      "#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f",
-      "#edc948", "#b07aa1", "#ff9da7", "#9c755f", "#bab0ab"
-    ];
-    const colorByPlayer = new Map(playerList.map((p, i) => [p, palette[i % palette.length]]));
-
-    let svg = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Monthly wins chart">
-      <rect x="0" y="0" width="${width}" height="${height}" fill="white"></rect>
-      <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#333" />
-      <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="#333" />
-    `;
-
-    // Bars
-    months.forEach((mk, i) => {
-      const x = padding + i * (barW + gap);
-      const winsMap = byMonth.get(mk);
-
-      // stacked segments
-      let stack = 0;
-      playerList.forEach((p) => {
-        const w = winsMap.get(p) ?? 0;
-        if (!w) return;
-
-        const total = totalsPerMonth[i];
-        const segmentH = (w / maxTotal) * chartH;
-        const y = height - padding - ((stack / maxTotal) * chartH) - segmentH;
-
-        svg += `<rect x="${x}" y="${y}" width="${barW}" height="${segmentH}"
-          fill="${colorByPlayer.get(p)}">
-          <title>${mk} • ${p}: ${w} win(s)</title>
-        </rect>`;
-
-        stack += w;
-      });
-
-      // x labels
-      const label = mk;
-      svg += `<text x="${x + barW / 2}" y="${height - padding + 16}" font-size="10" text-anchor="middle" fill="#333">${label}</text>`;
-    });
-
-    // Legend
-    let lx = padding;
-    let ly = 14;
-    playerList.forEach((p, idx) => {
-      const x = lx + (idx % 5) * 170;
-      const y = ly + Math.floor(idx / 5) * 16;
-      svg += `<rect x="${x}" y="${y}" width="10" height="10" fill="${colorByPlayer.get(p)}"></rect>`;
-      svg += `<text x="${x + 14}" y="${y + 9}" font-size="11" fill="#333">${p}</text>`;
-    });
-
-    svg += `</svg>`;
-    container.innerHTML = svg;
   }
 
   // -----------------------------
@@ -499,7 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Only show player deck stats + charts on Overall/2026
     const showExtras = selectedTab === "overall" || selectedTab === "2026";
-    setPlayerDeckSectionsVisible(showExtras);
+    commanderPlayerInsights?.setPlayerDeckSectionsVisible?.(showExtras);
 
     if (showExtras) {
       renderPlayerDeckStats();
@@ -555,129 +372,28 @@ document.addEventListener("DOMContentLoaded", () => {
     renderForSelectedTab();
   }
 
-  // -----------------------------
-  // Singles & Decks rendering
-  // -----------------------------
-  function updateSinglesSortArrows() {
-    const mapping = {
-      player: { thId: "sort-player", arrowId: "arrow-player" },
-      wins: { thId: "sort-wins-singles", arrowId: "arrow-wins-singles" },
-      matches: { thId: "sort-matches-singles", arrowId: "arrow-matches-singles" },
-      winrate: { thId: "sort-winrate-singles", arrowId: "arrow-winrate-singles" },
-    };
-
-    for (const { thId, arrowId } of Object.values(mapping)) {
-      const th = document.getElementById(thId);
-      const arrow = document.getElementById(arrowId);
-      if (arrow) arrow.textContent = sortIcons.both;
-      setAriaSort(th, "none");
-    }
-
-    const current = mapping[singlesSortState.column];
-    if (!current) return;
-
-    const arrow = document.getElementById(current.arrowId);
-    const th = document.getElementById(current.thId);
-
-    if (arrow) arrow.textContent = singlesSortState.ascending ? sortIcons.up : sortIcons.down;
-    setAriaSort(th, singlesSortState.ascending ? "ascending" : "descending");
-  }
-
-  function getSinglesSortedPlayers(players) {
-    const arr = [...players];
-
-    arr.sort((a, b) => {
-      const wrA = winRate(a.wins, a.matchesPlayed);
-      const wrB = winRate(b.wins, b.matchesPlayed);
-
-      let cmp = 0;
-      switch (singlesSortState.column) {
-        case "player":
-          cmp = String(a.name).localeCompare(String(b.name));
-          break;
-        case "wins":
-          cmp = (a.wins ?? 0) - (b.wins ?? 0);
-          break;
-        case "matches":
-          cmp = (a.matchesPlayed ?? 0) - (b.matchesPlayed ?? 0);
-          break;
-        case "winrate":
-          cmp = wrA - wrB;
-          break;
-        default:
-          cmp = 0;
-      }
-
-      if (!singlesSortState.ascending) cmp *= -1;
-      return cmp;
-    });
-
-    return arr;
-  }
-
   function renderSinglesTable(players) {
-    const body = document.getElementById("wins-table-body");
-    if (!body) return;
-
-    body.innerHTML = "";
-
-    const query = normaliseText(playerSearchQuery);
-    const filtered = query
-      ? players.filter((p) => normaliseText(p.name).includes(query))
-      : players;
-    const sorted = getSinglesSortedPlayers(filtered);
-
-    for (const p of sorted) {
-      const tr = document.createElement("tr");
-      appendTextCell(tr, p.name);
-      appendTextCell(tr, p.wins ?? 0);
-      appendTextCell(tr, p.matchesPlayed ?? 0);
-      appendTextCell(tr, pctText(winRate(p.wins, p.matchesPlayed)));
-      body.appendChild(tr);
-    }
-
-    if (sorted.length === 0) {
-      appendEmptyRow(body, 4, "No players match your search.");
-    }
-
-    updateSinglesSortArrows();
+    if (!commanderSingles?.renderSinglesTable) return;
+    commanderSingles.renderSinglesTable({
+      players,
+      playerSearchQuery,
+      normaliseText,
+      appendTextCell,
+      appendEmptyRow,
+      pctText,
+      winRate,
+      singlesSortState,
+      setAriaSort,
+      sortIcons,
+    });
   }
 
   function wireSinglesSorting(onChange) {
-    makeSortable(document.getElementById("sort-player"), () => {
-      if (singlesSortState.column === "player") singlesSortState.ascending = !singlesSortState.ascending;
-      else {
-        singlesSortState.column = "player";
-        singlesSortState.ascending = true;
-      }
-      onChange();
-    });
-
-    makeSortable(document.getElementById("sort-wins-singles"), () => {
-      if (singlesSortState.column === "wins") singlesSortState.ascending = !singlesSortState.ascending;
-      else {
-        singlesSortState.column = "wins";
-        singlesSortState.ascending = false;
-      }
-      onChange();
-    });
-
-    makeSortable(document.getElementById("sort-matches-singles"), () => {
-      if (singlesSortState.column === "matches") singlesSortState.ascending = !singlesSortState.ascending;
-      else {
-        singlesSortState.column = "matches";
-        singlesSortState.ascending = false;
-      }
-      onChange();
-    });
-
-    makeSortable(document.getElementById("sort-winrate-singles"), () => {
-      if (singlesSortState.column === "winrate") singlesSortState.ascending = !singlesSortState.ascending;
-      else {
-        singlesSortState.column = "winrate";
-        singlesSortState.ascending = false;
-      }
-      onChange();
+    if (!commanderSingles?.wireSinglesSorting) return;
+    commanderSingles.wireSinglesSorting({
+      makeSortable,
+      singlesSortState,
+      onChange,
     });
   }
 
@@ -781,8 +497,13 @@ document.addEventListener("DOMContentLoaded", () => {
       playersIn2026 = Array.from(playerDeckStats2026.keys()).sort();
 
       // Setup player dropdown
-      populatePlayerDeckSelect();
-      wirePlayerDeckSelect();
+      commanderPlayerInsights?.populatePlayerDeckSelect?.({ playersIn2026 });
+      commanderPlayerInsights?.wirePlayerDeckSelect?.({
+        onChange(nextPlayer) {
+          selectedPlayerForDeckStats = nextPlayer;
+          renderPlayerDeckStats();
+        },
+      });
 
       const rerender = () => renderForSelectedTab();
 
