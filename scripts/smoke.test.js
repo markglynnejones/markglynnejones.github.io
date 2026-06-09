@@ -39,6 +39,7 @@ test("browser scripts load in dependency order", () => {
   assert.deepStrictEqual(scriptRefs, [
     "scripts/stats.js",
     "scripts/scryfall.js",
+    "scripts/render/dashboard-summary.js",
     "scripts/render/decks-table.js",
     "scripts/render/player-insights.js",
     "scripts/render/recent-matches.js",
@@ -54,6 +55,7 @@ test("page keeps the core render targets", () => {
     "tab-overall",
     "tab-2025",
     "tab-2026",
+    "dashboard-summary-body",
     "wins-table-body",
     "player-decks-body",
     "latest-session-summary",
@@ -77,6 +79,7 @@ test("sessions render as tabbed compact panels", () => {
 test("helper modules expose the globals used by scripts.js", () => {
   const stats = require("./stats");
   const scryfall = require("./scryfall");
+  const dashboardSummary = require("./render/dashboard-summary");
   const decks = require("./render/decks-table");
   const playerInsights = require("./render/player-insights");
   const recentMatches = require("./render/recent-matches");
@@ -87,6 +90,7 @@ test("helper modules expose the globals used by scripts.js", () => {
   assert.strictEqual(typeof stats.winRate, "function");
   assert.strictEqual(typeof scryfall.createCommanderScryfallClient, "function");
   assert.strictEqual(typeof scryfall.normaliseCommanderName, "function");
+  assert.strictEqual(typeof dashboardSummary.renderDashboardSummary, "function");
   assert.strictEqual(typeof decks.renderDecksTable, "function");
   assert.strictEqual(typeof playerInsights.renderPlayerDeckStats, "function");
   assert.strictEqual(typeof recentMatches.renderRecentMatches, "function");

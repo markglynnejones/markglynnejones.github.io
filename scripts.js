@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const {
+    buildDashboardSummary,
     buildMonthlyWins2026,
     buildLatestSessionSummary,
     buildPlayerDeckStats2026,
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const commanderScryfall = window.CommanderScryfall.createCommanderScryfallClient();
   const commanderSessions = window.CommanderSessions;
   const commanderDecks = window.CommanderDecks;
+  const commanderDashboardSummary = window.CommanderDashboardSummary;
   const commanderRecentMatches = window.CommanderRecentMatches;
   const commanderSingles = window.CommanderSingles;
   const commanderPlayerInsights = window.CommanderPlayerInsights;
@@ -202,6 +204,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function renderDashboardSummary(players, decks) {
+    if (!commanderDashboardSummary?.renderDashboardSummary) return;
+    commanderDashboardSummary.renderDashboardSummary({
+      selectedTab,
+      summary: buildDashboardSummary({
+        players,
+        decks,
+        matchFile: selectedTab === "2025" ? null : matches2026,
+      }),
+      shortDisplayDate,
+      pctText,
+    });
+  }
+
   function nextRecentMatchLimit() {
     return RECENT_MATCH_LIMITS.find((limit) => limit > recentMatchesLimit) || recentMatchesLimit;
   }
@@ -308,6 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const { players, decks } = getTabData(selectedTab);
 
     renderLastUpdated();
+    renderDashboardSummary(players, decks);
     renderLatestSessionSummary();
     renderRecentMatches();
     renderSessions();

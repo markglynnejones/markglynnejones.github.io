@@ -1,4 +1,39 @@
-# markglynnejones.github.io
+# Commander Wins Tracker
+
+A static GitHub Pages dashboard for tracking Magic: The Gathering Commander games. It turns rough game-night notes into validated JSON and renders player, deck, session, and recent-match stats.
+
+Live site:
+
+```text
+https://markglynnejones.github.io/
+```
+
+## Repository structure
+
+- `index.html` - static app shell.
+- `scripts.js` - browser app coordinator and tab/render state.
+- `scripts/stats.js` - shared stat calculations used by the browser and tests.
+- `scripts/render/` - browser render modules for specific dashboard sections.
+- `scripts/import-notes.js` - raw note parser and importer.
+- `scripts/check-data.js` - data validation.
+- `data/*.json` - canonical app data.
+- `data/raw/YYYY/*.txt` - raw game-night notes.
+- `styles.css` and `styles/*.css` - app styling.
+- `docs/product-roadmap.md` - product and commercialization direction.
+- `docs/implementation-plan.md` - practical next build plan.
+- `AGENTS.md` - AI-facing project context for future coding sessions.
+
+The structure is intentionally simple: no build step, no backend, and no framework dependency. Keep browser rendering separate from reusable stat logic so new analytics can be tested in Node.
+
+## Product planning
+
+The current direction is to make the static group tracker excellent before adding accounts, billing, or a backend.
+
+Read these before larger feature work:
+
+- `docs/product-roadmap.md`
+- `docs/implementation-plan.md`
+- `AGENTS.md`
 
 ## Import match notes
 
@@ -73,14 +108,6 @@ npm run decks:review
 ```
 
 Deck definitions can include optional `owner`, `needsReview`, and `reviewNote` fields. `needsReview: true` is reported by `npm run decks:review` and as a warning in `npm run check`.
-
-## Live site
-
-GitHub Pages publishes this repository at:
-
-```text
-https://markglynnejones.github.io/
-```
 
 ## Check and test
 

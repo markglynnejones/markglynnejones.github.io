@@ -198,6 +198,73 @@
     };
   }
 
+  function buildDashboardSummary(config) {
+    const { players = [], decks = [], matchFile = null } = config || {};
+    const activePlayers = players.filter((player) => (player.matchesPlayed ?? 0) > 0);
+    const playedDecks = decks.filter((deck) => (deck.matchesPlayed ?? 0) > 0);
+    const sessions = matchFile ? buildSessionSummaries(matchFile) : [];
+    const totalMatches = players.reduce((total, player) => total + (player.wins ?? 0), 0);
+
+    const topPlayer = activePlayers
+      .slice()
+      .sort(
+        (a, b) =>
+          (b.wins ?? 0) - (a.wins ?? 0) ||
+          winRate(b.wins, b.matchesPlayed) - winRate(a.wins, a.matchesPlayed) ||
+          String(a.name).localeCompare(String(b.name))
+      )[0] || null;
+
+    const bestWinRatePlayer = activePlayers
+      .slice()
+      .sort(
+        (a, b) =>
+          winRate(b.wins, b.matchesPlayed) - winRate(a.wins, a.matchesPlayed) ||
+          (b.wins ?? 0) - (a.wins ?? 0) ||
+          String(a.name).localeCompare(String(b.name))
+      )[0] || null;
+
+    const mostPlayedDeck = playedDecks
+      .slice()
+      .sort(
+        (a, b) =>
+          (b.matchesPlayed ?? 0) - (a.matchesPlayed ?? 0) ||
+          (b.wins ?? 0) - (a.wins ?? 0) ||
+          String(a.name).localeCompare(String(b.name))
+      )[0] || null;
+
+    return {
+      totalMatches,
+      sessionCount: sessions.length,
+      latestSessionDate: sessions[0]?.date || "",
+      activePlayerCount: activePlayers.length,
+      decksPlayedCount: playedDecks.length,
+      topPlayer: topPlayer
+        ? {
+            name: topPlayer.name,
+            wins: topPlayer.wins ?? 0,
+            matchesPlayed: topPlayer.matchesPlayed ?? 0,
+            winRate: winRate(topPlayer.wins, topPlayer.matchesPlayed),
+          }
+        : null,
+      bestWinRatePlayer: bestWinRatePlayer
+        ? {
+            name: bestWinRatePlayer.name,
+            wins: bestWinRatePlayer.wins ?? 0,
+            matchesPlayed: bestWinRatePlayer.matchesPlayed ?? 0,
+            winRate: winRate(bestWinRatePlayer.wins, bestWinRatePlayer.matchesPlayed),
+          }
+        : null,
+      mostPlayedDeck: mostPlayedDeck
+        ? {
+            name: mostPlayedDeck.name,
+            wins: mostPlayedDeck.wins ?? 0,
+            matchesPlayed: mostPlayedDeck.matchesPlayed ?? 0,
+            winRate: winRate(mostPlayedDeck.wins, mostPlayedDeck.matchesPlayed),
+          }
+        : null,
+    };
+  }
+
   function mergePlayersOverall(players25, players26) {
     const map = new Map();
 
@@ -263,6 +330,7 @@
   }
 
   return {
+    buildDashboardSummary,
     buildMonthlyWins2026,
     buildLatestSessionSummary,
     buildPlayerDeckStats2026,

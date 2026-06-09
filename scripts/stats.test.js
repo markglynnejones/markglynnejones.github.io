@@ -3,6 +3,7 @@
 const assert = require("assert");
 
 const {
+  buildDashboardSummary,
   buildMonthlyWins2026,
   buildLatestSessionSummary,
   buildPlayerDeckStats2026,
@@ -160,6 +161,46 @@ test("buildLatestSessionSummary describes the newest dated match group", () => {
     { name: "Jake", wins: 1 },
     { name: "Jo", wins: 1 },
   ]);
+});
+
+test("buildDashboardSummary totals headline stats", () => {
+  const summary = buildDashboardSummary({
+    players: [
+      { name: "Jake", wins: 3, matchesPlayed: 5 },
+      { name: "Jo", wins: 3, matchesPlayed: 6 },
+      { name: "Mark", wins: 0, matchesPlayed: 0 },
+    ],
+    decks: [
+      { name: "Ring Sting", wins: 2, matchesPlayed: 4 },
+      { name: "Bad Misc", wins: 3, matchesPlayed: 6 },
+      { name: "Unused", wins: 0, matchesPlayed: 0 },
+    ],
+    matchFile: sampleMatches,
+  });
+
+  assert.strictEqual(summary.totalMatches, 6);
+  assert.strictEqual(summary.sessionCount, 2);
+  assert.strictEqual(summary.latestSessionDate, "2026-05-01");
+  assert.strictEqual(summary.activePlayerCount, 2);
+  assert.strictEqual(summary.decksPlayedCount, 2);
+  assert.deepStrictEqual(summary.topPlayer, {
+    name: "Jake",
+    wins: 3,
+    matchesPlayed: 5,
+    winRate: 0.6,
+  });
+  assert.deepStrictEqual(summary.bestWinRatePlayer, {
+    name: "Jake",
+    wins: 3,
+    matchesPlayed: 5,
+    winRate: 0.6,
+  });
+  assert.deepStrictEqual(summary.mostPlayedDeck, {
+    name: "Bad Misc",
+    wins: 3,
+    matchesPlayed: 6,
+    winRate: 0.5,
+  });
 });
 
 test("buildSessionSummaries groups matches by date newest first", () => {

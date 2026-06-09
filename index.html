@@ -58,6 +58,12 @@
     </nav>
 
     <main id="tab-panel" role="tabpanel" aria-labelledby="tab-overall">
+      <section id="dashboard-summary-section" aria-labelledby="dashboard-summary-heading">
+        <h2 id="dashboard-summary-heading" class="section-heading">Dashboard Summary</h2>
+        <p id="dashboard-summary-note" class="section-note"></p>
+        <div id="dashboard-summary-body" class="summary-grid"></div>
+      </section>
+
       <section>
         <h2 class="section-heading">Singles Wins Table</h2>
 
@@ -255,6 +261,7 @@
 
     <script src="scripts/stats.js?v=session-module"></script>
     <script src="scripts/scryfall.js?v=session-module"></script>
+    <script src="scripts/render/dashboard-summary.js?v=dashboard-summary-module"></script>
     <script src="scripts/render/decks-table.js?v=decks-module"></script>
     <script src="scripts/render/player-insights.js?v=player-insights-module"></script>
     <script src="scripts/render/recent-matches.js?v=matches-module"></script>
