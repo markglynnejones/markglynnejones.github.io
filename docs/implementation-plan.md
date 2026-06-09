@@ -26,6 +26,8 @@ Goal: make the current app feel complete for personal and group use.
 
 Serious stats should appear before fun stats. The first viewport should make the app feel useful and trustworthy; playful group stats can live in a later section or a separate tab.
 
+Status: implemented on `product-roadmap-and-planning`.
+
 ### 1. Summary Cards
 
 Add a compact dashboard band above the existing tables.
@@ -54,6 +56,11 @@ Acceptance criteria:
 - Handles empty data without broken text.
 - `npm test` and `npm run check` pass.
 
+Implemented:
+
+- Dashboard summary cards render above the core tables.
+- The card layout is 4x2 on desktop, 2 columns on tablet, and 1 column on narrow mobile.
+
 ### 2. Head-To-Head Stats
 
 Add player rivalry stats for 2026 match-log data.
@@ -76,6 +83,11 @@ Acceptance criteria:
 - Shared match count is correct.
 - A winner gets credit against every other player in that pod.
 
+Implemented:
+
+- Player-focused head-to-head table renders for Overall and 2026.
+- 2025 hides the section because there is no detailed match log.
+
 ### 3. Recent Form
 
 Add "last N matches" stats for players and decks.
@@ -96,6 +108,11 @@ Acceptance criteria:
 
 - Handles players/decks with fewer than N matches.
 - Does not mutate existing match data.
+
+Implemented:
+
+- `scripts/insights/recent-form.js` calculates last-5 form for players and decks.
+- The dashboard renders leading recent player and deck form cards.
 
 ### 4. Streaks
 
@@ -119,6 +136,11 @@ Acceptance criteria:
 - Losing or not appearing breaks a win streak only when the player/deck appears in a match.
 - Missing dates or invalid matches are ignored consistently with existing helpers.
 
+Implemented:
+
+- `scripts/insights/streaks.js` calculates current and best player/deck win streaks.
+- The dashboard renders current and best streak leaders.
+
 ### 5. Deep Links
 
 Make the dashboard easier to share.
@@ -134,6 +156,12 @@ Acceptance criteria:
 
 - Opening a copied link scrolls to the relevant player, deck, or session.
 - Links do not break normal tab navigation.
+
+Implemented:
+
+- `scripts/insights/deep-links.js` provides stable hash helpers.
+- Deck anchors preserve the existing `deck-row-...` format.
+- Player rows and session panels now receive stable IDs for hash scrolling.
 
 ### 6. Fun Stats Section
 
@@ -156,6 +184,24 @@ Acceptance criteria:
 
 - The section can be hidden or moved without affecting serious stats.
 - Each stat has a deterministic calculation and test coverage.
+
+Implemented:
+
+- `scripts/insights/fun-stats.js` calculates neutral fun-stat data.
+- Fun stats render in a separate section below serious insight sections.
+
+### 7. Mobile Polish
+
+Initial scope:
+
+- Improve readable spacing on narrow screens.
+- Keep tables usable with horizontal scrolling.
+- Make controls easier to tap.
+- Reflow session panels cleanly.
+
+Implemented:
+
+- `styles/mobile-polish.css` is linked after the existing stylesheets.
 
 ## Phase 2: Safer Data Model
 

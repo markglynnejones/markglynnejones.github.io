@@ -11,6 +11,7 @@
       shortDisplayDate,
       deckNameFromId,
       deckAnchorId,
+      sessionAnchorId,
       scrollToDeck,
     } = config;
 
@@ -106,6 +107,7 @@
         shortDisplayDate,
         deckNameFromId,
         deckAnchorId,
+        sessionAnchorId,
         scrollToDeck,
       }),
     );
@@ -115,9 +117,10 @@
   }
 
   function sessionPanel(config) {
-    const { session, matches, shortDisplayDate, deckNameFromId, deckAnchorId, scrollToDeck } = config;
+    const { session, matches, shortDisplayDate, deckNameFromId, deckAnchorId, sessionAnchorId, scrollToDeck } = config;
     const article = document.createElement("article");
     article.className = "session-card session-detail";
+    if (sessionAnchorId) article.id = sessionAnchorId(session.date);
 
     const header = document.createElement("div");
     header.className = "session-card-header";

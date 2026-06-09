@@ -19,9 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const commanderSessions = window.CommanderSessions;
   const commanderDecks = window.CommanderDecks;
   const commanderDashboardSummary = window.CommanderDashboardSummary;
+  const commanderDeepLinks = window.CommanderDeepLinks;
+  const commanderFunStats = window.CommanderFunStats;
+  const commanderPhaseOneInsights = window.CommanderPhaseOneInsights;
+  const commanderRecentForm = window.CommanderRecentForm;
   const commanderRecentMatches = window.CommanderRecentMatches;
   const commanderSingles = window.CommanderSingles;
   const commanderPlayerInsights = window.CommanderPlayerInsights;
+  const commanderStreaks = window.CommanderStreaks;
 
   // -----------------------------
   // Config
@@ -55,6 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Player deck stats state (from 2026 match log)
   let playerDeckStats2026 = null; // Map player -> Map deckId -> {wins,matches}
   let headToHeadStats2026 = null; // list of pair records from 2026 matches
+  let recentForm2026 = null; // last 5 player/deck form from 2026 matches
+  let winStreaks2026 = null; // current/best player/deck win streaks from 2026 matches
+  let funStats2026 = null; // separated fun stats from 2026 matches
   let playersIn2026 = []; // list of players (sorted)
   let selectedPlayerForDeckStats = ""; // chosen in dropdown
   let selectedPlayerForHeadToHead = ""; // chosen in dropdown
@@ -193,6 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
       shortDisplayDate,
       deckNameFromId,
       deckAnchorId,
+      sessionAnchorId,
       scrollToDeck,
     });
   }
@@ -232,7 +241,33 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function deckAnchorId(deckId) {
+    if (commanderDeepLinks?.deckAnchorId) return commanderDeepLinks.deckAnchorId(deckId);
     return `deck-row-${String(deckId || "").replace(/[^a-z0-9_-]/gi, "-")}`;
+  }
+
+  function playerAnchorId(playerName) {
+    if (commanderDeepLinks?.playerAnchorId) return commanderDeepLinks.playerAnchorId(playerName);
+    return `player-row-${String(playerName || "").replace(/[^a-z0-9_-]/gi, "-")}`;
+  }
+
+  function sessionAnchorId(sessionDate) {
+    if (commanderDeepLinks?.sessionAnchorId) return commanderDeepLinks.sessionAnchorId(sessionDate);
+    return `session-${String(sessionDate || "").replace(/[^a-z0-9_-]/gi, "-")}`;
+  }
+
+  function scrollToHashTarget() {
+    const parsed = commanderDeepLinks?.parseHashLink?.(window.location.hash);
+    const targetId = parsed?.anchorId || String(window.location.hash || "").replace(/^#/, "");
+    if (!targetId) return;
+
+    requestAnimationFrame(() => {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
   }
 
   function scrollToDeck(deckId) {
@@ -287,6 +322,27 @@ document.addEventListener("DOMContentLoaded", () => {
       pctText,
       appendTextCell,
       appendEmptyRow,
+    });
+  }
+
+  function renderRecentFormAndStreaks() {
+    if (!commanderPhaseOneInsights?.renderRecentFormAndStreaks) return;
+    commanderPhaseOneInsights.renderRecentFormAndStreaks({
+      selectedTab,
+      recentForm: recentForm2026,
+      winStreaks: winStreaks2026,
+      deckNameFromId,
+      pctText,
+    });
+  }
+
+  function renderFunStats() {
+    if (!commanderPhaseOneInsights?.renderFunStats) return;
+    commanderPhaseOneInsights.renderFunStats({
+      selectedTab,
+      funStats: funStats2026,
+      deckNameFromId,
+      pctText,
     });
   }
 
@@ -358,8 +414,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (showExtras) {
       renderPlayerDeckStats();
       renderHeadToHeadStats();
+      renderRecentFormAndStreaks();
+      renderFunStats();
       renderWinsOverTimeChart();
     }
+
+    scrollToHashTarget();
   }
 
   // -----------------------------
@@ -416,6 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
       players,
       playerSearchQuery,
       normaliseText,
+      playerAnchorId,
       appendTextCell,
       appendEmptyRow,
       pctText,
@@ -533,6 +594,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // Build 2026 extras
       playerDeckStats2026 = buildPlayerDeckStats2026(matches2026);
       headToHeadStats2026 = buildHeadToHeadStats(matches2026);
+      recentForm2026 = commanderRecentForm?.buildRecentForm?.(matches2026, { limit: 5 });
+      winStreaks2026 = commanderStreaks?.buildWinStreaks?.(matches2026);
+      funStats2026 = commanderFunStats?.buildFunStats?.(matches2026);
       playersIn2026 = Array.from(playerDeckStats2026.keys()).sort();
 
       // Setup player dropdown

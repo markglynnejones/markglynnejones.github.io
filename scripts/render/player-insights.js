@@ -4,10 +4,14 @@
   function setPlayerDeckSectionsVisible(isVisible) {
     const select = document.getElementById("player-deck-select");
     const headToHeadSelect = document.getElementById("head-to-head-player-select");
+    const recentForm = document.getElementById("recent-form-streaks-body");
+    const funStats = document.getElementById("fun-stats-body");
     const chart = document.getElementById("wins-over-time-chart");
 
     if (select?.closest("section")) select.closest("section").style.display = isVisible ? "" : "none";
     if (headToHeadSelect?.closest("section")) headToHeadSelect.closest("section").style.display = isVisible ? "" : "none";
+    if (recentForm?.closest("section")) recentForm.closest("section").style.display = isVisible ? "" : "none";
+    if (funStats?.closest("section")) funStats.closest("section").style.display = isVisible ? "" : "none";
     if (chart?.closest("section")) chart.closest("section").style.display = isVisible ? "" : "none";
   }
 

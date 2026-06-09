@@ -65,6 +65,7 @@
       players,
       playerSearchQuery,
       normaliseText,
+      playerAnchorId,
       appendTextCell,
       appendEmptyRow,
       pctText,
@@ -90,6 +91,7 @@
 
     for (const player of sorted) {
       const tr = document.createElement("tr");
+      if (playerAnchorId) tr.id = playerAnchorId(player.name);
       appendTextCell(tr, player.name);
       appendTextCell(tr, player.wins ?? 0);
       appendTextCell(tr, player.matchesPlayed ?? 0);

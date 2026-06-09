@@ -38,8 +38,13 @@ test("browser scripts load in dependency order", () => {
 
   assert.deepStrictEqual(scriptRefs, [
     "scripts/stats.js",
+    "scripts/insights/recent-form.js",
+    "scripts/insights/streaks.js",
+    "scripts/insights/fun-stats.js",
+    "scripts/insights/deep-links.js",
     "scripts/scryfall.js",
     "scripts/render/dashboard-summary.js",
+    "scripts/render/phase-one-insights.js",
     "scripts/render/decks-table.js",
     "scripts/render/player-insights.js",
     "scripts/render/recent-matches.js",
@@ -59,6 +64,8 @@ test("page keeps the core render targets", () => {
     "wins-table-body",
     "player-decks-body",
     "head-to-head-body",
+    "recent-form-streaks-body",
+    "fun-stats-body",
     "latest-session-summary",
     "recent-matches-body",
     "show-more-recent-matches",
@@ -79,8 +86,13 @@ test("sessions render as tabbed compact panels", () => {
 
 test("helper modules expose the globals used by scripts.js", () => {
   const stats = require("./stats");
+  const recentForm = require("./insights/recent-form");
+  const streaks = require("./insights/streaks");
+  const funStats = require("./insights/fun-stats");
+  const deepLinks = require("./insights/deep-links");
   const scryfall = require("./scryfall");
   const dashboardSummary = require("./render/dashboard-summary");
+  const phaseOneInsights = require("./render/phase-one-insights");
   const decks = require("./render/decks-table");
   const playerInsights = require("./render/player-insights");
   const recentMatches = require("./render/recent-matches");
@@ -89,9 +101,15 @@ test("helper modules expose the globals used by scripts.js", () => {
 
   assert.strictEqual(typeof stats.buildStatsFromMatches, "function");
   assert.strictEqual(typeof stats.winRate, "function");
+  assert.strictEqual(typeof recentForm.buildRecentForm, "function");
+  assert.strictEqual(typeof streaks.buildWinStreaks, "function");
+  assert.strictEqual(typeof funStats.buildFunStats, "function");
+  assert.strictEqual(typeof deepLinks.deckAnchorId, "function");
   assert.strictEqual(typeof scryfall.createCommanderScryfallClient, "function");
   assert.strictEqual(typeof scryfall.normaliseCommanderName, "function");
   assert.strictEqual(typeof dashboardSummary.renderDashboardSummary, "function");
+  assert.strictEqual(typeof phaseOneInsights.renderRecentFormAndStreaks, "function");
+  assert.strictEqual(typeof phaseOneInsights.renderFunStats, "function");
   assert.strictEqual(typeof decks.renderDecksTable, "function");
   assert.strictEqual(typeof playerInsights.renderHeadToHeadStats, "function");
   assert.strictEqual(typeof playerInsights.renderPlayerDeckStats, "function");

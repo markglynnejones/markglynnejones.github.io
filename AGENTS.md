@@ -52,14 +52,14 @@ npm run check
 
 ## Implementation Priorities
 
-The next implementation phase should focus on Milestone 1 from `docs/implementation-plan.md`:
+Phase 1 from `docs/implementation-plan.md` is implemented on `product-roadmap-and-planning`.
 
-1. Dashboard summary cards.
-2. Head-to-head player stats.
-3. Recent form and streak stats.
-4. Player/deck/session deep links.
-5. Mobile dashboard polish.
-6. Separated fun stats section.
+The next implementation phase should focus on Phase 2:
+
+1. Stable match IDs.
+2. Optional match notes and tags.
+3. CSV exports.
+4. Importer and validator updates for any new data shape.
 
 Keep these changes compatible with the current static GitHub Pages deployment.
 
