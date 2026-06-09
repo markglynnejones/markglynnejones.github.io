@@ -506,6 +506,30 @@
         "squirreled away",
         "squirrelled away"
       ]
+    },
+    {
+      "id": "sin",
+      "name": "Sin",
+      "commander": "Sin, Spira's Punishment",
+      "active": true,
+      "needsReview": true,
+      "reviewNote": "Confirm final deck name and owner after first session.",
+      "aliases": [
+        "sin"
+      ]
+    },
+    {
+      "id": "elas-il-kor",
+      "name": "Elas Il-Kor",
+      "commander": "Elas il-Kor, Sadistic Pilgrim",
+      "active": true,
+      "needsReview": true,
+      "reviewNote": "Confirm final deck name and owner after first session.",
+      "aliases": [
+        "elas il kor",
+        "elas il-kor",
+        "elas"
+      ]
     }
   ]
 }
