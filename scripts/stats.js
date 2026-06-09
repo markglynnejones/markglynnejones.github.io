@@ -120,6 +120,69 @@
     return stats;
   }
 
+  function buildHeadToHeadStats(matchFile) {
+    const matches = matchFile?.matches ?? [];
+    const pairs = new Map();
+
+    function pairKey(playerA, playerB) {
+      return [playerA, playerB].sort((a, b) => a.localeCompare(b)).join("\u0000");
+    }
+
+    for (const match of matches) {
+      const players = Array.from(
+        new Set((Array.isArray(match.players) ? match.players : []).map((player) => player?.name).filter(Boolean))
+      ).sort((a, b) => a.localeCompare(b));
+
+      for (let i = 0; i < players.length; i += 1) {
+        for (let j = i + 1; j < players.length; j += 1) {
+          const playerA = players[i];
+          const playerB = players[j];
+          const key = pairKey(playerA, playerB);
+
+          if (!pairs.has(key)) {
+            pairs.set(key, {
+              playerA,
+              playerB,
+              sharedMatches: 0,
+              playerAWins: 0,
+              playerBWins: 0,
+              otherWins: 0,
+            });
+          }
+
+          const pair = pairs.get(key);
+          pair.sharedMatches += 1;
+
+          if (match.winner === playerA) pair.playerAWins += 1;
+          else if (match.winner === playerB) pair.playerBWins += 1;
+          else pair.otherWins += 1;
+        }
+      }
+    }
+
+    return Array.from(pairs.values())
+      .map((pair) => {
+        const leaderWins = Math.max(pair.playerAWins, pair.playerBWins);
+        let leader = "";
+        if (pair.playerAWins > pair.playerBWins) leader = pair.playerA;
+        else if (pair.playerBWins > pair.playerAWins) leader = pair.playerB;
+
+        return {
+          ...pair,
+          leader,
+          leaderWins,
+          leaderWinRate: winRate(leaderWins, pair.sharedMatches),
+        };
+      })
+      .sort(
+        (a, b) =>
+          b.sharedMatches - a.sharedMatches ||
+          b.leaderWins - a.leaderWins ||
+          a.playerA.localeCompare(b.playerA) ||
+          a.playerB.localeCompare(b.playerB)
+      );
+  }
+
   function buildMonthlyWins2026(matchFile) {
     const matches = matchFile?.matches ?? [];
     const byMonth = new Map();
@@ -331,6 +394,7 @@
 
   return {
     buildDashboardSummary,
+    buildHeadToHeadStats,
     buildMonthlyWins2026,
     buildLatestSessionSummary,
     buildPlayerDeckStats2026,

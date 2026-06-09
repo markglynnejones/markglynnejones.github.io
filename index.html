@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Commander Wins Tracker</title>
-    <link rel="stylesheet" href="styles.css?v=session-module" />
+    <link rel="stylesheet" href="styles.css?v=head-to-head-module" />
     <link rel="stylesheet" href="styles/decks.css?v=decks-module" />
     <link rel="stylesheet" href="styles/matches.css?v=matches-module" />
     <link rel="stylesheet" href="styles/sessions.css?v=session-module" />
@@ -143,6 +143,33 @@
         </table>
       </section>
 
+      <section>
+        <h2 class="section-heading">Head-to-Head Stats (2026 match log)</h2>
+
+        <div class="field-row">
+          <label for="head-to-head-player-select"><strong>Player:</strong></label>
+          <select id="head-to-head-player-select">
+            <option value="">Loading…</option>
+          </select>
+
+          <span id="head-to-head-note" class="muted-note"></span>
+        </div>
+
+        <table id="head-to-head-table">
+          <thead>
+            <tr>
+              <th>Opponent</th>
+              <th>Shared Matches</th>
+              <th>Player Wins</th>
+              <th>Opponent Wins</th>
+              <th>Other Wins</th>
+              <th>Split</th>
+            </tr>
+          </thead>
+          <tbody id="head-to-head-body"></tbody>
+        </table>
+      </section>
+
       <section id="recent-matches-section">
         <h2 class="section-heading">Recent Matches</h2>
         <div id="latest-session-summary" class="latest-session-summary" aria-live="polite"></div>
@@ -259,14 +286,14 @@
       <p>Magic: The Gathering - Commander Wins Tracker</p>
     </footer>
 
-    <script src="scripts/stats.js?v=session-module"></script>
+    <script src="scripts/stats.js?v=head-to-head-module"></script>
     <script src="scripts/scryfall.js?v=session-module"></script>
     <script src="scripts/render/dashboard-summary.js?v=dashboard-summary-module"></script>
     <script src="scripts/render/decks-table.js?v=decks-module"></script>
-    <script src="scripts/render/player-insights.js?v=player-insights-module"></script>
+    <script src="scripts/render/player-insights.js?v=head-to-head-module"></script>
     <script src="scripts/render/recent-matches.js?v=matches-module"></script>
-    <script src="scripts/render/sessions.js?v=session-module"></script>
+    <script src="scripts/render/sessions.js?v=head-to-head-module"></script>
     <script src="scripts/render/singles-table.js?v=singles-module"></script>
-    <script src="scripts.js?v=session-module"></script>
+    <script src="scripts.js?v=head-to-head-module"></script>
   </body>
 </html>

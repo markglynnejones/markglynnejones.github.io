@@ -4,6 +4,7 @@ const assert = require("assert");
 
 const {
   buildDashboardSummary,
+  buildHeadToHeadStats,
   buildMonthlyWins2026,
   buildLatestSessionSummary,
   buildPlayerDeckStats2026,
@@ -124,6 +125,74 @@ test("buildPlayerDeckStats2026 groups by player and deck", () => {
   assert.deepStrictEqual(stats.get("Jake").get("ring-sting"), { wins: 1, matchesPlayed: 3 });
   assert.deepStrictEqual(stats.get("Jo").get("bad-misc"), { wins: 1, matchesPlayed: 2 });
   assert.deepStrictEqual(stats.get("Mark").get("ghalta"), { wins: 1, matchesPlayed: 2 });
+});
+
+test("buildHeadToHeadStats builds unique pair records", () => {
+  const stats = buildHeadToHeadStats({
+    matches: [
+      {
+        date: "2026-01-01",
+        players: [
+          { name: "Jake", deckId: "a" },
+          { name: "Jo", deckId: "b" },
+          { name: "Liam", deckId: "c" },
+        ],
+        winner: "Jake",
+      },
+      {
+        date: "2026-01-02",
+        players: [
+          { name: "Jo", deckId: "b" },
+          { name: "Jake", deckId: "a" },
+          { name: "Mark", deckId: "d" },
+          { name: "Ollie", deckId: "e" },
+        ],
+        winner: "Mark",
+      },
+      {
+        date: "2026-01-03",
+        players: [
+          { name: "Jake", deckId: "a" },
+          { name: "Jo", deckId: "b" },
+          { name: "Liam", deckId: "c" },
+          { name: "Mark", deckId: "d" },
+          { name: "Ollie", deckId: "e" },
+        ],
+        winner: "Jo",
+      },
+    ],
+  });
+
+  const jakeJo = stats.find((pair) => pair.playerA === "Jake" && pair.playerB === "Jo");
+  assert.deepStrictEqual(jakeJo, {
+    playerA: "Jake",
+    playerB: "Jo",
+    sharedMatches: 3,
+    playerAWins: 1,
+    playerBWins: 1,
+    otherWins: 1,
+    leader: "",
+    leaderWins: 1,
+    leaderWinRate: 1 / 3,
+  });
+
+  assert.strictEqual(
+    stats.filter((pair) => pair.playerA === "Jake" && pair.playerB === "Jo").length,
+    1
+  );
+
+  const jakeMark = stats.find((pair) => pair.playerA === "Jake" && pair.playerB === "Mark");
+  assert.deepStrictEqual(jakeMark, {
+    playerA: "Jake",
+    playerB: "Mark",
+    sharedMatches: 2,
+    playerAWins: 0,
+    playerBWins: 1,
+    otherWins: 1,
+    leader: "Mark",
+    leaderWins: 1,
+    leaderWinRate: 0.5,
+  });
 });
 
 test("buildMonthlyWins2026 groups dated wins by month", () => {

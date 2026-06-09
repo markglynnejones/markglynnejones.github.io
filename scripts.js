@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const {
     buildDashboardSummary,
+    buildHeadToHeadStats,
     buildMonthlyWins2026,
     buildLatestSessionSummary,
     buildPlayerDeckStats2026,
@@ -53,8 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Player deck stats state (from 2026 match log)
   let playerDeckStats2026 = null; // Map player -> Map deckId -> {wins,matches}
+  let headToHeadStats2026 = null; // list of pair records from 2026 matches
   let playersIn2026 = []; // list of players (sorted)
   let selectedPlayerForDeckStats = ""; // chosen in dropdown
+  let selectedPlayerForHeadToHead = ""; // chosen in dropdown
 
   // -----------------------------
   // Data caches
@@ -270,6 +273,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function renderHeadToHeadStats() {
+    if (!commanderPlayerInsights?.renderHeadToHeadStats) return;
+    commanderPlayerInsights.renderHeadToHeadStats({
+      selectedTab,
+      headToHeadStats2026,
+      playersIn2026,
+      selectedPlayer: selectedPlayerForHeadToHead,
+      setSelectedPlayer(nextPlayer) {
+        selectedPlayerForHeadToHead = nextPlayer;
+      },
+      winRate,
+      pctText,
+      appendTextCell,
+      appendEmptyRow,
+    });
+  }
+
   function renderWinsOverTimeChart() {
     if (!commanderPlayerInsights?.renderWinsOverTimeChart) return;
     commanderPlayerInsights.renderWinsOverTimeChart({
@@ -337,6 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (showExtras) {
       renderPlayerDeckStats();
+      renderHeadToHeadStats();
       renderWinsOverTimeChart();
     }
   }
@@ -511,14 +532,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Build 2026 extras
       playerDeckStats2026 = buildPlayerDeckStats2026(matches2026);
+      headToHeadStats2026 = buildHeadToHeadStats(matches2026);
       playersIn2026 = Array.from(playerDeckStats2026.keys()).sort();
 
       // Setup player dropdown
       commanderPlayerInsights?.populatePlayerDeckSelect?.({ playersIn2026 });
+      commanderPlayerInsights?.populateHeadToHeadSelect?.({ playersIn2026 });
       commanderPlayerInsights?.wirePlayerDeckSelect?.({
         onChange(nextPlayer) {
           selectedPlayerForDeckStats = nextPlayer;
           renderPlayerDeckStats();
+        },
+      });
+      commanderPlayerInsights?.wireHeadToHeadSelect?.({
+        onChange(nextPlayer) {
+          selectedPlayerForHeadToHead = nextPlayer;
+          renderHeadToHeadStats();
         },
       });
 

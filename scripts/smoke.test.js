@@ -58,6 +58,7 @@ test("page keeps the core render targets", () => {
     "dashboard-summary-body",
     "wins-table-body",
     "player-decks-body",
+    "head-to-head-body",
     "latest-session-summary",
     "recent-matches-body",
     "show-more-recent-matches",
@@ -92,6 +93,7 @@ test("helper modules expose the globals used by scripts.js", () => {
   assert.strictEqual(typeof scryfall.normaliseCommanderName, "function");
   assert.strictEqual(typeof dashboardSummary.renderDashboardSummary, "function");
   assert.strictEqual(typeof decks.renderDecksTable, "function");
+  assert.strictEqual(typeof playerInsights.renderHeadToHeadStats, "function");
   assert.strictEqual(typeof playerInsights.renderPlayerDeckStats, "function");
   assert.strictEqual(typeof recentMatches.renderRecentMatches, "function");
   assert.strictEqual(typeof sessions.renderSessions, "function");

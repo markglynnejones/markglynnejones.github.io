@@ -76,7 +76,7 @@
 
       button.addEventListener("click", () => {
         setSelectedSessionDate(session.date);
-        renderSessions(config);
+        renderSessions({ ...config, selectedSessionDate: session.date });
       });
 
       button.addEventListener("keydown", (event) => {
@@ -87,7 +87,7 @@
           const next = (currentIndex + delta + sessions.length) % sessions.length;
           const nextDate = sessions[next].date;
           setSelectedSessionDate(nextDate);
-          renderSessions(config);
+          renderSessions({ ...config, selectedSessionDate: nextDate });
           document.getElementById(`session-tab-${nextDate}`)?.focus();
         }
       });

@@ -3,9 +3,11 @@
 (function initCommanderPlayerInsights(global) {
   function setPlayerDeckSectionsVisible(isVisible) {
     const select = document.getElementById("player-deck-select");
+    const headToHeadSelect = document.getElementById("head-to-head-player-select");
     const chart = document.getElementById("wins-over-time-chart");
 
     if (select?.closest("section")) select.closest("section").style.display = isVisible ? "" : "none";
+    if (headToHeadSelect?.closest("section")) headToHeadSelect.closest("section").style.display = isVisible ? "" : "none";
     if (chart?.closest("section")) chart.closest("section").style.display = isVisible ? "" : "none";
   }
 
@@ -19,9 +21,18 @@
     });
   }
 
-  function populatePlayerDeckSelect(config) {
-    const { playersIn2026 } = config;
-    const select = document.getElementById("player-deck-select");
+  function wireHeadToHeadSelect(config) {
+    const { onChange } = config;
+    const select = document.getElementById("head-to-head-player-select");
+    if (!select) return;
+
+    select.addEventListener("change", () => {
+      onChange(select.value);
+    });
+  }
+
+  function populatePlayerSelect(selectId, playersIn2026) {
+    const select = document.getElementById(selectId);
     if (!select) return;
 
     select.innerHTML = "";
@@ -40,6 +51,14 @@
       opt.textContent = player;
       select.appendChild(opt);
     }
+  }
+
+  function populatePlayerDeckSelect(config) {
+    populatePlayerSelect("player-deck-select", config.playersIn2026);
+  }
+
+  function populateHeadToHeadSelect(config) {
+    populatePlayerSelect("head-to-head-player-select", config.playersIn2026);
   }
 
   function renderPlayerDeckStats(config) {
@@ -105,6 +124,86 @@
 
     if (rows.length === 0) {
       appendEmptyRow(body, 4, "No matches logged for this player yet.");
+    }
+  }
+
+  function renderHeadToHeadStats(config) {
+    const {
+      selectedTab,
+      headToHeadStats2026,
+      playersIn2026,
+      selectedPlayer,
+      setSelectedPlayer,
+      pctText,
+      winRate,
+      appendTextCell,
+      appendEmptyRow,
+    } = config;
+    const select = document.getElementById("head-to-head-player-select");
+    const body = document.getElementById("head-to-head-body");
+    const note = document.getElementById("head-to-head-note");
+
+    if (!select || !body || !note) return;
+
+    body.innerHTML = "";
+
+    const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
+    if (!tabUses2026Log) {
+      note.textContent = "Not available for 2025 (no match log).";
+      return;
+    }
+
+    if (!headToHeadStats2026 || playersIn2026.length === 0) {
+      note.textContent = "No 2026 matches yet.";
+      return;
+    }
+
+    let activePlayer = selectedPlayer;
+    if (!activePlayer || !playersIn2026.includes(activePlayer)) {
+      activePlayer = playersIn2026[0];
+      setSelectedPlayer(activePlayer);
+      select.value = activePlayer;
+    }
+
+    const rows = headToHeadStats2026
+      .filter((pair) => pair.playerA === activePlayer || pair.playerB === activePlayer)
+      .map((pair) => {
+        const isPlayerA = pair.playerA === activePlayer;
+        const opponent = isPlayerA ? pair.playerB : pair.playerA;
+        const playerWins = isPlayerA ? pair.playerAWins : pair.playerBWins;
+        const opponentWins = isPlayerA ? pair.playerBWins : pair.playerAWins;
+
+        return {
+          opponent,
+          sharedMatches: pair.sharedMatches,
+          playerWins,
+          opponentWins,
+          otherWins: pair.otherWins,
+          playerWinRate: winRate(playerWins, pair.sharedMatches),
+        };
+      })
+      .sort(
+        (a, b) =>
+          b.sharedMatches - a.sharedMatches ||
+          b.playerWins - a.playerWins ||
+          a.opponent.localeCompare(b.opponent)
+      );
+
+    note.textContent = `Showing ${activePlayer}'s pod records against each opponent from 2026 matches.`;
+
+    for (const row of rows) {
+      const tr = document.createElement("tr");
+      appendTextCell(tr, row.opponent);
+      appendTextCell(tr, row.sharedMatches);
+      appendTextCell(tr, row.playerWins);
+      appendTextCell(tr, row.opponentWins);
+      appendTextCell(tr, row.otherWins);
+      appendTextCell(tr, pctText(row.playerWinRate));
+      body.appendChild(tr);
+    }
+
+    if (rows.length === 0) {
+      appendEmptyRow(body, 6, "No shared matches logged for this player yet.");
     }
   }
 
@@ -212,10 +311,13 @@
   }
 
   const api = {
+    populateHeadToHeadSelect,
     populatePlayerDeckSelect,
+    renderHeadToHeadStats,
     renderPlayerDeckStats,
     renderWinsOverTimeChart,
     setPlayerDeckSectionsVisible,
+    wireHeadToHeadSelect,
     wirePlayerDeckSelect,
   };
 
