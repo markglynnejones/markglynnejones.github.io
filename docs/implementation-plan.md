@@ -207,6 +207,22 @@ Implemented:
 
 Goal: reduce migration pain before the app grows.
 
+Before starting Phase 2, complete the UI modernization preparation captured in:
+
+- `docs/ui-restructure-plan.md`
+- `docs/colour-system-plan.md`
+- `docs/test-coverage-plan.md`
+- `docs/accessibility-plan.md`
+- `docs/ui-modernization-implementation-plan.md`
+
+Recommended pre-Phase-2 order:
+
+1. Add browser-level Playwright smoke coverage.
+2. Add hash-driven top-level views while keeping one `index.html`.
+3. Introduce the colour token system.
+4. Apply accessibility fixes for navigation, headings, tables, focus, and mobile table scroll.
+5. Then start data model changes such as match IDs, notes, tags, and exports.
+
 ### 1. Match IDs
 
 Add stable IDs to matches.

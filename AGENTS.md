@@ -54,12 +54,26 @@ npm run check
 
 Phase 1 from `docs/implementation-plan.md` is implemented on `product-roadmap-and-planning`.
 
-The next implementation phase should focus on Phase 2:
+Before Phase 2, the project has a UI modernization planning layer:
 
-1. Stable match IDs.
-2. Optional match notes and tags.
-3. CSV exports.
-4. Importer and validator updates for any new data shape.
+- `docs/ui-restructure-plan.md`
+- `docs/colour-system-plan.md`
+- `docs/test-coverage-plan.md`
+- `docs/accessibility-plan.md`
+- `docs/ui-modernization-implementation-plan.md`
+
+The next implementation work should happen in this order:
+
+1. Add browser-level Playwright coverage.
+2. Add hash-driven top-level views while keeping one `index.html`.
+3. Introduce the colour token system.
+4. Apply accessibility fixes for navigation, headings, tables, focus, and mobile table scroll.
+5. Then resume Phase 2 data model work:
+
+- Stable match IDs.
+- Optional match notes and tags.
+- CSV exports.
+- Importer and validator updates for any new data shape.
 
 Keep these changes compatible with the current static GitHub Pages deployment.
 
