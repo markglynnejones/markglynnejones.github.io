@@ -98,16 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showFatalError(message, error) {
     const banner = document.createElement("div");
-    banner.style.background = "#b00020";
-    banner.style.color = "white";
-    banner.style.padding = "12px";
-    banner.style.margin = "12px";
-    banner.style.borderRadius = "6px";
-    banner.style.fontWeight = "bold";
+    banner.className = "fatal-error-banner";
     banner.innerHTML = `
       <div>❌ Data loading error</div>
       <div style="margin-top: 6px;">${message}</div>
-      <pre style="white-space: pre-wrap; font-weight: normal; margin-top: 8px;">${String(error)}</pre>
+      <pre>${String(error)}</pre>
     `;
     document.body.prepend(banner);
   }

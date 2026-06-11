@@ -219,7 +219,7 @@ Recommended pre-Phase-2 order:
 
 1. Add browser-level Playwright smoke coverage. Implemented.
 2. Add hash-driven top-level views while keeping one `index.html`. Implemented.
-3. Introduce the colour token system.
+3. Introduce the colour token system. Implemented.
 4. Apply accessibility fixes for navigation, headings, tables, focus, and mobile table scroll.
 5. Then start data model changes such as match IDs, notes, tags, and exports.
 

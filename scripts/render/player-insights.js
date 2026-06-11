@@ -266,16 +266,26 @@
     const barW = Math.max(18, Math.floor(chartW / barCount) - 6);
     const gap = 6;
 
+    const rootStyles = getComputedStyle(document.documentElement);
+    const cssColor = (name, fallback) => rootStyles.getPropertyValue(name).trim() || fallback;
     const palette = [
-      "#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f",
-      "#edc948", "#b07aa1", "#ff9da7", "#9c755f", "#bab0ab",
+      cssColor("--chart-blue", "#3f6f9f"),
+      cssColor("--chart-teal", "#2f7d70"),
+      cssColor("--chart-olive", "#6f7f3f"),
+      cssColor("--chart-gold", "#b98925"),
+      cssColor("--chart-rust", "#b65c38"),
+      cssColor("--chart-violet", "#725c9f"),
+      cssColor("--chart-slate", "#60717a"),
+      cssColor("--chart-rose", "#b85d72"),
     ];
+    const chartSurface = cssColor("--color-surface", "#ffffff");
+    const chartText = cssColor("--color-text-muted", "#5f6368");
     const colorByPlayer = new Map(playerList.map((player, index) => [player, palette[index % palette.length]]));
 
     let svg = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Monthly wins chart">
-      <rect x="0" y="0" width="${width}" height="${height}" fill="white"></rect>
-      <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#333" />
-      <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="#333" />
+      <rect x="0" y="0" width="${width}" height="${height}" fill="${chartSurface}"></rect>
+      <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="${chartText}" />
+      <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="${chartText}" />
     `;
 
     months.forEach((monthKey, index) => {
@@ -298,7 +308,7 @@
         stack += wins;
       });
 
-      svg += `<text x="${x + barW / 2}" y="${height - padding + 16}" font-size="10" text-anchor="middle" fill="#333">${monthKey}</text>`;
+      svg += `<text x="${x + barW / 2}" y="${height - padding + 16}" font-size="10" text-anchor="middle" fill="${chartText}">${monthKey}</text>`;
     });
 
     let legendX = padding;
@@ -307,7 +317,7 @@
       const x = legendX + (index % 5) * 170;
       const y = legendY + Math.floor(index / 5) * 16;
       svg += `<rect x="${x}" y="${y}" width="10" height="10" fill="${colorByPlayer.get(player)}"></rect>`;
-      svg += `<text x="${x + 14}" y="${y + 9}" font-size="11" fill="#333">${player}</text>`;
+      svg += `<text x="${x + 14}" y="${y + 9}" font-size="11" fill="${chartText}">${player}</text>`;
     });
 
     svg += "</svg>";
