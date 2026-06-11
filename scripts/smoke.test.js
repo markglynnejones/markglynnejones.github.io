@@ -103,6 +103,22 @@ test("year tabs control the shared tab panel", () => {
   }
 });
 
+test("page includes baseline accessibility hooks", () => {
+  assert.match(html, /class="skip-link" href="#tab-panel"/);
+  assert.match(html, /aria-label="Commander stats dashboard"/);
+  assert.match(html, /class="table-scroll"[^>]+role="region"/);
+  assert.match(html, /<caption>Singles standings for the selected year view<\/caption>/);
+  assert.match(html, /<caption>Deck records for the selected year view<\/caption>/);
+  assert.match(html, /id="player-search-status"[^>]+aria-live="polite"/);
+  assert.match(html, /id="deck-search-status"[^>]+aria-live="polite"/);
+});
+
+test("sortable table headers use real buttons", () => {
+  assert.match(html, /id="sort-player"[^>]+scope="col"[\s\S]*?<button type="button" class="sort-button"/);
+  assert.match(html, /id="sort-deck-name"[^>]+scope="col"[\s\S]*?<button type="button" class="sort-button"/);
+  assert.doesNotMatch(html, /<th[^>]+role="button"/);
+});
+
 test("helper modules expose the globals used by scripts.js", () => {
   const stats = require("./stats");
   const recentForm = require("./insights/recent-form");

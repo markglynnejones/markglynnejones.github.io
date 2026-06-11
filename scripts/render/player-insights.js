@@ -76,6 +76,7 @@
       winRate,
       pctText,
       appendTextCell,
+      appendRowHeaderCell,
       appendEmptyRow,
     } = config;
     const select = document.getElementById("player-deck-select");
@@ -119,7 +120,7 @@
 
     for (const row of rows) {
       const tr = document.createElement("tr");
-      appendTextCell(tr, row.deckName);
+      appendRowHeaderCell(tr, row.deckName);
       appendTextCell(tr, row.wins);
       appendTextCell(tr, row.matchesPlayed);
       appendTextCell(tr, pctText(row.winrate));
@@ -141,6 +142,7 @@
       pctText,
       winRate,
       appendTextCell,
+      appendRowHeaderCell,
       appendEmptyRow,
     } = config;
     const select = document.getElementById("head-to-head-player-select");
@@ -197,7 +199,7 @@
 
     for (const row of rows) {
       const tr = document.createElement("tr");
-      appendTextCell(tr, row.opponent);
+      appendRowHeaderCell(tr, row.opponent);
       appendTextCell(tr, row.sharedMatches);
       appendTextCell(tr, row.playerWins);
       appendTextCell(tr, row.opponentWins);
@@ -282,7 +284,10 @@
     const chartText = cssColor("--color-text-muted", "#5f6368");
     const colorByPlayer = new Map(playerList.map((player, index) => [player, palette[index % palette.length]]));
 
-    let svg = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Monthly wins chart">
+    const chartSummary = months.map((monthKey, index) => `${monthKey}: ${totalsPerMonth[index]} win(s)`).join("; ");
+    let svg = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="wins-over-time-svg-title wins-over-time-svg-desc">
+      <title id="wins-over-time-svg-title">Monthly wins chart</title>
+      <desc id="wins-over-time-svg-desc">${chartSummary}</desc>
       <rect x="0" y="0" width="${width}" height="${height}" fill="${chartSurface}"></rect>
       <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="${chartText}" />
       <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="${chartText}" />

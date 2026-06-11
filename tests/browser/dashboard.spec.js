@@ -47,15 +47,37 @@ test("year tabs switch match-log-only sections clearly", async ({ page }) => {
   await expect(page.locator("#sessions-note")).toContainText("session(s) from the 2026 match log");
 });
 
+test("keyboard navigation supports accessibility shortcuts", async ({ page }) => {
+  await page.goto("/#/sessions");
+
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("link", { name: "Skip to dashboard content" })).toBeFocused();
+
+  await page.getByRole("tab", { name: "Overall" }).focus();
+  await page.keyboard.press("End");
+  await expect(page.getByRole("tab", { name: "2026" })).toBeFocused();
+  await page.keyboard.press("Home");
+  await expect(page.getByRole("tab", { name: "Overall" })).toBeFocused();
+
+  const sessionTabs = page.locator(".session-tab");
+  await sessionTabs.first().focus();
+  await page.keyboard.press("End");
+  await expect(sessionTabs.last()).toBeFocused();
+  await page.keyboard.press("Home");
+  await expect(sessionTabs.first()).toBeFocused();
+});
+
 test("player search filters the standings table", async ({ page }) => {
   await page.goto("/#/players");
 
   await page.locator("#player-search").fill("Jo");
   await expect(page.locator("#wins-table-body")).toContainText("Jo");
   await expect(page.locator("#wins-table-body")).not.toContainText("Jake");
+  await expect(page.locator("#player-search-status")).toContainText(/player[s]? shown/);
 
   await page.locator("#player-search").fill("No Such Player");
   await expect(page.locator("#wins-table-body")).toContainText("No players match your search.");
+  await expect(page.locator("#player-search-status")).toContainText("0 players shown");
 });
 
 test("sessions can switch selected dates", async ({ page }) => {

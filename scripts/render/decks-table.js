@@ -68,27 +68,44 @@
       matchCombination,
     } = config;
 
-    tdColours.textContent = "…";
-    tdCombinations.textContent = "…";
-    tdImage.textContent = "…";
+    tdColours.textContent = "Loading";
+    tdCombinations.textContent = "Loading";
+    tdImage.textContent = "Loading";
 
     const results = await Promise.all(commanders.map(fetchCommander));
     const combinedColors = [...new Set(results.flatMap((result) => result.colors))].filter(Boolean);
     const comboName = matchCombination(combinedColors);
 
-    tdColours.innerHTML = combinedColors
-      .map((color) => `<img class="mana-symbol" src="images/${color}.svg" alt="${color} mana" />`)
-      .join(" ");
+    tdColours.textContent = "";
+    for (const color of combinedColors) {
+      const img = document.createElement("img");
+      img.className = "mana-symbol";
+      img.src = `images/${color}.svg`;
+      img.alt = `${color} mana`;
+      tdColours.appendChild(img);
+      tdColours.appendChild(document.createTextNode(" "));
+    }
 
     tdCombinations.textContent = comboName;
 
-    tdImage.innerHTML = results
-      .map((result, index) => {
-        const name = commanders[index];
-        if (!result.image) return "<span>Image not available</span>";
-        return `<img class="commander-image" src="${result.image}" alt="${name} card art" loading="lazy" />`;
-      })
-      .join("<br>");
+    tdImage.textContent = "";
+    results.forEach((result, index) => {
+      const name = commanders[index];
+      if (!result.image) {
+        const unavailable = document.createElement("span");
+        unavailable.textContent = "Image not available";
+        tdImage.appendChild(unavailable);
+      } else {
+        const img = document.createElement("img");
+        img.className = "commander-image";
+        img.src = result.image;
+        img.alt = `${name} card art`;
+        img.loading = "lazy";
+        tdImage.appendChild(img);
+      }
+
+      if (index < results.length - 1) tdImage.appendChild(document.createElement("br"));
+    });
   }
 
   function renderDecksTable(config) {
@@ -100,6 +117,7 @@
       deckAnchorId,
       pctText,
       winRate,
+      appendRowHeaderCell,
       appendEmptyRow,
       matchCombination,
       fetchCommander,
@@ -108,6 +126,7 @@
       sortIcons,
     } = config;
     const body = document.getElementById("decks-table-body");
+    const status = document.getElementById("deck-search-status");
     if (!body) return;
 
     body.innerHTML = "";
@@ -129,11 +148,15 @@
       winRate,
     });
 
+    if (status) {
+      status.textContent = `${sorted.length} deck${sorted.length === 1 ? "" : "s"} shown.`;
+    }
+
     for (const row of sorted) {
       const tr = document.createElement("tr");
       if (row.deckId) tr.id = deckAnchorId(row.deckId);
 
-      const tdName = document.createElement("td");
+      const tdName = document.createElement("th");
       const tdCommander = document.createElement("td");
       const tdOwner = document.createElement("td");
       const tdColours = document.createElement("td");
@@ -144,8 +167,14 @@
       const tdImage = document.createElement("td");
       const tdActive = document.createElement("td");
 
+      tdName.scope = "row";
       tdName.textContent = row.name;
-      tdCommander.innerHTML = row.commanders.map((commander) => `<span>${commander}</span>`).join("<br>");
+      row.commanders.forEach((commander, index) => {
+        const span = document.createElement("span");
+        span.textContent = commander;
+        tdCommander.appendChild(span);
+        if (index < row.commanders.length - 1) tdCommander.appendChild(document.createElement("br"));
+      });
       tdOwner.textContent = row.owner || "";
       tdWins.textContent = String(row.wins ?? 0);
       tdMatches.textContent = String(row.matchesPlayed ?? 0);

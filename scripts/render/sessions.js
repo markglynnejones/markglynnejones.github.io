@@ -82,10 +82,15 @@
 
       button.addEventListener("keydown", (event) => {
         const currentIndex = sessions.findIndex((entry) => entry.date === session.date);
-        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft" || event.key === "Home" || event.key === "End") {
           event.preventDefault();
-          const delta = event.key === "ArrowRight" ? 1 : -1;
-          const next = (currentIndex + delta + sessions.length) % sessions.length;
+          let next = currentIndex;
+          if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = sessions.length - 1;
+          else {
+            const delta = event.key === "ArrowRight" ? 1 : -1;
+            next = (currentIndex + delta + sessions.length) % sessions.length;
+          }
           const nextDate = sessions[next].date;
           setSelectedSessionDate(nextDate);
           renderSessions({ ...config, selectedSessionDate: nextDate });

@@ -104,11 +104,12 @@
 
     for (const match of recent) {
       const tr = document.createElement("tr");
-      const tdDate = document.createElement("td");
+      const tdDate = document.createElement("th");
       const tdWinner = document.createElement("td");
       const tdPod = document.createElement("td");
       const players = match.players || [];
 
+      tdDate.scope = "row";
       tdDate.textContent = shortDisplayDate(match.date);
       tdWinner.textContent = match.winner || "Unknown";
       tdPod.className = "recent-pod";

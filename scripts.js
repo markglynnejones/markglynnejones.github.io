@@ -99,8 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function showFatalError(message, error) {
     const banner = document.createElement("div");
     banner.className = "fatal-error-banner";
+    banner.setAttribute("role", "alert");
     banner.innerHTML = `
-      <div>❌ Data loading error</div>
+      <div>Data loading error</div>
       <div style="margin-top: 6px;">${message}</div>
       <pre>${String(error)}</pre>
     `;
@@ -113,12 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function makeSortable(th, onActivate) {
     if (!th) return;
+    const control = th.querySelector("button") || th;
     th.classList.add("sortable");
-    th.setAttribute("role", "button");
-    th.setAttribute("tabindex", "0");
+    if (control === th) {
+      th.setAttribute("role", "button");
+      th.setAttribute("tabindex", "0");
+    }
 
-    th.addEventListener("click", onActivate);
-    th.addEventListener("keydown", (e) => {
+    control.addEventListener("click", onActivate);
+    control.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         onActivate();
@@ -133,6 +137,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function appendTextCell(row, text) {
     const cell = document.createElement("td");
+    cell.textContent = String(text);
+    row.appendChild(cell);
+    return cell;
+  }
+
+  function appendRowHeaderCell(row, text) {
+    const cell = document.createElement("th");
+    cell.scope = "row";
     cell.textContent = String(text);
     row.appendChild(cell);
     return cell;
@@ -318,7 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       target.tabIndex = -1;
       target.focus({ preventScroll: true });
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "center" });
     });
   }
 
@@ -339,8 +351,12 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.hash = appHash("decks", targetId);
       target.tabIndex = -1;
       target.focus({ preventScroll: true });
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "center" });
     });
+  }
+
+  function prefersReducedMotion() {
+    return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
   }
 
   function renderPlayerDeckStats() {
@@ -357,6 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
       winRate,
       pctText,
       appendTextCell,
+      appendRowHeaderCell,
       appendEmptyRow,
     });
   }
@@ -374,6 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
       winRate,
       pctText,
       appendTextCell,
+      appendRowHeaderCell,
       appendEmptyRow,
     });
   }
@@ -514,6 +532,12 @@ document.addEventListener("DOMContentLoaded", () => {
           tabs[next].focus();
         }
 
+        if (e.key === "Home" || e.key === "End") {
+          e.preventDefault();
+          const next = e.key === "Home" ? 0 : tabs.length - 1;
+          tabs[next].focus();
+        }
+
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           selectTab(tab.dataset.tab);
@@ -550,6 +574,7 @@ document.addEventListener("DOMContentLoaded", () => {
       normaliseText,
       playerAnchorId,
       appendTextCell,
+      appendRowHeaderCell,
       appendEmptyRow,
       pctText,
       winRate,
@@ -578,6 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
       deckAnchorId,
       pctText,
       winRate,
+      appendRowHeaderCell,
       appendEmptyRow,
       matchCombination,
       fetchCommander: commanderScryfall.fetchCommander,
