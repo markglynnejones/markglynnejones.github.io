@@ -33,11 +33,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   const YEARS = ["2025", "2026"];
   const TAB_KEYS = ["overall", ...YEARS];
+  const VIEW_KEYS = ["overview", "players", "decks", "sessions", "fun"];
+  const VIEW_BY_HASH_KIND = {
+    deck: "decks",
+    player: "players",
+    session: "sessions",
+  };
   const RECENT_MATCH_LIMITS = [5, 10, 20];
 
   // -----------------------------
   // State
   // -----------------------------
+  let selectedView = "overview";
   let selectedTab = "overall";
   let showInactiveDecks = false;
   let playerSearchQuery = "";
@@ -255,9 +262,59 @@ document.addEventListener("DOMContentLoaded", () => {
     return `session-${String(sessionDate || "").replace(/[^a-z0-9_-]/gi, "-")}`;
   }
 
+  function parseAppRoute(hash) {
+    const fragment = String(hash || "").replace(/^#/, "");
+
+    if (!fragment) return { view: "overview", anchorId: "" };
+
+    if (fragment.startsWith("/")) {
+      const [viewPart, anchorId] = fragment.slice(1).split("/");
+      const view = VIEW_KEYS.includes(viewPart) ? viewPart : "overview";
+      return { view, anchorId: anchorId || "" };
+    }
+
+    const parsed = commanderDeepLinks?.parseHashLink?.(hash);
+    if (parsed?.kind && VIEW_BY_HASH_KIND[parsed.kind]) {
+      return {
+        view: VIEW_BY_HASH_KIND[parsed.kind],
+        anchorId: parsed.anchorId || "",
+      };
+    }
+
+    return { view: VIEW_KEYS.includes(fragment) ? fragment : "overview", anchorId: "" };
+  }
+
+  function appHash(view, anchorId = "") {
+    const safeView = VIEW_KEYS.includes(view) ? view : "overview";
+    return anchorId ? `#/${safeView}/${anchorId}` : `#/${safeView}`;
+  }
+
+  function applySelectedView() {
+    for (const view of VIEW_KEYS) {
+      const selected = view === selectedView;
+      const container = document.getElementById(`view-${view}`);
+      const link = document.querySelector(`[data-view-link="${view}"]`);
+
+      if (container) container.hidden = !selected;
+      if (link) {
+        if (selected) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+      }
+    }
+  }
+
+  function selectView(view, options = {}) {
+    selectedView = VIEW_KEYS.includes(view) ? view : "overview";
+    applySelectedView();
+
+    if (options.updateHash) {
+      const nextHash = appHash(selectedView);
+      if (window.location.hash !== nextHash) window.location.hash = nextHash;
+    }
+  }
+
   function scrollToHashTarget() {
-    const parsed = commanderDeepLinks?.parseHashLink?.(window.location.hash);
-    const targetId = parsed?.anchorId || String(window.location.hash || "").replace(/^#/, "");
+    const { anchorId: targetId } = parseAppRoute(window.location.hash);
     if (!targetId) return;
 
     requestAnimationFrame(() => {
@@ -277,13 +334,14 @@ document.addEventListener("DOMContentLoaded", () => {
     deckSearchQuery = "";
     if (deckSearch) deckSearch.value = "";
     showInactiveDecks = true;
+    selectedView = "decks";
     renderForSelectedTab();
 
     requestAnimationFrame(() => {
       const target = document.getElementById(targetId);
       if (!target) return;
 
-      window.location.hash = targetId;
+      window.location.hash = appHash("decks", targetId);
       target.tabIndex = -1;
       target.focus({ preventScroll: true });
       target.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -419,12 +477,31 @@ document.addEventListener("DOMContentLoaded", () => {
       renderWinsOverTimeChart();
     }
 
+    applySelectedView();
     scrollToHashTarget();
   }
 
   // -----------------------------
   // Wire up existing sorting etc.
   // -----------------------------
+  function wireAppViews() {
+    const links = Array.from(document.querySelectorAll("[data-view-link]"));
+
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        selectView(link.dataset.viewLink, { updateHash: true });
+      });
+    }
+
+    window.addEventListener("hashchange", () => {
+      const route = parseAppRoute(window.location.hash);
+      selectedView = route.view;
+      applySelectedView();
+      scrollToHashTarget();
+    });
+  }
+
   function wireTabs() {
     const tabs = TAB_KEYS.map((k) => document.getElementById(`tab-${k}`)).filter(Boolean);
 
@@ -617,6 +694,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const rerender = () => renderForSelectedTab();
 
+      const initialRoute = parseAppRoute(window.location.hash);
+      selectedView = initialRoute.view;
+
+      wireAppViews();
       wireTabs();
       wireSinglesSorting(rerender);
       wireDecksSorting(rerender);

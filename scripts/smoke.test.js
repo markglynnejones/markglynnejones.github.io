@@ -57,6 +57,11 @@ test("browser scripts load in dependency order", () => {
 test("page keeps the core render targets", () => {
   const requiredIds = [
     "last-updated-note",
+    "view-overview",
+    "view-players",
+    "view-decks",
+    "view-sessions",
+    "view-fun",
     "tab-overall",
     "tab-2025",
     "tab-2026",
@@ -82,6 +87,20 @@ test("page keeps the core render targets", () => {
 test("sessions render as tabbed compact panels", () => {
   assert.match(html, /id="sessions-body" class="sessions-list"/);
   assert.doesNotMatch(html, /id="sessions-table"/);
+});
+
+test("app view navigation is hash based", () => {
+  assert.match(html, /href="#\/overview"[^>]+data-view-link="overview"/);
+  assert.match(html, /href="#\/players"[^>]+data-view-link="players"/);
+  assert.match(html, /href="#\/decks"[^>]+data-view-link="decks"/);
+  assert.match(html, /href="#\/sessions"[^>]+data-view-link="sessions"/);
+  assert.match(html, /href="#\/fun"[^>]+data-view-link="fun"/);
+});
+
+test("year tabs control the shared tab panel", () => {
+  for (const tabId of ["tab-overall", "tab-2025", "tab-2026"]) {
+    assert.match(html, new RegExp(`id="${tabId}"[\\s\\S]*?aria-controls="tab-panel"`));
+  }
 });
 
 test("helper modules expose the globals used by scripts.js", () => {

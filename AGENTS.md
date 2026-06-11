@@ -64,8 +64,8 @@ Before Phase 2, the project has a UI modernization planning layer:
 
 The next implementation work should happen in this order:
 
-1. Add browser-level Playwright coverage.
-2. Add hash-driven top-level views while keeping one `index.html`.
+1. Add browser-level Playwright coverage. Implemented.
+2. Add hash-driven top-level views while keeping one `index.html`. Implemented.
 3. Introduce the colour token system.
 4. Apply accessibility fixes for navigation, headings, tables, focus, and mobile table scroll.
 5. Then resume Phase 2 data model work:
