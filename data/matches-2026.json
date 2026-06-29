@@ -1,6 +1,7 @@
 {
   "matches": [
     {
+      "id": "2026-01-04-001",
       "date": "2026-01-04",
       "players": [
         { "name": "Jo", "deckId": "fishes" },
@@ -11,6 +12,7 @@
       "winner": "Jake"
     },
     {
+      "id": "2026-01-04-002",
       "date": "2026-01-04",
       "players": [
         { "name": "Jo", "deckId": "tricky-terrain" },
@@ -21,6 +23,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-01-04-003",
       "date": "2026-01-04",
       "players": [
         { "name": "Jo", "deckId": "ahoy-mateys" },
@@ -31,6 +34,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-01-04-004",
       "date": "2026-01-04",
       "players": [
         { "name": "Jo", "deckId": "peace-offering" },
@@ -41,6 +45,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-01-04-005",
       "date": "2026-01-04",
       "players": [
         { "name": "Jo", "deckId": "peace-offering" },
@@ -51,6 +56,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-01-17-001",
       "date": "2026-01-17",
       "players": [
         { "name": "Jo", "deckId": "fishes" },
@@ -61,6 +67,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-01-17-002",
       "date": "2026-01-17",
       "players": [
         { "name": "Jo", "deckId": "tricky-terrain" },
@@ -71,6 +78,7 @@
       "winner": "Jake"
     },
     {
+      "id": "2026-01-17-003",
       "date": "2026-01-17",
       "players": [
         { "name": "Jo", "deckId": "peace-offering" },
@@ -81,6 +89,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-01-17-004",
       "date": "2026-01-17",
       "players": [
         { "name": "Jo", "deckId": "ahoy-mateys" },
@@ -91,6 +100,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-02-08-001",
       "date": "2026-02-08",
       "players": [
         { "name": "Mark", "deckId": "markeus-calgar" },
@@ -100,6 +110,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-02-08-002",
       "date": "2026-02-08",
       "players": [
         { "name": "Mark", "deckId": "blight-curse" },
@@ -109,6 +120,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-02-08-003",
       "date": "2026-02-08",
       "players": [
         { "name": "Mark", "deckId": "the-vamp-clamp" },
@@ -118,6 +130,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-02-08-004",
       "date": "2026-02-08",
       "players": [
         { "name": "Mark", "deckId": "gotta-have-hope" },
@@ -127,6 +140,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-02-08-005",
       "date": "2026-02-08",
       "players": [
         { "name": "Mark", "deckId": "blood-in-the-water" },
@@ -136,6 +150,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-02-15-001",
       "date": "2026-02-15",
       "players": [
         { "name": "Ollie", "deckId": "toms-zoo" },
@@ -147,6 +162,7 @@
       "winner": "Jake"
     },
     {
+      "id": "2026-02-15-002",
       "date": "2026-02-15",
       "players": [
         { "name": "Ollie", "deckId": "ha-ha-sephiroth" },
@@ -158,6 +174,7 @@
       "winner": "Jake"
     },
     {
+      "id": "2026-02-15-003",
       "date": "2026-02-15",
       "players": [
         { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
@@ -169,6 +186,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-02-15-004",
       "date": "2026-02-15",
       "players": [
         { "name": "Ollie", "deckId": "jelly-belly" },
@@ -180,6 +198,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-03-08-001",
       "date": "2026-03-08",
       "players": [
         { "name": "Mark", "deckId": "ring-sting" },
@@ -191,6 +210,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-03-08-002",
       "date": "2026-03-08",
       "players": [
         { "name": "Mark", "deckId": "hurtie-not-curie" },
@@ -202,6 +222,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-03-08-003",
       "date": "2026-03-08",
       "players": [
         { "name": "Mark", "deckId": "why-are-there-so-many-wizards" },
@@ -213,6 +234,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-03-08-004",
       "date": "2026-03-08",
       "players": [
         { "name": "Mark", "deckId": "abzan-deetz-nuts-out" },
@@ -224,6 +246,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-03-08-005",
       "date": "2026-03-08",
       "players": [
         { "name": "Mark", "deckId": "hurtie-not-curie" },
@@ -235,6 +258,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-03-15-001",
       "date": "2026-03-15",
       "players": [
         { "name": "Mark", "deckId": "artifact-black" },
@@ -244,6 +268,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-03-15-002",
       "date": "2026-03-15",
       "players": [
         { "name": "Mark", "deckId": "eldrazi-incursion" },
@@ -253,6 +278,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-03-22-001",
       "date": "2026-03-22",
       "players": [
         { "name": "Jo", "deckId": "fishes" },
@@ -264,6 +290,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-03-22-002",
       "date": "2026-03-22",
       "players": [
         { "name": "Jo", "deckId": "tricky-terrain" },
@@ -275,6 +302,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-03-22-003",
       "date": "2026-03-22",
       "players": [
         { "name": "Jo", "deckId": "peace-offering" },
@@ -286,6 +314,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-03-22-004",
       "date": "2026-03-22",
       "players": [
         { "name": "Jo", "deckId": "peace-offering" },
@@ -297,6 +326,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-04-06-001",
       "date": "2026-04-06",
       "players": [
         { "name": "Jake", "deckId": "ring-sting" },
@@ -308,6 +338,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-04-06-002",
       "date": "2026-04-06",
       "players": [
         { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
@@ -319,6 +350,7 @@
       "winner": "Jake"
     },
     {
+      "id": "2026-04-06-003",
       "date": "2026-04-06",
       "players": [
         { "name": "Jake", "deckId": "zombieland" },
@@ -330,6 +362,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-04-06-004",
       "date": "2026-04-06",
       "players": [
         { "name": "Jake", "deckId": "baelyn" },
@@ -341,6 +374,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-04-06-005",
       "date": "2026-04-06",
       "players": [
         { "name": "Jake", "deckId": "uwu-otters" },
@@ -352,6 +386,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-04-12-001",
       "date": "2026-04-12",
       "players": [
         { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
@@ -361,6 +396,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-04-19-001",
       "date": "2026-04-19",
       "players": [
         { "name": "Ollie", "deckId": "toms-zoo" },
@@ -370,6 +406,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-04-19-002",
       "date": "2026-04-19",
       "players": [
         { "name": "Ollie", "deckId": "hurtie-not-curie" },
@@ -379,6 +416,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-05-04-001",
       "date": "2026-05-04",
       "players": [
         { "name": "Mark", "deckId": "prismari-performance" },
@@ -390,6 +428,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-05-04-002",
       "date": "2026-05-04",
       "players": [
         { "name": "Mark", "deckId": "witherbloom-witchcraft" },
@@ -401,6 +440,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-05-04-003",
       "date": "2026-05-04",
       "players": [
         { "name": "Mark", "deckId": "quintorius" },
@@ -412,6 +452,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-05-10-001",
       "date": "2026-05-10",
       "players": [
         { "name": "Liam", "deckId": "zombieland" },
@@ -422,6 +463,7 @@
       "winner": "Jake"
     },
     {
+      "id": "2026-05-10-002",
       "date": "2026-05-10",
       "players": [
         { "name": "Liam", "deckId": "hurtie-not-curie" },
@@ -432,6 +474,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-05-10-003",
       "date": "2026-05-10",
       "players": [
         { "name": "Liam", "deckId": "bad-misc" },
@@ -442,6 +485,7 @@
       "winner": "Jake"
     },
     {
+      "id": "2026-05-10-004",
       "date": "2026-05-10",
       "players": [
         { "name": "Liam", "deckId": "big-sues" },
@@ -452,6 +496,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-05-10-005",
       "date": "2026-05-10",
       "players": [
         { "name": "Liam", "deckId": "big-sues" },
@@ -462,6 +507,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-05-10-006",
       "date": "2026-05-10",
       "players": [
         { "name": "Liam", "deckId": "cloni-macaroni" },
@@ -472,6 +518,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-05-21-001",
       "date": "2026-05-21",
       "players": [
         { "name": "Mark", "deckId": "quintorius" },
@@ -481,6 +528,7 @@
       "winner": "Ben"
     },
     {
+      "id": "2026-05-21-002",
       "date": "2026-05-21",
       "players": [
         { "name": "Mark", "deckId": "quintorius" },
@@ -490,6 +538,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-05-21-003",
       "date": "2026-05-21",
       "players": [
         { "name": "Mark", "deckId": "big-stompy-stomp" },
@@ -499,6 +548,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-05-25-001",
       "date": "2026-05-25",
       "players": [
         { "name": "Mark", "deckId": "quintorius" },
@@ -508,6 +558,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-05-25-002",
       "date": "2026-05-25",
       "players": [
         { "name": "Mark", "deckId": "the-vamp-clamp" },
@@ -517,6 +568,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-05-29-001",
       "date": "2026-05-29",
       "players": [
         { "name": "Liam", "deckId": "big-sues" },
@@ -526,6 +578,7 @@
       "winner": "Ollie"
     },
     {
+      "id": "2026-05-29-002",
       "date": "2026-05-29",
       "players": [
         { "name": "Liam", "deckId": "big-sues" },
@@ -535,6 +588,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-06-04-001",
       "date": "2026-06-04",
       "players": [
         { "name": "Mark", "deckId": "prismari-performance" },
@@ -546,6 +600,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-06-04-002",
       "date": "2026-06-04",
       "players": [
         { "name": "Mark", "deckId": "witherbloom-witchcraft" },
@@ -557,6 +612,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-06-04-003",
       "date": "2026-06-04",
       "players": [
         { "name": "Mark", "deckId": "quintorius" },
@@ -568,6 +624,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-06-14-001",
       "date": "2026-06-14",
       "players": [
         { "name": "Liam", "deckId": "artifact-black" },
@@ -578,6 +635,7 @@
       "winner": "Jo"
     },
     {
+      "id": "2026-06-14-002",
       "date": "2026-06-14",
       "players": [
         { "name": "Liam", "deckId": "zombieland" },
@@ -589,6 +647,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-06-14-003",
       "date": "2026-06-14",
       "players": [
         { "name": "Liam", "deckId": "bad-misc" },
@@ -600,6 +659,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-06-14-004",
       "date": "2026-06-14",
       "players": [
         { "name": "Liam", "deckId": "cloni-macaroni" },
@@ -611,6 +671,7 @@
       "winner": "Mark"
     },
     {
+      "id": "2026-06-14-005",
       "date": "2026-06-14",
       "players": [
         { "name": "Liam", "deckId": "cloni-macaroni" },
@@ -622,6 +683,7 @@
       "winner": "Liam"
     },
     {
+      "id": "2026-06-14-006",
       "date": "2026-06-14",
       "players": [
         { "name": "Liam", "deckId": "saruman" },

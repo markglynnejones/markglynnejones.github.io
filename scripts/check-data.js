@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { matchIdDate, validMatchId } = require("./match-ids");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -125,9 +126,20 @@ function checkMatchesData(fileLabel, data, deckById, issues) {
 
   let previousDate = "";
   const signatures = new Set();
+  const ids = new Set();
 
   matches.forEach((match, index) => {
     const label = `${fileLabel} matches[${index}]`;
+
+    if (!validMatchId(match.id)) {
+      issues.fail(`${label} has invalid id "${match.id}". Expected YYYY-MM-DD-001 format.`);
+    } else {
+      if (ids.has(match.id)) issues.fail(`${label} duplicates match id "${match.id}" in ${fileLabel}.`);
+      ids.add(match.id);
+      if (validIsoDate(match.date) && matchIdDate(match.id) !== match.date) {
+        issues.fail(`${label} id "${match.id}" does not match date "${match.date}".`);
+      }
+    }
 
     if (!validIsoDate(match.date)) issues.fail(`${label} has invalid date "${match.date}".`);
     if (previousDate && String(match.date).localeCompare(previousDate) < 0) {

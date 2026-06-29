@@ -97,6 +97,17 @@ test("appendMatches skips exact duplicates", () => {
   assert.strictEqual(matchesData.matches.length, 1);
 });
 
+test("appendMatches assigns ids to existing and new matches", () => {
+  const [first, second] = parseFixture().matches;
+  const matchesData = { matches: [structuredClone(first)] };
+
+  const result = appendMatches(matchesData, [structuredClone(second)]);
+
+  assert.deepStrictEqual(result, { added: 1, skipped: 0 });
+  assert.strictEqual(matchesData.matches[0].id, "2026-04-06-001");
+  assert.strictEqual(matchesData.matches[1].id, "2026-04-06-002");
+});
+
 test("suggestedDeckStub creates a usable starter deck", () => {
   assert.deepStrictEqual(suggestedDeckStub(["weird frog thing"]), {
     id: "weird-frog-thing",

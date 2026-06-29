@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { assignMissingMatchIds, createMatchIdGenerator } = require("./match-ids");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DECKS_PATH = path.join(REPO_ROOT, "data", "deck-definitions.json");
@@ -169,6 +170,7 @@ function formatMatchesData(data) {
 
   data.matches.forEach((match, matchIndex) => {
     lines.push("    {");
+    if (match.id) lines.push(`      "id": ${JSON.stringify(match.id)},`);
     lines.push(`      "date": ${JSON.stringify(match.date)},`);
     lines.push('      "players": [');
     match.players.forEach((player, playerIndex) => {
@@ -399,7 +401,10 @@ function matchSignature(match) {
 
 function appendMatches(matchesData, matches) {
   if (!Array.isArray(matchesData.matches)) matchesData.matches = [];
+  assignMissingMatchIds(matchesData.matches);
+
   const existing = new Set(matchesData.matches.map(matchSignature));
+  const nextMatchId = createMatchIdGenerator(matchesData.matches);
   let added = 0;
   let skipped = 0;
 
@@ -409,6 +414,8 @@ function appendMatches(matchesData, matches) {
       skipped += 1;
       continue;
     }
+
+    if (!match.id) match.id = nextMatchId(match.date);
     matchesData.matches.push(match);
     existing.add(signature);
     added += 1;
@@ -513,6 +520,7 @@ function main() {
 module.exports = {
   appendMatches,
   buildPlayerAliases,
+  formatMatchesData,
   parseNotes,
   resolveDeck,
   summariseDeckDefinitionChanges,

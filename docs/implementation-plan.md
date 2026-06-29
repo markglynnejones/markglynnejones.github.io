@@ -240,6 +240,14 @@ Implementation:
 - Add a migration script for existing 2026 matches.
 - Keep display behavior unchanged.
 
+Implemented:
+
+- `scripts/match-ids.js` centralizes match ID formatting and generation.
+- `scripts/migrate-match-ids.js` migrates existing match files.
+- `data/matches-2026.json` has stable IDs for all current matches.
+- The importer assigns IDs to newly added matches.
+- The validator now requires unique IDs that match each match date.
+
 ### 2. Optional Notes And Tags
 
 Add optional fields:

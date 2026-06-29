@@ -62,6 +62,7 @@ function validData(overrides = {}) {
         data: {
           matches: [
             {
+              id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { name: "Jo", deckId: "bad-misc" },
@@ -130,6 +131,7 @@ test("validateData catches unknown deck ids", () => {
         data: {
           matches: [
             {
+              id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { name: "Jo", deckId: "bad-misc" },
@@ -157,6 +159,7 @@ test("validateData catches duplicate players and invalid winners", () => {
         data: {
           matches: [
             {
+              id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { name: "Jo", deckId: "bad-misc" },
@@ -177,7 +180,7 @@ test("validateData catches duplicate players and invalid winners", () => {
   assert.match(result.errors[1], /winner "Mark" is not one of the match players/);
 });
 
-test("validateData warns when match dates are out of order", () => {
+test("validateData catches missing, malformed, duplicate, and date-mismatched match ids", () => {
   const data = validData({
     matchesFiles: [
       {
@@ -185,6 +188,15 @@ test("validateData warns when match dates are out of order", () => {
         data: {
           matches: [
             {
+              date: "2026-04-06",
+              players: [
+                { name: "Jo", deckId: "bad-misc" },
+                { name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+            },
+            {
+              id: "bad-id",
               date: "2026-04-07",
               players: [
                 { name: "Jo", deckId: "bad-misc" },
@@ -193,6 +205,66 @@ test("validateData warns when match dates are out of order", () => {
               winner: "Jo",
             },
             {
+              id: "2026-04-08-001",
+              date: "2026-04-08",
+              players: [
+                { name: "Jo", deckId: "bad-misc" },
+                { name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+            },
+            {
+              id: "2026-04-08-001",
+              date: "2026-04-09",
+              players: [
+                { name: "Jo", deckId: "bad-misc" },
+                { name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+            },
+            {
+              id: "2026-04-10-001",
+              date: "2026-04-11",
+              players: [
+                { name: "Jo", deckId: "bad-misc" },
+                { name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+            },
+          ],
+        },
+      },
+    ],
+  });
+
+  const result = validateData(data);
+
+  assert.strictEqual(result.errors.length, 5);
+  assert.match(result.errors[0], /invalid id/);
+  assert.match(result.errors[1], /invalid id/);
+  assert.match(result.errors[2], /duplicates match id "2026-04-08-001"/);
+  assert.match(result.errors[3], /does not match date "2026-04-09"/);
+  assert.match(result.errors[4], /does not match date "2026-04-11"/);
+});
+
+test("validateData warns when match dates are out of order", () => {
+  const data = validData({
+    matchesFiles: [
+      {
+        label: "data/matches-2026.json",
+        data: {
+          matches: [
+            {
+              id: "2026-04-07-001",
+              date: "2026-04-07",
+              players: [
+                { name: "Jo", deckId: "bad-misc" },
+                { name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+            },
+            {
+              id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { name: "Jo", deckId: "bad-misc" },
