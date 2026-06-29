@@ -178,7 +178,11 @@ function formatMatchesData(data) {
       lines.push(`        { "name": ${JSON.stringify(player.name)}, "deckId": ${JSON.stringify(player.deckId)} }${suffix}`);
     });
     lines.push("      ],");
-    lines.push(`      "winner": ${JSON.stringify(match.winner)}`);
+    const hasNotes = typeof match.notes === "string";
+    const hasTags = Array.isArray(match.tags);
+    lines.push(`      "winner": ${JSON.stringify(match.winner)}${hasNotes || hasTags ? "," : ""}`);
+    if (hasNotes) lines.push(`      "notes": ${JSON.stringify(match.notes)}${hasTags ? "," : ""}`);
+    if (hasTags) lines.push(`      "tags": ${JSON.stringify(match.tags)}`);
     lines.push(`    }${matchIndex === data.matches.length - 1 ? "" : ","}`);
   });
 

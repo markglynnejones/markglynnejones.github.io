@@ -91,6 +91,36 @@ test("validateData accepts a valid data set", () => {
   assert.deepStrictEqual(result.warnings, []);
 });
 
+test("validateData accepts optional match notes and tags", () => {
+  const data = validData({
+    matchesFiles: [
+      {
+        label: "data/matches-2026.json",
+        data: {
+          matches: [
+            {
+              id: "2026-04-06-001",
+              date: "2026-04-06",
+              players: [
+                { name: "Jo", deckId: "bad-misc" },
+                { name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+              notes: "Planechase got messy.",
+              tags: ["planechase", "precon-night"],
+            },
+          ],
+        },
+      },
+    ],
+  });
+
+  const result = validateData(data);
+
+  assert.deepStrictEqual(result.errors, []);
+  assert.deepStrictEqual(result.warnings, []);
+});
+
 test("validateData accepts optional deck owner and review metadata", () => {
   const data = validData({
     deckDefinitions: {
@@ -245,6 +275,68 @@ test("validateData catches missing, malformed, duplicate, and date-mismatched ma
   assert.match(result.errors[2], /duplicates match id "2026-04-08-001"/);
   assert.match(result.errors[3], /does not match date "2026-04-09"/);
   assert.match(result.errors[4], /does not match date "2026-04-11"/);
+});
+
+test("validateData catches invalid match notes and tags", () => {
+  const data = validData({
+    matchesFiles: [
+      {
+        label: "data/matches-2026.json",
+        data: {
+          matches: [
+            {
+              id: "2026-04-06-001",
+              date: "2026-04-06",
+              players: [
+                { name: "Jo", deckId: "bad-misc" },
+                { name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+              notes: "",
+              tags: ["planechase", "Bad Tag", "planechase", ""],
+            },
+          ],
+        },
+      },
+    ],
+  });
+
+  const result = validateData(data);
+
+  assert.strictEqual(result.errors.length, 4);
+  assert.match(result.errors[0], /notes must be a non-empty string/);
+  assert.match(result.errors[1], /tags\[1\] must be a non-empty lowercase slug/);
+  assert.match(result.errors[2], /duplicate tag "planechase"/);
+  assert.match(result.errors[3], /tags\[3\] must be a non-empty lowercase slug/);
+});
+
+test("validateData catches non-array match tags", () => {
+  const data = validData({
+    matchesFiles: [
+      {
+        label: "data/matches-2026.json",
+        data: {
+          matches: [
+            {
+              id: "2026-04-06-001",
+              date: "2026-04-06",
+              players: [
+                { name: "Jo", deckId: "bad-misc" },
+                { name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+              tags: "planechase",
+            },
+          ],
+        },
+      },
+    ],
+  });
+
+  const result = validateData(data);
+
+  assert.strictEqual(result.errors.length, 1);
+  assert.match(result.errors[0], /tags must be an array/);
 });
 
 test("validateData warns when match dates are out of order", () => {

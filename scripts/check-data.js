@@ -52,6 +52,10 @@ function isNonNegativeNumber(value) {
   return typeof value === "number" && Number.isFinite(value) && value >= 0;
 }
 
+function isNormalisedTag(value) {
+  return typeof value === "string" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value);
+}
+
 function validIsoDate(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ""))) return false;
   const parsed = new Date(`${value}T00:00:00Z`);
@@ -168,6 +172,26 @@ function checkMatchesData(fileLabel, data, deckById, issues) {
       issues.fail(`${label} must have a winner.`);
     } else if (!playerNames.has(match.winner)) {
       issues.fail(`${label} winner "${match.winner}" is not one of the match players.`);
+    }
+
+    if (match.notes !== undefined && !isNonEmptyString(match.notes)) {
+      issues.fail(`${label} notes must be a non-empty string when present.`);
+    }
+
+    if (match.tags !== undefined) {
+      if (!Array.isArray(match.tags)) {
+        issues.fail(`${label} tags must be an array when present.`);
+      } else {
+        const tags = new Set();
+        match.tags.forEach((tag, tagIndex) => {
+          if (!isNormalisedTag(tag)) {
+            issues.fail(`${label} tags[${tagIndex}] must be a non-empty lowercase slug.`);
+            return;
+          }
+          if (tags.has(tag)) issues.fail(`${label} tags contains duplicate tag "${tag}".`);
+          tags.add(tag);
+        });
+      }
     }
 
     const signature = `${match.date}|${match.winner}|${match.players.map((player) => `${player.name}:${player.deckId}`).sort().join(",")}`;

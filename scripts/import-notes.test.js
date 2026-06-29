@@ -4,7 +4,14 @@ const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
 
-const { appendMatches, buildPlayerAliases, parseNotes, suggestedDeckStub, summariseDeckDefinitionChanges } = require("./import-notes");
+const {
+  appendMatches,
+  buildPlayerAliases,
+  formatMatchesData,
+  parseNotes,
+  suggestedDeckStub,
+  summariseDeckDefinitionChanges,
+} = require("./import-notes");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const deckDefinitions = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "deck-definitions.json"), "utf8"));
@@ -106,6 +113,28 @@ test("appendMatches assigns ids to existing and new matches", () => {
   assert.deepStrictEqual(result, { added: 1, skipped: 0 });
   assert.strictEqual(matchesData.matches[0].id, "2026-04-06-001");
   assert.strictEqual(matchesData.matches[1].id, "2026-04-06-002");
+});
+
+test("formatMatchesData preserves optional notes and tags", () => {
+  const formatted = formatMatchesData({
+    matches: [
+      {
+        id: "2026-04-06-001",
+        date: "2026-04-06",
+        players: [
+          { name: "Jo", deckId: "bad-misc" },
+          { name: "Liam", deckId: "big-sues" },
+        ],
+        winner: "Jo",
+        notes: "Planechase got messy.",
+        tags: ["planechase", "precon-night"],
+      },
+    ],
+  });
+
+  assert.match(formatted, /"notes": "Planechase got messy\."/);
+  assert.match(formatted, /"tags": \["planechase","precon-night"\]/);
+  assert.deepStrictEqual(JSON.parse(formatted).matches[0].tags, ["planechase", "precon-night"]);
 });
 
 test("suggestedDeckStub creates a usable starter deck", () => {

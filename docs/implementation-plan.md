@@ -265,6 +265,13 @@ Example tags:
 
 Keep these optional until the import flow needs them.
 
+Implemented:
+
+- The match formatter preserves optional `notes` and `tags` when present.
+- The validator accepts optional non-empty `notes`.
+- The validator accepts optional normalized lowercase slug `tags`.
+- The validator rejects empty notes, non-array tags, malformed tags, and duplicate tags.
+
 ### 3. Export
 
 Add a simple export command:
