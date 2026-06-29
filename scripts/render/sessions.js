@@ -11,6 +11,7 @@
       shortDisplayDate,
       deckNameFromId,
       deckAnchorId,
+      sessionAnchorId,
       scrollToDeck,
     } = config;
 
@@ -76,18 +77,23 @@
 
       button.addEventListener("click", () => {
         setSelectedSessionDate(session.date);
-        renderSessions(config);
+        renderSessions({ ...config, selectedSessionDate: session.date });
       });
 
       button.addEventListener("keydown", (event) => {
         const currentIndex = sessions.findIndex((entry) => entry.date === session.date);
-        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft" || event.key === "Home" || event.key === "End") {
           event.preventDefault();
-          const delta = event.key === "ArrowRight" ? 1 : -1;
-          const next = (currentIndex + delta + sessions.length) % sessions.length;
+          let next = currentIndex;
+          if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = sessions.length - 1;
+          else {
+            const delta = event.key === "ArrowRight" ? 1 : -1;
+            next = (currentIndex + delta + sessions.length) % sessions.length;
+          }
           const nextDate = sessions[next].date;
           setSelectedSessionDate(nextDate);
-          renderSessions(config);
+          renderSessions({ ...config, selectedSessionDate: nextDate });
           document.getElementById(`session-tab-${nextDate}`)?.focus();
         }
       });
@@ -106,6 +112,7 @@
         shortDisplayDate,
         deckNameFromId,
         deckAnchorId,
+        sessionAnchorId,
         scrollToDeck,
       }),
     );
@@ -115,9 +122,10 @@
   }
 
   function sessionPanel(config) {
-    const { session, matches, shortDisplayDate, deckNameFromId, deckAnchorId, scrollToDeck } = config;
+    const { session, matches, shortDisplayDate, deckNameFromId, deckAnchorId, sessionAnchorId, scrollToDeck } = config;
     const article = document.createElement("article");
     article.className = "session-card session-detail";
+    if (sessionAnchorId) article.id = sessionAnchorId(session.date);
 
     const header = document.createElement("div");
     header.className = "session-card-header";

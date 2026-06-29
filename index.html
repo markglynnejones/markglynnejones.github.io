@@ -4,26 +4,37 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Commander Wins Tracker</title>
-    <link rel="stylesheet" href="styles.css?v=session-module" />
+    <link rel="stylesheet" href="styles.css?v=head-to-head-module" />
     <link rel="stylesheet" href="styles/decks.css?v=decks-module" />
     <link rel="stylesheet" href="styles/matches.css?v=matches-module" />
     <link rel="stylesheet" href="styles/sessions.css?v=session-module" />
+    <link rel="stylesheet" href="styles/mobile-polish.css?v=phase-one-module" />
   </head>
 
   <body>
+    <a class="skip-link" href="#tab-panel">Skip to dashboard content</a>
+
     <header>
       <h1>Commander Wins Tracker</h1>
       <p id="last-updated-note" class="header-note">Loading match data…</p>
     </header>
 
-    <nav class="tabs" role="tablist" aria-label="Year tabs">
+    <nav class="app-views" aria-label="Dashboard views">
+      <a class="app-view-link" href="#/overview" data-view-link="overview" aria-current="page">Overview</a>
+      <a class="app-view-link" href="#/players" data-view-link="players">Players</a>
+      <a class="app-view-link" href="#/decks" data-view-link="decks">Decks</a>
+      <a class="app-view-link" href="#/sessions" data-view-link="sessions">Sessions</a>
+      <a class="app-view-link" href="#/fun" data-view-link="fun">Fun</a>
+    </nav>
+
+    <nav class="tabs" role="tablist" aria-label="Stats year">
       <button
         type="button"
         class="tab"
         role="tab"
         id="tab-overall"
         aria-selected="true"
-        aria-controls="panel-overall"
+        aria-controls="tab-panel"
         tabindex="0"
         data-tab="overall"
       >
@@ -36,7 +47,7 @@
         role="tab"
         id="tab-2025"
         aria-selected="false"
-        aria-controls="panel-2025"
+        aria-controls="tab-panel"
         tabindex="-1"
         data-tab="2025"
       >
@@ -49,7 +60,7 @@
         role="tab"
         id="tab-2026"
         aria-selected="false"
-        aria-controls="panel-2026"
+        aria-controls="tab-panel"
         tabindex="-1"
         data-tab="2026"
       >
@@ -57,209 +68,244 @@
       </button>
     </nav>
 
-    <main id="tab-panel" role="tabpanel" aria-labelledby="tab-overall">
-      <section>
-        <h2 class="section-heading">Singles Wins Table</h2>
+    <main id="tab-panel" role="tabpanel" aria-labelledby="tab-overall" aria-label="Commander stats dashboard" tabindex="-1">
+      <div id="view-overview" class="app-view" data-view="overview">
+        <section id="dashboard-summary-section" aria-labelledby="dashboard-summary-heading">
+          <h2 id="dashboard-summary-heading" class="section-heading">Dashboard Summary</h2>
+          <p id="dashboard-summary-note" class="section-note" aria-live="polite"></p>
+          <div id="dashboard-summary-body" class="summary-grid"></div>
+        </section>
 
-        <div class="table-controls">
-          <label for="player-search"><strong>Search players:</strong></label>
-          <input id="player-search" type="search" placeholder="e.g. Jo" />
-        </div>
+        <section id="recent-form-streaks-section" aria-labelledby="recent-form-streaks-heading">
+          <h2 id="recent-form-streaks-heading" class="section-heading">Recent Form and Streaks</h2>
+          <p id="recent-form-streaks-note" class="section-note" aria-live="polite"></p>
+          <div id="recent-form-streaks-body" class="summary-grid insight-grid"></div>
+        </section>
 
-        <table id="singles-table">
-          <thead>
-            <tr>
-              <th
-                id="sort-player"
-                class="sortable"
-                scope="col"
-                role="button"
-                tabindex="0"
-              >
-                Player <span id="arrow-player"></span>
-              </th>
-              <th
-                id="sort-wins-singles"
-                class="sortable"
-                scope="col"
-                role="button"
-                tabindex="0"
-              >
-                Total Wins <span id="arrow-wins-singles"></span>
-              </th>
-              <th
-                id="sort-matches-singles"
-                class="sortable"
-                scope="col"
-                role="button"
-                tabindex="0"
-              >
-                Matches Played <span id="arrow-matches-singles"></span>
-              </th>
-              <th
-                id="sort-winrate-singles"
-                class="sortable"
-                scope="col"
-                role="button"
-                tabindex="0"
-              >
-                Win Rate <span id="arrow-winrate-singles"></span>
-              </th>
-            </tr>
-          </thead>
+        <section id="recent-matches-section" aria-labelledby="recent-matches-heading">
+          <h2 id="recent-matches-heading" class="section-heading">Recent Matches</h2>
+          <div id="latest-session-summary" class="latest-session-summary" aria-live="polite"></div>
+          <p id="recent-matches-note" class="section-note" aria-live="polite"></p>
+          <p id="recent-matches-scroll-hint" class="table-scroll-hint">Scroll table sideways</p>
 
-          <tbody id="wins-table-body"></tbody>
-        </table>
-      </section>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Recent matches table, horizontally scrollable" aria-describedby="recent-matches-scroll-hint">
+            <table id="recent-matches-table">
+              <caption>Recent matches from the selected year view</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Winner</th>
+                  <th scope="col">Pod</th>
+                </tr>
+              </thead>
+              <tbody id="recent-matches-body"></tbody>
+            </table>
+          </div>
 
-      <section>
-        <h2 class="section-heading">Player Deck Stats (2026 match log)</h2>
+          <button
+            id="show-more-recent-matches"
+            class="secondary-button"
+            type="button"
+            aria-controls="recent-matches-table"
+          >
+            Show more matches
+          </button>
+        </section>
+      </div>
 
-        <div class="field-row">
-          <label for="player-deck-select"><strong>Player:</strong></label>
-          <select id="player-deck-select">
-            <option value="">Loading…</option>
-          </select>
+      <div id="view-players" class="app-view" data-view="players" hidden>
+        <section aria-labelledby="singles-table-heading">
+          <h2 id="singles-table-heading" class="section-heading">Singles Wins Table</h2>
 
-          <span id="player-deck-note" class="muted-note"></span>
-        </div>
+          <div class="table-controls">
+            <label for="player-search"><strong>Search players:</strong></label>
+            <input id="player-search" type="search" placeholder="e.g. Jo" autocomplete="off" aria-describedby="player-search-status" />
+          </div>
+          <p id="player-search-status" class="visually-hidden" aria-live="polite"></p>
+          <p id="singles-scroll-hint" class="table-scroll-hint">Scroll table sideways</p>
 
-        <table id="player-decks-table">
-          <thead>
-            <tr>
-              <th>Deck</th>
-              <th>Wins</th>
-              <th>Matches</th>
-              <th>Win Rate</th>
-            </tr>
-          </thead>
-          <tbody id="player-decks-body"></tbody>
-        </table>
-      </section>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Singles wins table, horizontally scrollable" aria-describedby="singles-scroll-hint">
+            <table id="singles-table">
+              <caption>Singles standings for the selected year view</caption>
+              <thead>
+                <tr>
+                  <th id="sort-player" class="sortable" scope="col">
+                    <button type="button" class="sort-button" aria-label="Sort by player">Player <span id="arrow-player" aria-hidden="true"></span></button>
+                  </th>
+                  <th id="sort-wins-singles" class="sortable" scope="col">
+                    <button type="button" class="sort-button" aria-label="Sort by total wins">Total Wins <span id="arrow-wins-singles" aria-hidden="true"></span></button>
+                  </th>
+                  <th id="sort-matches-singles" class="sortable" scope="col">
+                    <button type="button" class="sort-button" aria-label="Sort by matches played">Matches Played <span id="arrow-matches-singles" aria-hidden="true"></span></button>
+                  </th>
+                  <th id="sort-winrate-singles" class="sortable" scope="col">
+                    <button type="button" class="sort-button" aria-label="Sort by win rate">Win Rate <span id="arrow-winrate-singles" aria-hidden="true"></span></button>
+                  </th>
+                </tr>
+              </thead>
 
-      <section id="recent-matches-section">
-        <h2 class="section-heading">Recent Matches</h2>
-        <div id="latest-session-summary" class="latest-session-summary" aria-live="polite"></div>
-        <p id="recent-matches-note" class="section-note"></p>
+              <tbody id="wins-table-body"></tbody>
+            </table>
+          </div>
+        </section>
 
-        <table id="recent-matches-table">
-          <thead>
-            <tr>
-              <th scope="col">Date</th>
-              <th scope="col">Winner</th>
-              <th scope="col">Pod</th>
-            </tr>
-          </thead>
-          <tbody id="recent-matches-body"></tbody>
-        </table>
+        <section aria-labelledby="player-decks-heading">
+          <h2 id="player-decks-heading" class="section-heading">Player Deck Stats (2026 match log)</h2>
 
-        <button
-          id="show-more-recent-matches"
-          class="secondary-button"
-          type="button"
-          aria-controls="recent-matches-table"
-        >
-          Show more matches
-        </button>
-      </section>
+          <div class="field-row">
+            <label for="player-deck-select"><strong>Player:</strong></label>
+            <select id="player-deck-select" aria-describedby="player-deck-note">
+              <option value="">Loading…</option>
+            </select>
 
-      <section id="sessions-section">
-        <h2 class="section-heading">Sessions</h2>
-        <p id="sessions-note" class="section-note"></p>
-        <div id="sessions-body" class="sessions-list"></div>
-      </section>
+            <span id="player-deck-note" class="muted-note" aria-live="polite"></span>
+          </div>
+          <p id="player-decks-scroll-hint" class="table-scroll-hint">Scroll table sideways</p>
 
-      <section>
-        <h2 class="section-heading">Wins Over Time (2026 match log)</h2>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Player deck stats table, horizontally scrollable" aria-describedby="player-decks-scroll-hint">
+            <table id="player-decks-table">
+              <caption>Deck performance for the selected player</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Deck</th>
+                  <th scope="col">Wins</th>
+                  <th scope="col">Matches</th>
+                  <th scope="col">Win Rate</th>
+                </tr>
+              </thead>
+              <tbody id="player-decks-body"></tbody>
+            </table>
+          </div>
+        </section>
 
-        <div class="chart-note">
-          <span id="wins-over-time-note"></span>
-        </div>
+        <section aria-labelledby="head-to-head-heading">
+          <h2 id="head-to-head-heading" class="section-heading">Head-to-Head Stats (2026 match log)</h2>
 
-        <div id="wins-over-time-chart" class="chart-frame"></div>
-      </section>
+          <div class="field-row">
+            <label for="head-to-head-player-select"><strong>Player:</strong></label>
+            <select id="head-to-head-player-select" aria-describedby="head-to-head-note">
+              <option value="">Loading…</option>
+            </select>
 
-      <section>
-        <h2 class="section-heading">Decks Played</h2>
+            <span id="head-to-head-note" class="muted-note" aria-live="polite"></span>
+          </div>
+          <p id="head-to-head-scroll-hint" class="table-scroll-hint">Scroll table sideways</p>
 
-        <button
-          id="toggle-inactive-decks"
-          type="button"
-          aria-controls="decks-table"
-          aria-pressed="false"
-        >
-          Hide Inactive Decks
-        </button>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Head-to-head stats table, horizontally scrollable" aria-describedby="head-to-head-scroll-hint">
+            <table id="head-to-head-table">
+              <caption>Head-to-head pod records for the selected player</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Opponent</th>
+                  <th scope="col">Shared Matches</th>
+                  <th scope="col">Player Wins</th>
+                  <th scope="col">Opponent Wins</th>
+                  <th scope="col">Other Wins</th>
+                  <th scope="col">Split</th>
+                </tr>
+              </thead>
+              <tbody id="head-to-head-body"></tbody>
+            </table>
+          </div>
+        </section>
 
-        <div class="table-controls">
-          <label for="deck-search"><strong>Search decks:</strong></label>
-          <input id="deck-search" type="search" placeholder="Deck or commander" />
-        </div>
+        <section aria-labelledby="wins-over-time-heading">
+          <h2 id="wins-over-time-heading" class="section-heading">Wins Over Time (2026 match log)</h2>
 
-        <table id="decks-table">
-          <thead>
-            <tr>
-              <th
-                id="sort-deck-name"
-                class="sortable"
-                scope="col"
-                role="button"
-                tabindex="0"
-              >
-                Deck Name <span id="arrow-sort-deck-name"></span>
-              </th>
-              <th scope="col">Commander</th>
-              <th scope="col">Owner</th>
-              <th scope="col">Colours</th>
-              <th scope="col">Combinations</th>
-              <th
-                id="sort-wins"
-                class="sortable"
-                scope="col"
-                role="button"
-                tabindex="0"
-              >
-                Wins <span id="arrow-sort-wins"></span>
-              </th>
-              <th
-                id="sort-matches"
-                class="sortable"
-                scope="col"
-                role="button"
-                tabindex="0"
-              >
-                Matches Played <span id="arrow-sort-matches"></span>
-              </th>
-              <th
-                id="sort-winrate"
-                class="sortable"
-                scope="col"
-                role="button"
-                tabindex="0"
-              >
-                Win Percentage <span id="arrow-sort-winrate"></span>
-              </th>
-              <th scope="col">Image</th>
-              <th scope="col">Active</th>
-            </tr>
-          </thead>
+          <div class="chart-note" aria-live="polite">
+            <span id="wins-over-time-note"></span>
+          </div>
 
-          <tbody id="decks-table-body"></tbody>
-        </table>
-      </section>
+          <div id="wins-over-time-chart" class="chart-frame"></div>
+        </section>
+      </div>
+
+      <div id="view-decks" class="app-view" data-view="decks" hidden>
+        <section aria-labelledby="decks-played-heading">
+          <h2 id="decks-played-heading" class="section-heading">Decks Played</h2>
+
+          <button
+            id="toggle-inactive-decks"
+            type="button"
+            aria-controls="decks-table"
+            aria-pressed="false"
+          >
+            Hide Inactive Decks
+          </button>
+
+          <div class="table-controls">
+            <label for="deck-search"><strong>Search decks:</strong></label>
+            <input id="deck-search" type="search" placeholder="Deck or commander" autocomplete="off" aria-describedby="deck-search-status" />
+          </div>
+          <p id="deck-search-status" class="visually-hidden" aria-live="polite"></p>
+          <p id="decks-scroll-hint" class="table-scroll-hint">Scroll table sideways</p>
+
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Decks played table, horizontally scrollable" aria-describedby="decks-scroll-hint">
+            <table id="decks-table">
+              <caption>Deck records for the selected year view</caption>
+              <thead>
+                <tr>
+                  <th id="sort-deck-name" class="sortable" scope="col">
+                    <button type="button" class="sort-button" aria-label="Sort by deck name">Deck Name <span id="arrow-sort-deck-name" aria-hidden="true"></span></button>
+                  </th>
+                  <th scope="col">Commander</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col">Colours</th>
+                  <th scope="col">Combinations</th>
+                  <th id="sort-wins" class="sortable" scope="col">
+                    <button type="button" class="sort-button" aria-label="Sort by wins">Wins <span id="arrow-sort-wins" aria-hidden="true"></span></button>
+                  </th>
+                  <th id="sort-matches" class="sortable" scope="col">
+                    <button type="button" class="sort-button" aria-label="Sort by matches played">Matches Played <span id="arrow-sort-matches" aria-hidden="true"></span></button>
+                  </th>
+                  <th id="sort-winrate" class="sortable" scope="col">
+                    <button type="button" class="sort-button" aria-label="Sort by win percentage">Win Percentage <span id="arrow-sort-winrate" aria-hidden="true"></span></button>
+                  </th>
+                  <th scope="col">Image</th>
+                  <th scope="col">Active</th>
+                </tr>
+              </thead>
+
+              <tbody id="decks-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <div id="view-sessions" class="app-view" data-view="sessions" hidden>
+        <section id="sessions-section" aria-labelledby="sessions-heading">
+          <h2 id="sessions-heading" class="section-heading">Sessions</h2>
+          <p id="sessions-note" class="section-note" aria-live="polite"></p>
+          <div id="sessions-body" class="sessions-list"></div>
+        </section>
+      </div>
+
+      <div id="view-fun" class="app-view" data-view="fun" hidden>
+        <section id="fun-stats-section" aria-labelledby="fun-stats-heading">
+          <h2 id="fun-stats-heading" class="section-heading">Fun Stats</h2>
+          <p id="fun-stats-note" class="section-note" aria-live="polite"></p>
+          <div id="fun-stats-body" class="summary-grid fun-stats-grid"></div>
+        </section>
+      </div>
     </main>
 
     <footer>
       <p>Magic: The Gathering - Commander Wins Tracker</p>
     </footer>
 
-    <script src="scripts/stats.js?v=session-module"></script>
+    <script src="scripts/stats.js?v=head-to-head-module"></script>
+    <script src="scripts/insights/recent-form.js?v=phase-one-module"></script>
+    <script src="scripts/insights/streaks.js?v=phase-one-module"></script>
+    <script src="scripts/insights/fun-stats.js?v=phase-one-module"></script>
+    <script src="scripts/insights/deep-links.js?v=phase-one-module"></script>
     <script src="scripts/scryfall.js?v=session-module"></script>
+    <script src="scripts/render/dashboard-summary.js?v=dashboard-summary-module"></script>
+    <script src="scripts/render/phase-one-insights.js?v=phase-one-module"></script>
     <script src="scripts/render/decks-table.js?v=decks-module"></script>
-    <script src="scripts/render/player-insights.js?v=player-insights-module"></script>
+    <script src="scripts/render/player-insights.js?v=head-to-head-module"></script>
     <script src="scripts/render/recent-matches.js?v=matches-module"></script>
-    <script src="scripts/render/sessions.js?v=session-module"></script>
+    <script src="scripts/render/sessions.js?v=head-to-head-module"></script>
     <script src="scripts/render/singles-table.js?v=singles-module"></script>
-    <script src="scripts.js?v=session-module"></script>
+    <script src="scripts.js?v=head-to-head-module"></script>
   </body>
 </html>

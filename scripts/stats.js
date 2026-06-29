@@ -120,6 +120,69 @@
     return stats;
   }
 
+  function buildHeadToHeadStats(matchFile) {
+    const matches = matchFile?.matches ?? [];
+    const pairs = new Map();
+
+    function pairKey(playerA, playerB) {
+      return [playerA, playerB].sort((a, b) => a.localeCompare(b)).join("\u0000");
+    }
+
+    for (const match of matches) {
+      const players = Array.from(
+        new Set((Array.isArray(match.players) ? match.players : []).map((player) => player?.name).filter(Boolean))
+      ).sort((a, b) => a.localeCompare(b));
+
+      for (let i = 0; i < players.length; i += 1) {
+        for (let j = i + 1; j < players.length; j += 1) {
+          const playerA = players[i];
+          const playerB = players[j];
+          const key = pairKey(playerA, playerB);
+
+          if (!pairs.has(key)) {
+            pairs.set(key, {
+              playerA,
+              playerB,
+              sharedMatches: 0,
+              playerAWins: 0,
+              playerBWins: 0,
+              otherWins: 0,
+            });
+          }
+
+          const pair = pairs.get(key);
+          pair.sharedMatches += 1;
+
+          if (match.winner === playerA) pair.playerAWins += 1;
+          else if (match.winner === playerB) pair.playerBWins += 1;
+          else pair.otherWins += 1;
+        }
+      }
+    }
+
+    return Array.from(pairs.values())
+      .map((pair) => {
+        const leaderWins = Math.max(pair.playerAWins, pair.playerBWins);
+        let leader = "";
+        if (pair.playerAWins > pair.playerBWins) leader = pair.playerA;
+        else if (pair.playerBWins > pair.playerAWins) leader = pair.playerB;
+
+        return {
+          ...pair,
+          leader,
+          leaderWins,
+          leaderWinRate: winRate(leaderWins, pair.sharedMatches),
+        };
+      })
+      .sort(
+        (a, b) =>
+          b.sharedMatches - a.sharedMatches ||
+          b.leaderWins - a.leaderWins ||
+          a.playerA.localeCompare(b.playerA) ||
+          a.playerB.localeCompare(b.playerB)
+      );
+  }
+
   function buildMonthlyWins2026(matchFile) {
     const matches = matchFile?.matches ?? [];
     const byMonth = new Map();
@@ -198,6 +261,73 @@
     };
   }
 
+  function buildDashboardSummary(config) {
+    const { players = [], decks = [], matchFile = null } = config || {};
+    const activePlayers = players.filter((player) => (player.matchesPlayed ?? 0) > 0);
+    const playedDecks = decks.filter((deck) => (deck.matchesPlayed ?? 0) > 0);
+    const sessions = matchFile ? buildSessionSummaries(matchFile) : [];
+    const totalMatches = players.reduce((total, player) => total + (player.wins ?? 0), 0);
+
+    const topPlayer = activePlayers
+      .slice()
+      .sort(
+        (a, b) =>
+          (b.wins ?? 0) - (a.wins ?? 0) ||
+          winRate(b.wins, b.matchesPlayed) - winRate(a.wins, a.matchesPlayed) ||
+          String(a.name).localeCompare(String(b.name))
+      )[0] || null;
+
+    const bestWinRatePlayer = activePlayers
+      .slice()
+      .sort(
+        (a, b) =>
+          winRate(b.wins, b.matchesPlayed) - winRate(a.wins, a.matchesPlayed) ||
+          (b.wins ?? 0) - (a.wins ?? 0) ||
+          String(a.name).localeCompare(String(b.name))
+      )[0] || null;
+
+    const mostPlayedDeck = playedDecks
+      .slice()
+      .sort(
+        (a, b) =>
+          (b.matchesPlayed ?? 0) - (a.matchesPlayed ?? 0) ||
+          (b.wins ?? 0) - (a.wins ?? 0) ||
+          String(a.name).localeCompare(String(b.name))
+      )[0] || null;
+
+    return {
+      totalMatches,
+      sessionCount: sessions.length,
+      latestSessionDate: sessions[0]?.date || "",
+      activePlayerCount: activePlayers.length,
+      decksPlayedCount: playedDecks.length,
+      topPlayer: topPlayer
+        ? {
+            name: topPlayer.name,
+            wins: topPlayer.wins ?? 0,
+            matchesPlayed: topPlayer.matchesPlayed ?? 0,
+            winRate: winRate(topPlayer.wins, topPlayer.matchesPlayed),
+          }
+        : null,
+      bestWinRatePlayer: bestWinRatePlayer
+        ? {
+            name: bestWinRatePlayer.name,
+            wins: bestWinRatePlayer.wins ?? 0,
+            matchesPlayed: bestWinRatePlayer.matchesPlayed ?? 0,
+            winRate: winRate(bestWinRatePlayer.wins, bestWinRatePlayer.matchesPlayed),
+          }
+        : null,
+      mostPlayedDeck: mostPlayedDeck
+        ? {
+            name: mostPlayedDeck.name,
+            wins: mostPlayedDeck.wins ?? 0,
+            matchesPlayed: mostPlayedDeck.matchesPlayed ?? 0,
+            winRate: winRate(mostPlayedDeck.wins, mostPlayedDeck.matchesPlayed),
+          }
+        : null,
+    };
+  }
+
   function mergePlayersOverall(players25, players26) {
     const map = new Map();
 
@@ -263,6 +393,8 @@
   }
 
   return {
+    buildDashboardSummary,
+    buildHeadToHeadStats,
     buildMonthlyWins2026,
     buildLatestSessionSummary,
     buildPlayerDeckStats2026,

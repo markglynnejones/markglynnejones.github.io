@@ -15,25 +15,25 @@
   flex: 0 0 calc((100% - 72px) / 10);
   min-width: 94px;
   padding: 9px 10px;
-  border: 1px solid rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: linear-gradient(180deg, #ffffff 0%, #f6f1e8 100%);
-  color: #262626;
+  background: var(--color-surface);
+  color: var(--color-text);
   font-weight: 600;
   cursor: pointer;
-  box-shadow: inset 0 3px 0 #c83d32;
+  box-shadow: inset 0 3px 0 var(--color-primary);
   text-align: left;
 }
 
 .session-tab[aria-selected="true"] {
-  background: #2a2a2e;
-  border-color: #2a2a2e;
-  color: #ffffff;
-  box-shadow: inset 0 3px 0 #d7b45a, 0 3px 12px rgba(0, 0, 0, 0.16);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: inset 0 3px 0 var(--color-highlight), 0 3px 12px var(--color-shadow);
 }
 
 .session-tab:focus {
-  outline: 3px solid rgba(0, 0, 0, 0.35);
+  outline: 3px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -51,10 +51,10 @@
 
 .session-card {
   padding: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 8px;
-  background: linear-gradient(180deg, #fffdf8 0%, #ffffff 42%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  background: var(--color-surface-raised);
+  box-shadow: 0 8px 24px var(--color-shadow);
 }
 
 .session-card-header {
@@ -81,8 +81,8 @@
   min-width: 70px;
   padding: 6px 8px;
   border-radius: 6px;
-  background: #262626;
-  color: #ffffff;
+  background: var(--color-nav);
+  color: var(--color-text-inverse);
   text-align: center;
 }
 
@@ -113,13 +113,13 @@
   display: grid;
   gap: 0;
   margin-top: 14px;
-  border-top: 2px solid rgba(0, 0, 0, 0.12);
+  border-top: 2px solid var(--color-border);
 }
 
 .session-game {
   padding: 13px 0 13px 14px;
-  border-left: 4px solid #3a6f5f;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--color-primary);
+  border-bottom: 1px solid var(--color-border-subtle);
   background: transparent;
 }
 
@@ -138,8 +138,8 @@
 .session-winner-badge {
   padding: 4px 8px;
   border-radius: 999px;
-  background: #d7b45a;
-  color: #1e1e1e;
+  background: var(--color-highlight-subtle);
+  color: var(--color-text);
   font-weight: 600;
 }
 
@@ -152,18 +152,18 @@
 
 .session-game-players span {
   padding: 6px 0;
-  border-bottom: 1px dotted rgba(0, 0, 0, 0.18);
+  border-bottom: 1px dotted var(--color-border);
   background: transparent;
 }
 
 .session-game-players a {
-  color: #1f5b49;
+  color: var(--color-primary);
   font-weight: 600;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
 
 .session-game-players .session-game-winner {
-  color: #1f5b49;
+  color: var(--color-primary);
   font-weight: 700;
 }

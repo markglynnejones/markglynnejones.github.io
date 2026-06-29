@@ -3,9 +3,15 @@
 (function initCommanderPlayerInsights(global) {
   function setPlayerDeckSectionsVisible(isVisible) {
     const select = document.getElementById("player-deck-select");
+    const headToHeadSelect = document.getElementById("head-to-head-player-select");
+    const recentForm = document.getElementById("recent-form-streaks-body");
+    const funStats = document.getElementById("fun-stats-body");
     const chart = document.getElementById("wins-over-time-chart");
 
     if (select?.closest("section")) select.closest("section").style.display = isVisible ? "" : "none";
+    if (headToHeadSelect?.closest("section")) headToHeadSelect.closest("section").style.display = isVisible ? "" : "none";
+    if (recentForm?.closest("section")) recentForm.closest("section").style.display = isVisible ? "" : "none";
+    if (funStats?.closest("section")) funStats.closest("section").style.display = isVisible ? "" : "none";
     if (chart?.closest("section")) chart.closest("section").style.display = isVisible ? "" : "none";
   }
 
@@ -19,9 +25,18 @@
     });
   }
 
-  function populatePlayerDeckSelect(config) {
-    const { playersIn2026 } = config;
-    const select = document.getElementById("player-deck-select");
+  function wireHeadToHeadSelect(config) {
+    const { onChange } = config;
+    const select = document.getElementById("head-to-head-player-select");
+    if (!select) return;
+
+    select.addEventListener("change", () => {
+      onChange(select.value);
+    });
+  }
+
+  function populatePlayerSelect(selectId, playersIn2026) {
+    const select = document.getElementById(selectId);
     if (!select) return;
 
     select.innerHTML = "";
@@ -42,6 +57,14 @@
     }
   }
 
+  function populatePlayerDeckSelect(config) {
+    populatePlayerSelect("player-deck-select", config.playersIn2026);
+  }
+
+  function populateHeadToHeadSelect(config) {
+    populatePlayerSelect("head-to-head-player-select", config.playersIn2026);
+  }
+
   function renderPlayerDeckStats(config) {
     const {
       selectedTab,
@@ -53,6 +76,7 @@
       winRate,
       pctText,
       appendTextCell,
+      appendRowHeaderCell,
       appendEmptyRow,
     } = config;
     const select = document.getElementById("player-deck-select");
@@ -96,7 +120,7 @@
 
     for (const row of rows) {
       const tr = document.createElement("tr");
-      appendTextCell(tr, row.deckName);
+      appendRowHeaderCell(tr, row.deckName);
       appendTextCell(tr, row.wins);
       appendTextCell(tr, row.matchesPlayed);
       appendTextCell(tr, pctText(row.winrate));
@@ -105,6 +129,87 @@
 
     if (rows.length === 0) {
       appendEmptyRow(body, 4, "No matches logged for this player yet.");
+    }
+  }
+
+  function renderHeadToHeadStats(config) {
+    const {
+      selectedTab,
+      headToHeadStats2026,
+      playersIn2026,
+      selectedPlayer,
+      setSelectedPlayer,
+      pctText,
+      winRate,
+      appendTextCell,
+      appendRowHeaderCell,
+      appendEmptyRow,
+    } = config;
+    const select = document.getElementById("head-to-head-player-select");
+    const body = document.getElementById("head-to-head-body");
+    const note = document.getElementById("head-to-head-note");
+
+    if (!select || !body || !note) return;
+
+    body.innerHTML = "";
+
+    const tabUses2026Log = selectedTab === "2026" || selectedTab === "overall";
+    if (!tabUses2026Log) {
+      note.textContent = "Not available for 2025 (no match log).";
+      return;
+    }
+
+    if (!headToHeadStats2026 || playersIn2026.length === 0) {
+      note.textContent = "No 2026 matches yet.";
+      return;
+    }
+
+    let activePlayer = selectedPlayer;
+    if (!activePlayer || !playersIn2026.includes(activePlayer)) {
+      activePlayer = playersIn2026[0];
+      setSelectedPlayer(activePlayer);
+      select.value = activePlayer;
+    }
+
+    const rows = headToHeadStats2026
+      .filter((pair) => pair.playerA === activePlayer || pair.playerB === activePlayer)
+      .map((pair) => {
+        const isPlayerA = pair.playerA === activePlayer;
+        const opponent = isPlayerA ? pair.playerB : pair.playerA;
+        const playerWins = isPlayerA ? pair.playerAWins : pair.playerBWins;
+        const opponentWins = isPlayerA ? pair.playerBWins : pair.playerAWins;
+
+        return {
+          opponent,
+          sharedMatches: pair.sharedMatches,
+          playerWins,
+          opponentWins,
+          otherWins: pair.otherWins,
+          playerWinRate: winRate(playerWins, pair.sharedMatches),
+        };
+      })
+      .sort(
+        (a, b) =>
+          b.sharedMatches - a.sharedMatches ||
+          b.playerWins - a.playerWins ||
+          a.opponent.localeCompare(b.opponent)
+      );
+
+    note.textContent = `Showing ${activePlayer}'s pod records against each opponent from 2026 matches.`;
+
+    for (const row of rows) {
+      const tr = document.createElement("tr");
+      appendRowHeaderCell(tr, row.opponent);
+      appendTextCell(tr, row.sharedMatches);
+      appendTextCell(tr, row.playerWins);
+      appendTextCell(tr, row.opponentWins);
+      appendTextCell(tr, row.otherWins);
+      appendTextCell(tr, pctText(row.playerWinRate));
+      body.appendChild(tr);
+    }
+
+    if (rows.length === 0) {
+      appendEmptyRow(body, 6, "No shared matches logged for this player yet.");
     }
   }
 
@@ -163,16 +268,29 @@
     const barW = Math.max(18, Math.floor(chartW / barCount) - 6);
     const gap = 6;
 
+    const rootStyles = getComputedStyle(document.documentElement);
+    const cssColor = (name, fallback) => rootStyles.getPropertyValue(name).trim() || fallback;
     const palette = [
-      "#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f",
-      "#edc948", "#b07aa1", "#ff9da7", "#9c755f", "#bab0ab",
+      cssColor("--chart-blue", "#3f6f9f"),
+      cssColor("--chart-teal", "#2f7d70"),
+      cssColor("--chart-olive", "#6f7f3f"),
+      cssColor("--chart-gold", "#b98925"),
+      cssColor("--chart-rust", "#b65c38"),
+      cssColor("--chart-violet", "#725c9f"),
+      cssColor("--chart-slate", "#60717a"),
+      cssColor("--chart-rose", "#b85d72"),
     ];
+    const chartSurface = cssColor("--color-surface", "#ffffff");
+    const chartText = cssColor("--color-text-muted", "#5f6368");
     const colorByPlayer = new Map(playerList.map((player, index) => [player, palette[index % palette.length]]));
 
-    let svg = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Monthly wins chart">
-      <rect x="0" y="0" width="${width}" height="${height}" fill="white"></rect>
-      <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="#333" />
-      <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="#333" />
+    const chartSummary = months.map((monthKey, index) => `${monthKey}: ${totalsPerMonth[index]} win(s)`).join("; ");
+    let svg = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="wins-over-time-svg-title wins-over-time-svg-desc">
+      <title id="wins-over-time-svg-title">Monthly wins chart</title>
+      <desc id="wins-over-time-svg-desc">${chartSummary}</desc>
+      <rect x="0" y="0" width="${width}" height="${height}" fill="${chartSurface}"></rect>
+      <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" stroke="${chartText}" />
+      <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" stroke="${chartText}" />
     `;
 
     months.forEach((monthKey, index) => {
@@ -195,7 +313,7 @@
         stack += wins;
       });
 
-      svg += `<text x="${x + barW / 2}" y="${height - padding + 16}" font-size="10" text-anchor="middle" fill="#333">${monthKey}</text>`;
+      svg += `<text x="${x + barW / 2}" y="${height - padding + 16}" font-size="10" text-anchor="middle" fill="${chartText}">${monthKey}</text>`;
     });
 
     let legendX = padding;
@@ -204,7 +322,7 @@
       const x = legendX + (index % 5) * 170;
       const y = legendY + Math.floor(index / 5) * 16;
       svg += `<rect x="${x}" y="${y}" width="10" height="10" fill="${colorByPlayer.get(player)}"></rect>`;
-      svg += `<text x="${x + 14}" y="${y + 9}" font-size="11" fill="#333">${player}</text>`;
+      svg += `<text x="${x + 14}" y="${y + 9}" font-size="11" fill="${chartText}">${player}</text>`;
     });
 
     svg += "</svg>";
@@ -212,10 +330,13 @@
   }
 
   const api = {
+    populateHeadToHeadSelect,
     populatePlayerDeckSelect,
+    renderHeadToHeadStats,
     renderPlayerDeckStats,
     renderWinsOverTimeChart,
     setPlayerDeckSectionsVisible,
+    wireHeadToHeadSelect,
     wirePlayerDeckSelect,
   };
 

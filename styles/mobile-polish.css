@@ -1,0 +1,241 @@
+@media (max-width: 720px) {
+  body {
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  header {
+    padding: 14px 12px;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 1.65rem;
+    line-height: 1.15;
+  }
+
+  .header-note {
+    font-size: 0.9rem;
+  }
+
+  .app-views,
+  .tabs {
+    justify-content: flex-start;
+    gap: 8px;
+    margin: 12px auto 4px auto;
+    padding: 10px 12px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  .app-view-link,
+  .tab {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+
+  main section {
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    margin: 14px auto;
+    padding: 14px 12px;
+  }
+
+  .section-heading {
+    margin: 4px 0 10px 0;
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+
+  .section-note,
+  .chart-note {
+    margin: 0 auto 12px auto;
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+
+  .summary-grid {
+    gap: 10px;
+  }
+
+  .summary-card {
+    min-height: 0;
+    padding: 12px;
+  }
+
+  .summary-card-value {
+    font-size: 1.35rem;
+  }
+
+  .summary-card-detail {
+    font-size: 0.9rem;
+  }
+
+  .field-row,
+  .table-controls {
+    width: 100%;
+    align-items: stretch;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .field-row label,
+  .table-controls label {
+    width: 100%;
+    text-align: left;
+    font-weight: 700;
+  }
+
+  .field-row select,
+  .table-controls input,
+  #player-deck-select,
+  #head-to-head-player-select {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  #toggle-inactive-decks,
+  .secondary-button {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+
+  table {
+    min-width: 620px;
+    font-size: 0.92rem;
+  }
+
+  .table-scroll {
+    border: 1px solid var(--color-border-subtle);
+    scrollbar-gutter: stable;
+  }
+
+  .table-scroll-hint {
+    display: block;
+  }
+
+  th,
+  td {
+    padding: 9px 10px;
+    vertical-align: top;
+  }
+
+  thead th {
+    line-height: 1.25;
+  }
+
+  .latest-session-summary {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+  }
+
+  .latest-session-summary h3 {
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+
+  .latest-session-stats {
+    gap: 6px;
+  }
+
+  .latest-session-winners {
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .session-tabs {
+    margin-inline: -2px;
+    padding-bottom: 8px;
+  }
+
+  .session-tab {
+    flex-basis: auto;
+    min-width: 112px;
+    min-height: 46px;
+  }
+
+  .session-card {
+    padding: 13px;
+  }
+
+  .session-card-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .session-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .session-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-content: stretch;
+  }
+
+  .session-meta span {
+    min-width: 0;
+    padding: 7px 6px;
+  }
+
+  .session-line {
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .session-line strong {
+    display: block;
+    margin: 0 0 2px 0;
+  }
+
+  .session-game {
+    padding: 12px 0 12px 10px;
+  }
+
+  .session-game-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .session-winner-badge {
+    justify-self: start;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: normal;
+  }
+
+  .session-game-players {
+    grid-template-columns: 1fr;
+  }
+
+  .session-game-players span {
+    padding: 7px 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 460px) {
+  header h1 {
+    font-size: 1.45rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .latest-session-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .session-meta {
+    grid-template-columns: 1fr;
+  }
+}

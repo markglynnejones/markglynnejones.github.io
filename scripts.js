@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const {
+    buildDashboardSummary,
+    buildHeadToHeadStats,
     buildMonthlyWins2026,
     buildLatestSessionSummary,
     buildPlayerDeckStats2026,
@@ -16,20 +18,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const commanderScryfall = window.CommanderScryfall.createCommanderScryfallClient();
   const commanderSessions = window.CommanderSessions;
   const commanderDecks = window.CommanderDecks;
+  const commanderDashboardSummary = window.CommanderDashboardSummary;
+  const commanderDeepLinks = window.CommanderDeepLinks;
+  const commanderFunStats = window.CommanderFunStats;
+  const commanderPhaseOneInsights = window.CommanderPhaseOneInsights;
+  const commanderRecentForm = window.CommanderRecentForm;
   const commanderRecentMatches = window.CommanderRecentMatches;
   const commanderSingles = window.CommanderSingles;
   const commanderPlayerInsights = window.CommanderPlayerInsights;
+  const commanderStreaks = window.CommanderStreaks;
 
   // -----------------------------
   // Config
   // -----------------------------
   const YEARS = ["2025", "2026"];
   const TAB_KEYS = ["overall", ...YEARS];
+  const VIEW_KEYS = ["overview", "players", "decks", "sessions", "fun"];
+  const VIEW_BY_HASH_KIND = {
+    deck: "decks",
+    player: "players",
+    session: "sessions",
+  };
   const RECENT_MATCH_LIMITS = [5, 10, 20];
 
   // -----------------------------
   // State
   // -----------------------------
+  let selectedView = "overview";
   let selectedTab = "overall";
   let showInactiveDecks = false;
   let playerSearchQuery = "";
@@ -51,8 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Player deck stats state (from 2026 match log)
   let playerDeckStats2026 = null; // Map player -> Map deckId -> {wins,matches}
+  let headToHeadStats2026 = null; // list of pair records from 2026 matches
+  let recentForm2026 = null; // last 5 player/deck form from 2026 matches
+  let winStreaks2026 = null; // current/best player/deck win streaks from 2026 matches
+  let funStats2026 = null; // separated fun stats from 2026 matches
   let playersIn2026 = []; // list of players (sorted)
   let selectedPlayerForDeckStats = ""; // chosen in dropdown
+  let selectedPlayerForHeadToHead = ""; // chosen in dropdown
 
   // -----------------------------
   // Data caches
@@ -78,16 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showFatalError(message, error) {
     const banner = document.createElement("div");
-    banner.style.background = "#b00020";
-    banner.style.color = "white";
-    banner.style.padding = "12px";
-    banner.style.margin = "12px";
-    banner.style.borderRadius = "6px";
-    banner.style.fontWeight = "bold";
+    banner.className = "fatal-error-banner";
+    banner.setAttribute("role", "alert");
     banner.innerHTML = `
-      <div>❌ Data loading error</div>
+      <div>Data loading error</div>
       <div style="margin-top: 6px;">${message}</div>
-      <pre style="white-space: pre-wrap; font-weight: normal; margin-top: 8px;">${String(error)}</pre>
+      <pre>${String(error)}</pre>
     `;
     document.body.prepend(banner);
   }
@@ -98,12 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function makeSortable(th, onActivate) {
     if (!th) return;
+    const control = th.querySelector("button") || th;
     th.classList.add("sortable");
-    th.setAttribute("role", "button");
-    th.setAttribute("tabindex", "0");
+    if (control === th) {
+      th.setAttribute("role", "button");
+      th.setAttribute("tabindex", "0");
+    }
 
-    th.addEventListener("click", onActivate);
-    th.addEventListener("keydown", (e) => {
+    control.addEventListener("click", onActivate);
+    control.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         onActivate();
@@ -118,6 +137,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function appendTextCell(row, text) {
     const cell = document.createElement("td");
+    cell.textContent = String(text);
+    row.appendChild(cell);
+    return cell;
+  }
+
+  function appendRowHeaderCell(row, text) {
+    const cell = document.createElement("th");
+    cell.scope = "row";
     cell.textContent = String(text);
     row.appendChild(cell);
     return cell;
@@ -188,6 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
       shortDisplayDate,
       deckNameFromId,
       deckAnchorId,
+      sessionAnchorId,
       scrollToDeck,
     });
   }
@@ -202,6 +230,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function renderDashboardSummary(players, decks) {
+    if (!commanderDashboardSummary?.renderDashboardSummary) return;
+    commanderDashboardSummary.renderDashboardSummary({
+      selectedTab,
+      summary: buildDashboardSummary({
+        players,
+        decks,
+        matchFile: selectedTab === "2025" ? null : matches2026,
+      }),
+      shortDisplayDate,
+      pctText,
+    });
+  }
+
   function nextRecentMatchLimit() {
     return RECENT_MATCH_LIMITS.find((limit) => limit > recentMatchesLimit) || recentMatchesLimit;
   }
@@ -213,7 +255,83 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function deckAnchorId(deckId) {
+    if (commanderDeepLinks?.deckAnchorId) return commanderDeepLinks.deckAnchorId(deckId);
     return `deck-row-${String(deckId || "").replace(/[^a-z0-9_-]/gi, "-")}`;
+  }
+
+  function playerAnchorId(playerName) {
+    if (commanderDeepLinks?.playerAnchorId) return commanderDeepLinks.playerAnchorId(playerName);
+    return `player-row-${String(playerName || "").replace(/[^a-z0-9_-]/gi, "-")}`;
+  }
+
+  function sessionAnchorId(sessionDate) {
+    if (commanderDeepLinks?.sessionAnchorId) return commanderDeepLinks.sessionAnchorId(sessionDate);
+    return `session-${String(sessionDate || "").replace(/[^a-z0-9_-]/gi, "-")}`;
+  }
+
+  function parseAppRoute(hash) {
+    const fragment = String(hash || "").replace(/^#/, "");
+
+    if (!fragment) return { view: "overview", anchorId: "" };
+
+    if (fragment.startsWith("/")) {
+      const [viewPart, anchorId] = fragment.slice(1).split("/");
+      const view = VIEW_KEYS.includes(viewPart) ? viewPart : "overview";
+      return { view, anchorId: anchorId || "" };
+    }
+
+    const parsed = commanderDeepLinks?.parseHashLink?.(hash);
+    if (parsed?.kind && VIEW_BY_HASH_KIND[parsed.kind]) {
+      return {
+        view: VIEW_BY_HASH_KIND[parsed.kind],
+        anchorId: parsed.anchorId || "",
+      };
+    }
+
+    return { view: VIEW_KEYS.includes(fragment) ? fragment : "overview", anchorId: "" };
+  }
+
+  function appHash(view, anchorId = "") {
+    const safeView = VIEW_KEYS.includes(view) ? view : "overview";
+    return anchorId ? `#/${safeView}/${anchorId}` : `#/${safeView}`;
+  }
+
+  function applySelectedView() {
+    for (const view of VIEW_KEYS) {
+      const selected = view === selectedView;
+      const container = document.getElementById(`view-${view}`);
+      const link = document.querySelector(`[data-view-link="${view}"]`);
+
+      if (container) container.hidden = !selected;
+      if (link) {
+        if (selected) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+      }
+    }
+  }
+
+  function selectView(view, options = {}) {
+    selectedView = VIEW_KEYS.includes(view) ? view : "overview";
+    applySelectedView();
+
+    if (options.updateHash) {
+      const nextHash = appHash(selectedView);
+      if (window.location.hash !== nextHash) window.location.hash = nextHash;
+    }
+  }
+
+  function scrollToHashTarget() {
+    const { anchorId: targetId } = parseAppRoute(window.location.hash);
+    if (!targetId) return;
+
+    requestAnimationFrame(() => {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+      target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "center" });
+    });
   }
 
   function scrollToDeck(deckId) {
@@ -223,17 +341,22 @@ document.addEventListener("DOMContentLoaded", () => {
     deckSearchQuery = "";
     if (deckSearch) deckSearch.value = "";
     showInactiveDecks = true;
+    selectedView = "decks";
     renderForSelectedTab();
 
     requestAnimationFrame(() => {
       const target = document.getElementById(targetId);
       if (!target) return;
 
-      window.location.hash = targetId;
+      window.location.hash = appHash("decks", targetId);
       target.tabIndex = -1;
       target.focus({ preventScroll: true });
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "center" });
     });
+  }
+
+  function prefersReducedMotion() {
+    return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
   }
 
   function renderPlayerDeckStats() {
@@ -250,7 +373,47 @@ document.addEventListener("DOMContentLoaded", () => {
       winRate,
       pctText,
       appendTextCell,
+      appendRowHeaderCell,
       appendEmptyRow,
+    });
+  }
+
+  function renderHeadToHeadStats() {
+    if (!commanderPlayerInsights?.renderHeadToHeadStats) return;
+    commanderPlayerInsights.renderHeadToHeadStats({
+      selectedTab,
+      headToHeadStats2026,
+      playersIn2026,
+      selectedPlayer: selectedPlayerForHeadToHead,
+      setSelectedPlayer(nextPlayer) {
+        selectedPlayerForHeadToHead = nextPlayer;
+      },
+      winRate,
+      pctText,
+      appendTextCell,
+      appendRowHeaderCell,
+      appendEmptyRow,
+    });
+  }
+
+  function renderRecentFormAndStreaks() {
+    if (!commanderPhaseOneInsights?.renderRecentFormAndStreaks) return;
+    commanderPhaseOneInsights.renderRecentFormAndStreaks({
+      selectedTab,
+      recentForm: recentForm2026,
+      winStreaks: winStreaks2026,
+      deckNameFromId,
+      pctText,
+    });
+  }
+
+  function renderFunStats() {
+    if (!commanderPhaseOneInsights?.renderFunStats) return;
+    commanderPhaseOneInsights.renderFunStats({
+      selectedTab,
+      funStats: funStats2026,
+      deckNameFromId,
+      pctText,
     });
   }
 
@@ -308,6 +471,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const { players, decks } = getTabData(selectedTab);
 
     renderLastUpdated();
+    renderDashboardSummary(players, decks);
     renderLatestSessionSummary();
     renderRecentMatches();
     renderSessions();
@@ -320,13 +484,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (showExtras) {
       renderPlayerDeckStats();
+      renderHeadToHeadStats();
+      renderRecentFormAndStreaks();
+      renderFunStats();
       renderWinsOverTimeChart();
     }
+
+    applySelectedView();
+    scrollToHashTarget();
   }
 
   // -----------------------------
   // Wire up existing sorting etc.
   // -----------------------------
+  function wireAppViews() {
+    const links = Array.from(document.querySelectorAll("[data-view-link]"));
+
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        selectView(link.dataset.viewLink, { updateHash: true });
+      });
+    }
+
+    window.addEventListener("hashchange", () => {
+      const route = parseAppRoute(window.location.hash);
+      selectedView = route.view;
+      applySelectedView();
+      scrollToHashTarget();
+    });
+  }
+
   function wireTabs() {
     const tabs = TAB_KEYS.map((k) => document.getElementById(`tab-${k}`)).filter(Boolean);
 
@@ -341,6 +529,12 @@ document.addEventListener("DOMContentLoaded", () => {
           e.preventDefault();
           const delta = e.key === "ArrowRight" ? 1 : -1;
           const next = (currentIndex + delta + tabs.length) % tabs.length;
+          tabs[next].focus();
+        }
+
+        if (e.key === "Home" || e.key === "End") {
+          e.preventDefault();
+          const next = e.key === "Home" ? 0 : tabs.length - 1;
           tabs[next].focus();
         }
 
@@ -378,7 +572,9 @@ document.addEventListener("DOMContentLoaded", () => {
       players,
       playerSearchQuery,
       normaliseText,
+      playerAnchorId,
       appendTextCell,
+      appendRowHeaderCell,
       appendEmptyRow,
       pctText,
       winRate,
@@ -407,6 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
       deckAnchorId,
       pctText,
       winRate,
+      appendRowHeaderCell,
       appendEmptyRow,
       matchCombination,
       fetchCommander: commanderScryfall.fetchCommander,
@@ -494,19 +691,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Build 2026 extras
       playerDeckStats2026 = buildPlayerDeckStats2026(matches2026);
+      headToHeadStats2026 = buildHeadToHeadStats(matches2026);
+      recentForm2026 = commanderRecentForm?.buildRecentForm?.(matches2026, { limit: 5 });
+      winStreaks2026 = commanderStreaks?.buildWinStreaks?.(matches2026);
+      funStats2026 = commanderFunStats?.buildFunStats?.(matches2026);
       playersIn2026 = Array.from(playerDeckStats2026.keys()).sort();
 
       // Setup player dropdown
       commanderPlayerInsights?.populatePlayerDeckSelect?.({ playersIn2026 });
+      commanderPlayerInsights?.populateHeadToHeadSelect?.({ playersIn2026 });
       commanderPlayerInsights?.wirePlayerDeckSelect?.({
         onChange(nextPlayer) {
           selectedPlayerForDeckStats = nextPlayer;
           renderPlayerDeckStats();
         },
       });
+      commanderPlayerInsights?.wireHeadToHeadSelect?.({
+        onChange(nextPlayer) {
+          selectedPlayerForHeadToHead = nextPlayer;
+          renderHeadToHeadStats();
+        },
+      });
 
       const rerender = () => renderForSelectedTab();
 
+      const initialRoute = parseAppRoute(window.location.hash);
+      selectedView = initialRoute.view;
+
+      wireAppViews();
       wireTabs();
       wireSinglesSorting(rerender);
       wireDecksSorting(rerender);

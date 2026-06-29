@@ -2,9 +2,9 @@
   width: min(720px, 100%);
   margin: 0 auto 14px auto;
   padding: 14px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 8px;
-  background: #ffffff;
+  background: var(--color-surface);
   text-align: center;
 }
 
@@ -26,7 +26,7 @@
 .latest-session-stats div {
   padding: 8px;
   border-radius: 6px;
-  background: #f4f4f4;
+  background: var(--color-surface-subtle);
 }
 
 .latest-session-stats strong,

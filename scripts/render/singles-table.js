@@ -65,7 +65,9 @@
       players,
       playerSearchQuery,
       normaliseText,
+      playerAnchorId,
       appendTextCell,
+      appendRowHeaderCell,
       appendEmptyRow,
       pctText,
       winRate,
@@ -74,6 +76,7 @@
       sortIcons,
     } = config;
     const body = document.getElementById("wins-table-body");
+    const status = document.getElementById("player-search-status");
     if (!body) return;
 
     body.innerHTML = "";
@@ -88,9 +91,14 @@
       winRate,
     });
 
+    if (status) {
+      status.textContent = `${sorted.length} player${sorted.length === 1 ? "" : "s"} shown.`;
+    }
+
     for (const player of sorted) {
       const tr = document.createElement("tr");
-      appendTextCell(tr, player.name);
+      if (playerAnchorId) tr.id = playerAnchorId(player.name);
+      appendRowHeaderCell(tr, player.name);
       appendTextCell(tr, player.wins ?? 0);
       appendTextCell(tr, player.matchesPlayed ?? 0);
       appendTextCell(tr, pctText(winRate(player.wins, player.matchesPlayed)));
