@@ -4,7 +4,11 @@
       "id": "rhys-french-lessons",
       "name": "Rhys French Lessons",
       "commander": "Glarb, Calamity's Augur",
-      "active": true
+      "active": true,
+      "aliases": [
+        "glarb",
+        "glarb glarb this times its personal and its personal"
+      ]
     },
     {
       "id": "graveyard-overdrive",
@@ -80,6 +84,7 @@
         "Sam, Loyal Attendant"
       ],
       "aliases": [
+        "frodo and sam",
         "sam and frodo",
         "hobbits"
       ],
@@ -471,8 +476,6 @@
       "commander": "Quintorius, Field Historian",
       "active": true,
       "owner": "Mark",
-      "needsReview": true,
-      "reviewNote": "Confirm final deck name and Quintorius spelling after first session.",
       "aliases": [
         "quinny",
         "quintorius",
@@ -493,6 +496,7 @@
         "rogue 1",
         "rouge 1",
         "thrassion",
+        "thrassios",
         "thrasios",
         "vial smasher"
       ]
@@ -503,6 +507,7 @@
       "commander": "Hazel of the Rootbloom",
       "active": true,
       "aliases": [
+        "squirrels a",
         "squirreled away",
         "squirrelled away"
       ]
@@ -512,23 +517,32 @@
       "name": "Sin",
       "commander": "Sin, Spira's Punishment",
       "active": true,
-      "needsReview": true,
-      "reviewNote": "Confirm final deck name and owner after first session.",
+      "owner": "Ollie",
       "aliases": [
         "sin"
       ]
     },
     {
       "id": "elas-il-kor",
-      "name": "Elas Il-Kor",
+      "name": "Elas il-Kor",
       "commander": "Elas il-Kor, Sadistic Pilgrim",
       "active": true,
-      "needsReview": true,
-      "reviewNote": "Confirm final deck name and owner after first session.",
+      "owner": "Ben",
       "aliases": [
         "elas il kor",
         "elas il-kor",
         "elas"
+      ]
+    },
+    {
+      "id": "hosts-of-mordor",
+      "name": "The Hosts of Mordor",
+      "commander": "Sauron, Lord of the Rings",
+      "active": true,
+      "aliases": [
+        "the hosts of mordor",
+        "hosts of mordor",
+        "host of mordor"
       ]
     }
   ]

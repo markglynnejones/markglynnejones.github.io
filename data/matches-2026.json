@@ -566,6 +566,71 @@
         { "name": "Jo", "deckId": "squirrelled-away" }
       ],
       "winner": "Jo"
+    },
+    {
+      "date": "2026-06-14",
+      "players": [
+        { "name": "Liam", "deckId": "artifact-black" },
+        { "name": "Jo", "deckId": "tricky-terrain" },
+        { "name": "Mark", "deckId": "prismari-performance" },
+        { "name": "Ollie", "deckId": "hosts-of-mordor" }
+      ],
+      "winner": "Jo"
+    },
+    {
+      "date": "2026-06-14",
+      "players": [
+        { "name": "Liam", "deckId": "zombieland" },
+        { "name": "Jake", "deckId": "ring-sting" },
+        { "name": "Jo", "deckId": "bad-misc" },
+        { "name": "Mark", "deckId": "quintorius" },
+        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" }
+      ],
+      "winner": "Liam"
+    },
+    {
+      "date": "2026-06-14",
+      "players": [
+        { "name": "Liam", "deckId": "bad-misc" },
+        { "name": "Jake", "deckId": "rhys-french-lessons" },
+        { "name": "Jo", "deckId": "peace-offering" },
+        { "name": "Mark", "deckId": "quintorius" },
+        { "name": "Ollie", "deckId": "sin" }
+      ],
+      "winner": "Mark"
+    },
+    {
+      "date": "2026-06-14",
+      "players": [
+        { "name": "Liam", "deckId": "cloni-macaroni" },
+        { "name": "Jake", "deckId": "saruman" },
+        { "name": "Jo", "deckId": "squirrelled-away" },
+        { "name": "Mark", "deckId": "hurtie-not-curie" },
+        { "name": "Ollie", "deckId": "sin" }
+      ],
+      "winner": "Mark"
+    },
+    {
+      "date": "2026-06-14",
+      "players": [
+        { "name": "Liam", "deckId": "cloni-macaroni" },
+        { "name": "Jake", "deckId": "saruman" },
+        { "name": "Jo", "deckId": "fishes" },
+        { "name": "Mark", "deckId": "squirrelled-away" },
+        { "name": "Ollie", "deckId": "rogue-one" }
+      ],
+      "winner": "Liam"
+    },
+    {
+      "date": "2026-06-14",
+      "players": [
+        { "name": "Liam", "deckId": "saruman" },
+        { "name": "Jake", "deckId": "rhys-french-lessons" },
+        { "name": "Jo", "deckId": "peace-offering" },
+        { "name": "Mark", "deckId": "bad-misc" },
+        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" }
+      ],
+      "winner": "Jo"
     }
   ]
 }
