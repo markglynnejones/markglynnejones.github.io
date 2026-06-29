@@ -286,6 +286,13 @@ Initial export targets:
 - Player stats CSV.
 - Deck stats CSV.
 
+Implemented:
+
+- `npm run export -- --format csv --year 2026` writes all CSV exports under `data/exports/`.
+- `--target matches`, `--target players`, and `--target decks` export individual CSVs to stdout.
+- `--out path` writes a single target to a specific file.
+- Match exports include stable IDs, notes, and tags.
+
 ## Phase 3: Import UX Prototype
 
 Goal: validate whether non-technical users can use the workflow.
