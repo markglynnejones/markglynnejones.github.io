@@ -17,6 +17,7 @@ function test(name, fn) {
 function validData(overrides = {}) {
   return {
     deckDefinitions: {
+      schemaVersion: 1,
       decks: [
         {
           id: "bad-misc",
@@ -35,6 +36,7 @@ function validData(overrides = {}) {
       ],
     },
     decks2025: {
+      schemaVersion: 1,
       decks: [
         {
           name: "Old Deck",
@@ -46,20 +48,24 @@ function validData(overrides = {}) {
       ],
     },
     players2025: {
+      schemaVersion: 1,
       players: [{ name: "Jake", wins: 2, matchesPlayed: 5 }],
     },
     combinationsData: {
+      schemaVersion: 1,
       combinations: {
         Izzet: ["Red", "Blue"],
       },
     },
     playerAliases: {
+      schemaVersion: 1,
       olly: "Ollie",
     },
     matchesFiles: [
       {
         label: "data/matches-2026.json",
         data: {
+          schemaVersion: 1,
           matches: [
             {
               id: "2026-04-06-001",
@@ -91,12 +97,59 @@ test("validateData accepts a valid data set", () => {
   assert.deepStrictEqual(result.warnings, []);
 });
 
+test("validateData catches missing or unsupported schema versions", () => {
+  const missingDeckVersion = validData({
+    deckDefinitions: {
+      decks: [
+        {
+          id: "bad-misc",
+          name: "Bad Misc",
+          commander: "Ragost, Deft Gastronaut",
+          active: true,
+        },
+        {
+          id: "big-sues",
+          name: "Big Sue's",
+          commander: ["Susan Foreman", "The Twelfth Doctor"],
+          active: true,
+        },
+      ],
+    },
+    matchesFiles: [
+      {
+        label: "data/matches-2026.json",
+        data: {
+          schemaVersion: 2,
+          matches: [
+            {
+              id: "2026-04-06-001",
+              date: "2026-04-06",
+              players: [
+                { name: "Jo", deckId: "bad-misc" },
+                { name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+            },
+          ],
+        },
+      },
+    ],
+  });
+
+  const result = validateData(missingDeckVersion);
+
+  assert.strictEqual(result.errors.length, 2);
+  assert.match(result.errors[0], /data\/deck-definitions\.json must have schemaVersion 1/);
+  assert.match(result.errors[1], /data\/matches-2026\.json must have schemaVersion 1/);
+});
+
 test("validateData accepts optional match notes and tags", () => {
   const data = validData({
     matchesFiles: [
       {
         label: "data/matches-2026.json",
         data: {
+          schemaVersion: 1,
           matches: [
             {
               id: "2026-04-06-001",
@@ -124,6 +177,7 @@ test("validateData accepts optional match notes and tags", () => {
 test("validateData accepts optional deck owner and review metadata", () => {
   const data = validData({
     deckDefinitions: {
+      schemaVersion: 1,
       decks: [
         {
           id: "bad-misc",
@@ -159,6 +213,7 @@ test("validateData catches unknown deck ids", () => {
       {
         label: "data/matches-2026.json",
         data: {
+          schemaVersion: 1,
           matches: [
             {
               id: "2026-04-06-001",
@@ -187,6 +242,7 @@ test("validateData catches duplicate players and invalid winners", () => {
       {
         label: "data/matches-2026.json",
         data: {
+          schemaVersion: 1,
           matches: [
             {
               id: "2026-04-06-001",
@@ -216,6 +272,7 @@ test("validateData catches missing, malformed, duplicate, and date-mismatched ma
       {
         label: "data/matches-2026.json",
         data: {
+          schemaVersion: 1,
           matches: [
             {
               date: "2026-04-06",
@@ -283,6 +340,7 @@ test("validateData catches invalid match notes and tags", () => {
       {
         label: "data/matches-2026.json",
         data: {
+          schemaVersion: 1,
           matches: [
             {
               id: "2026-04-06-001",
@@ -316,6 +374,7 @@ test("validateData catches non-array match tags", () => {
       {
         label: "data/matches-2026.json",
         data: {
+          schemaVersion: 1,
           matches: [
             {
               id: "2026-04-06-001",
@@ -345,6 +404,7 @@ test("validateData warns when match dates are out of order", () => {
       {
         label: "data/matches-2026.json",
         data: {
+          schemaVersion: 1,
           matches: [
             {
               id: "2026-04-07-001",
@@ -380,6 +440,7 @@ test("validateData warns when match dates are out of order", () => {
 test("validateData catches duplicate aliases across decks", () => {
   const data = validData({
     deckDefinitions: {
+      schemaVersion: 1,
       decks: [
         {
           id: "bad-misc",

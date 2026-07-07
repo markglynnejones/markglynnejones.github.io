@@ -7,6 +7,8 @@ const { assignMissingMatchIds, createMatchIdGenerator } = require("./match-ids")
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DECKS_PATH = path.join(REPO_ROOT, "data", "deck-definitions.json");
 const PLAYER_ALIASES_PATH = path.join(REPO_ROOT, "data", "player-aliases.json");
+const CURRENT_SCHEMA_VERSION = 1;
+const METADATA_KEYS = new Set(["schemaVersion"]);
 
 function usage() {
   console.log(`Usage: node scripts/import-notes.js <notes-file> [--year 2026] [--write]
@@ -151,6 +153,7 @@ function readJson(filePath, fallback) {
 function buildPlayerAliases(aliasData) {
   const aliases = new Map();
   for (const [alias, canonical] of Object.entries(aliasData || {})) {
+    if (METADATA_KEYS.has(alias)) continue;
     aliases.set(normalise(alias), canonical);
   }
   return aliases;
@@ -166,7 +169,8 @@ function writeJson(filePath, data) {
 }
 
 function formatMatchesData(data) {
-  const lines = ["{", '  "matches": ['];
+  const schemaVersion = data.schemaVersion || CURRENT_SCHEMA_VERSION;
+  const lines = ["{", `  "schemaVersion": ${JSON.stringify(schemaVersion)},`, '  "matches": ['];
 
   data.matches.forEach((match, matchIndex) => {
     lines.push("    {");

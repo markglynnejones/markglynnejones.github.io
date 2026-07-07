@@ -7,6 +7,8 @@ const { matchIdDate, validMatchId } = require("./match-ids");
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
 const ALLOWED_COLORS = new Set(["White", "Blue", "Black", "Red", "Green", "Colorless"]);
+const CURRENT_SCHEMA_VERSION = 1;
+const METADATA_KEYS = new Set(["schemaVersion"]);
 
 function createIssueCollector() {
   return {
@@ -50,6 +52,17 @@ function isNonEmptyString(value) {
 
 function isNonNegativeNumber(value) {
   return typeof value === "number" && Number.isFinite(value) && value >= 0;
+}
+
+function checkSchemaVersion(fileLabel, data, issues) {
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    issues.fail(`${fileLabel} must contain a JSON object.`);
+    return;
+  }
+
+  if (data.schemaVersion !== CURRENT_SCHEMA_VERSION) {
+    issues.fail(`${fileLabel} must have schemaVersion ${CURRENT_SCHEMA_VERSION}.`);
+  }
 }
 
 function isNormalisedTag(value) {
@@ -265,6 +278,7 @@ function checkPlayerAliases(playerAliases, issues) {
 
   const seen = new Set();
   for (const [alias, canonical] of Object.entries(playerAliases)) {
+    if (METADATA_KEYS.has(alias)) continue;
     const key = normalise(alias);
     if (!key) issues.fail("data/player-aliases.json contains an empty alias.");
     if (!isNonEmptyString(canonical)) issues.fail(`Player alias "${alias}" must point at a non-empty player name.`);
@@ -286,6 +300,12 @@ function checkStaticReferences(issues) {
 }
 
 function validateData(data, issues = createIssueCollector()) {
+  checkSchemaVersion("data/deck-definitions.json", data.deckDefinitions, issues);
+  checkSchemaVersion("data/decks-2025.json", data.decks2025, issues);
+  checkSchemaVersion("data/players-2025.json", data.players2025, issues);
+  checkSchemaVersion("data/combinations.json", data.combinationsData, issues);
+  checkSchemaVersion("data/player-aliases.json", data.playerAliases, issues);
+
   const deckById = checkDeckDefinitions(data.deckDefinitions, issues);
   checkHistoricDecks(data.decks2025, issues);
   checkHistoricPlayers(data.players2025, issues);
@@ -293,6 +313,7 @@ function validateData(data, issues = createIssueCollector()) {
   checkPlayerAliases(data.playerAliases, issues);
 
   for (const matchesFile of data.matchesFiles || []) {
+    checkSchemaVersion(matchesFile.label, matchesFile.data, issues);
     checkMatchesData(matchesFile.label, matchesFile.data, deckById, issues);
   }
 
@@ -306,7 +327,7 @@ function main() {
   const players2025 = readJson(path.join(DATA_DIR, "players-2025.json"), issues);
   const combinationsData = readJson(path.join(DATA_DIR, "combinations.json"), issues);
   const playerAliases = readJson(path.join(DATA_DIR, "player-aliases.json"), issues);
-  readJson(path.join(DATA_DIR, "doubles.json"), issues);
+  const doublesData = readJson(path.join(DATA_DIR, "doubles.json"), issues);
 
   const matchesFiles = fs.readdirSync(DATA_DIR)
     .filter((name) => /^matches-\d{4}\.json$/.test(name))
@@ -320,6 +341,7 @@ function main() {
     });
 
   validateData({ deckDefinitions, decks2025, players2025, combinationsData, playerAliases, matchesFiles }, issues);
+  checkSchemaVersion("data/doubles.json", doublesData, issues);
 
   checkStaticReferences(issues);
 
@@ -341,6 +363,7 @@ if (require.main === module) {
 module.exports = {
   checkMatchesData,
   createIssueCollector,
+  CURRENT_SCHEMA_VERSION,
   validateData,
   validIsoDate,
 };

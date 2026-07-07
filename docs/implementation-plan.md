@@ -293,6 +293,17 @@ Implemented:
 - `--out path` writes a single target to a specific file.
 - Match exports include stable IDs, notes, and tags.
 
+### 4. Schema Versioning
+
+Add a top-level `schemaVersion` to JSON data files so future migrations can detect incompatible shapes before parsing.
+
+Implemented:
+
+- Current data files use `schemaVersion: 1`.
+- The validator requires supported schema metadata on core data files.
+- The importer writes `schemaVersion: 1` for match files.
+- Player alias metadata is ignored by alias resolution.
+
 ## Phase 3: Import UX Prototype
 
 Goal: validate whether non-technical users can use the workflow.

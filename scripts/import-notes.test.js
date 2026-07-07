@@ -46,6 +46,13 @@ test("normalises Olly to Ollie", () => {
   assert.strictEqual(result.matches[0].players[3].name, "Ollie");
 });
 
+test("buildPlayerAliases ignores schema metadata", () => {
+  const aliases = buildPlayerAliases({ schemaVersion: 1, olly: "Ollie" });
+
+  assert.strictEqual(aliases.get("olly"), "Ollie");
+  assert.strictEqual(aliases.has("schemaversion"), false);
+});
+
 test("resolves messy deck aliases", () => {
   const result = parseFixture();
 
@@ -132,6 +139,7 @@ test("formatMatchesData preserves optional notes and tags", () => {
     ],
   });
 
+  assert.strictEqual(JSON.parse(formatted).schemaVersion, 1);
   assert.match(formatted, /"notes": "Planechase got messy\."/);
   assert.match(formatted, /"tags": \["planechase","precon-night"\]/);
   assert.deepStrictEqual(JSON.parse(formatted).matches[0].tags, ["planechase", "precon-night"]);
