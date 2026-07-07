@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { assignMissingMatchIds, createMatchIdGenerator } = require("./match-ids");
 const { buildPlayerLookup, playerIdFromName } = require("./player-ids");
+const { assignMissingSessionIds } = require("./session-ids");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DECKS_PATH = path.join(REPO_ROOT, "data", "deck-definitions.json");
@@ -177,6 +178,7 @@ function formatMatchesData(data) {
   data.matches.forEach((match, matchIndex) => {
     lines.push("    {");
     if (match.id) lines.push(`      "id": ${JSON.stringify(match.id)},`);
+    if (match.sessionId) lines.push(`      "sessionId": ${JSON.stringify(match.sessionId)},`);
     lines.push(`      "date": ${JSON.stringify(match.date)},`);
     lines.push('      "players": [');
     match.players.forEach((player, playerIndex) => {
@@ -419,6 +421,7 @@ function matchSignature(match) {
 function appendMatches(matchesData, matches) {
   if (!Array.isArray(matchesData.matches)) matchesData.matches = [];
   assignMissingMatchIds(matchesData.matches);
+  assignMissingSessionIds(matchesData.matches);
 
   const existing = new Set(matchesData.matches.map(matchSignature));
   const nextMatchId = createMatchIdGenerator(matchesData.matches);
@@ -434,6 +437,7 @@ function appendMatches(matchesData, matches) {
 
     if (!match.id) match.id = nextMatchId(match.date);
     matchesData.matches.push(match);
+    assignMissingSessionIds(matchesData.matches);
     existing.add(signature);
     added += 1;
   }

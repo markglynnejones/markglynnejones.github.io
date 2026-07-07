@@ -3,6 +3,7 @@
   "matches": [
     {
       "id": "2026-01-04-001",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
@@ -15,6 +16,7 @@
     },
     {
       "id": "2026-01-04-002",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
@@ -27,6 +29,7 @@
     },
     {
       "id": "2026-01-04-003",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "ahoy-mateys" },
@@ -39,6 +42,7 @@
     },
     {
       "id": "2026-01-04-004",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
@@ -51,6 +55,7 @@
     },
     {
       "id": "2026-01-04-005",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
@@ -63,6 +68,7 @@
     },
     {
       "id": "2026-01-17-001",
+      "sessionId": "session-2026-01-17-001",
       "date": "2026-01-17",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
@@ -75,6 +81,7 @@
     },
     {
       "id": "2026-01-17-002",
+      "sessionId": "session-2026-01-17-001",
       "date": "2026-01-17",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
@@ -87,6 +94,7 @@
     },
     {
       "id": "2026-01-17-003",
+      "sessionId": "session-2026-01-17-001",
       "date": "2026-01-17",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
@@ -99,6 +107,7 @@
     },
     {
       "id": "2026-01-17-004",
+      "sessionId": "session-2026-01-17-001",
       "date": "2026-01-17",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "ahoy-mateys" },
@@ -111,6 +120,7 @@
     },
     {
       "id": "2026-02-08-001",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "markeus-calgar" },
@@ -122,6 +132,7 @@
     },
     {
       "id": "2026-02-08-002",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "blight-curse" },
@@ -133,6 +144,7 @@
     },
     {
       "id": "2026-02-08-003",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "the-vamp-clamp" },
@@ -144,6 +156,7 @@
     },
     {
       "id": "2026-02-08-004",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "gotta-have-hope" },
@@ -155,6 +168,7 @@
     },
     {
       "id": "2026-02-08-005",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "blood-in-the-water" },
@@ -166,6 +180,7 @@
     },
     {
       "id": "2026-02-15-001",
+      "sessionId": "session-2026-02-15-001",
       "date": "2026-02-15",
       "players": [
         { "playerId": "ollie", "name": "Ollie", "deckId": "toms-zoo" },
@@ -179,6 +194,7 @@
     },
     {
       "id": "2026-02-15-002",
+      "sessionId": "session-2026-02-15-001",
       "date": "2026-02-15",
       "players": [
         { "playerId": "ollie", "name": "Ollie", "deckId": "ha-ha-sephiroth" },
@@ -192,6 +208,7 @@
     },
     {
       "id": "2026-02-15-003",
+      "sessionId": "session-2026-02-15-001",
       "date": "2026-02-15",
       "players": [
         { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
@@ -205,6 +222,7 @@
     },
     {
       "id": "2026-02-15-004",
+      "sessionId": "session-2026-02-15-001",
       "date": "2026-02-15",
       "players": [
         { "playerId": "ollie", "name": "Ollie", "deckId": "jelly-belly" },
@@ -218,6 +236,7 @@
     },
     {
       "id": "2026-03-08-001",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "ring-sting" },
@@ -231,6 +250,7 @@
     },
     {
       "id": "2026-03-08-002",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "hurtie-not-curie" },
@@ -244,6 +264,7 @@
     },
     {
       "id": "2026-03-08-003",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "why-are-there-so-many-wizards" },
@@ -257,6 +278,7 @@
     },
     {
       "id": "2026-03-08-004",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "abzan-deetz-nuts-out" },
@@ -270,6 +292,7 @@
     },
     {
       "id": "2026-03-08-005",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "hurtie-not-curie" },
@@ -283,6 +306,7 @@
     },
     {
       "id": "2026-03-15-001",
+      "sessionId": "session-2026-03-15-001",
       "date": "2026-03-15",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "artifact-black" },
@@ -294,6 +318,7 @@
     },
     {
       "id": "2026-03-15-002",
+      "sessionId": "session-2026-03-15-001",
       "date": "2026-03-15",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "eldrazi-incursion" },
@@ -305,6 +330,7 @@
     },
     {
       "id": "2026-03-22-001",
+      "sessionId": "session-2026-03-22-001",
       "date": "2026-03-22",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
@@ -318,6 +344,7 @@
     },
     {
       "id": "2026-03-22-002",
+      "sessionId": "session-2026-03-22-001",
       "date": "2026-03-22",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
@@ -331,6 +358,7 @@
     },
     {
       "id": "2026-03-22-003",
+      "sessionId": "session-2026-03-22-001",
       "date": "2026-03-22",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
@@ -344,6 +372,7 @@
     },
     {
       "id": "2026-03-22-004",
+      "sessionId": "session-2026-03-22-001",
       "date": "2026-03-22",
       "players": [
         { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
@@ -357,6 +386,7 @@
     },
     {
       "id": "2026-04-06-001",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
         { "playerId": "jake", "name": "Jake", "deckId": "ring-sting" },
@@ -370,6 +400,7 @@
     },
     {
       "id": "2026-04-06-002",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
         { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
@@ -383,6 +414,7 @@
     },
     {
       "id": "2026-04-06-003",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
         { "playerId": "jake", "name": "Jake", "deckId": "zombieland" },
@@ -396,6 +428,7 @@
     },
     {
       "id": "2026-04-06-004",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
         { "playerId": "jake", "name": "Jake", "deckId": "baelyn" },
@@ -409,6 +442,7 @@
     },
     {
       "id": "2026-04-06-005",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
         { "playerId": "jake", "name": "Jake", "deckId": "uwu-otters" },
@@ -422,6 +456,7 @@
     },
     {
       "id": "2026-04-12-001",
+      "sessionId": "session-2026-04-12-001",
       "date": "2026-04-12",
       "players": [
         { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
@@ -433,6 +468,7 @@
     },
     {
       "id": "2026-04-19-001",
+      "sessionId": "session-2026-04-19-001",
       "date": "2026-04-19",
       "players": [
         { "playerId": "ollie", "name": "Ollie", "deckId": "toms-zoo" },
@@ -444,6 +480,7 @@
     },
     {
       "id": "2026-04-19-002",
+      "sessionId": "session-2026-04-19-001",
       "date": "2026-04-19",
       "players": [
         { "playerId": "ollie", "name": "Ollie", "deckId": "hurtie-not-curie" },
@@ -455,6 +492,7 @@
     },
     {
       "id": "2026-05-04-001",
+      "sessionId": "session-2026-05-04-001",
       "date": "2026-05-04",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "prismari-performance" },
@@ -468,6 +506,7 @@
     },
     {
       "id": "2026-05-04-002",
+      "sessionId": "session-2026-05-04-001",
       "date": "2026-05-04",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "witherbloom-witchcraft" },
@@ -481,6 +520,7 @@
     },
     {
       "id": "2026-05-04-003",
+      "sessionId": "session-2026-05-04-001",
       "date": "2026-05-04",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
@@ -494,6 +534,7 @@
     },
     {
       "id": "2026-05-10-001",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "zombieland" },
@@ -506,6 +547,7 @@
     },
     {
       "id": "2026-05-10-002",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "hurtie-not-curie" },
@@ -518,6 +560,7 @@
     },
     {
       "id": "2026-05-10-003",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "bad-misc" },
@@ -530,6 +573,7 @@
     },
     {
       "id": "2026-05-10-004",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
@@ -542,6 +586,7 @@
     },
     {
       "id": "2026-05-10-005",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
@@ -554,6 +599,7 @@
     },
     {
       "id": "2026-05-10-006",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" },
@@ -566,6 +612,7 @@
     },
     {
       "id": "2026-05-21-001",
+      "sessionId": "session-2026-05-21-001",
       "date": "2026-05-21",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
@@ -577,6 +624,7 @@
     },
     {
       "id": "2026-05-21-002",
+      "sessionId": "session-2026-05-21-001",
       "date": "2026-05-21",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
@@ -588,6 +636,7 @@
     },
     {
       "id": "2026-05-21-003",
+      "sessionId": "session-2026-05-21-001",
       "date": "2026-05-21",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "big-stompy-stomp" },
@@ -599,6 +648,7 @@
     },
     {
       "id": "2026-05-25-001",
+      "sessionId": "session-2026-05-25-001",
       "date": "2026-05-25",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
@@ -610,6 +660,7 @@
     },
     {
       "id": "2026-05-25-002",
+      "sessionId": "session-2026-05-25-001",
       "date": "2026-05-25",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "the-vamp-clamp" },
@@ -621,6 +672,7 @@
     },
     {
       "id": "2026-05-29-001",
+      "sessionId": "session-2026-05-29-001",
       "date": "2026-05-29",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
@@ -632,6 +684,7 @@
     },
     {
       "id": "2026-05-29-002",
+      "sessionId": "session-2026-05-29-001",
       "date": "2026-05-29",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
@@ -643,6 +696,7 @@
     },
     {
       "id": "2026-06-04-001",
+      "sessionId": "session-2026-06-04-001",
       "date": "2026-06-04",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "prismari-performance" },
@@ -656,6 +710,7 @@
     },
     {
       "id": "2026-06-04-002",
+      "sessionId": "session-2026-06-04-001",
       "date": "2026-06-04",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "witherbloom-witchcraft" },
@@ -669,6 +724,7 @@
     },
     {
       "id": "2026-06-04-003",
+      "sessionId": "session-2026-06-04-001",
       "date": "2026-06-04",
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
@@ -682,6 +738,7 @@
     },
     {
       "id": "2026-06-14-001",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "artifact-black" },
@@ -694,6 +751,7 @@
     },
     {
       "id": "2026-06-14-002",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "zombieland" },
@@ -707,6 +765,7 @@
     },
     {
       "id": "2026-06-14-003",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "bad-misc" },
@@ -720,6 +779,7 @@
     },
     {
       "id": "2026-06-14-004",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" },
@@ -733,6 +793,7 @@
     },
     {
       "id": "2026-06-14-005",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" },
@@ -746,6 +807,7 @@
     },
     {
       "id": "2026-06-14-006",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
         { "playerId": "liam", "name": "Liam", "deckId": "saruman" },

@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { matchIdDate, validMatchId } = require("./match-ids");
 const { normalisePlayerName, validPlayerId } = require("./player-ids");
+const { sessionIdDate, validSessionId } = require("./session-ids");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
@@ -193,6 +194,12 @@ function checkMatchesData(fileLabel, data, deckById, playerById, issues) {
       if (validIsoDate(match.date) && matchIdDate(match.id) !== match.date) {
         issues.fail(`${label} id "${match.id}" does not match date "${match.date}".`);
       }
+    }
+
+    if (!validSessionId(match.sessionId)) {
+      issues.fail(`${label} has invalid sessionId "${match.sessionId}". Expected session-YYYY-MM-DD-001 format.`);
+    } else if (validIsoDate(match.date) && sessionIdDate(match.sessionId) !== match.date) {
+      issues.fail(`${label} sessionId "${match.sessionId}" does not match date "${match.date}".`);
     }
 
     if (!validIsoDate(match.date)) issues.fail(`${label} has invalid date "${match.date}".`);

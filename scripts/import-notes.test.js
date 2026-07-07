@@ -128,6 +128,7 @@ test("formatMatchesData preserves optional notes and tags", () => {
     matches: [
       {
         id: "2026-04-06-001",
+        sessionId: "session-2026-04-06-001",
         date: "2026-04-06",
         players: [
           { playerId: "jo", name: "Jo", deckId: "bad-misc" },

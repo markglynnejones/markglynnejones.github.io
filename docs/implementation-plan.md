@@ -317,6 +317,18 @@ Implemented:
 - The validator requires player IDs and winner IDs to match the player registry.
 - `scripts/migrate-player-ids.js` can backfill IDs into match files.
 
+### 6. Session IDs
+
+Add stable session IDs so session-level links and future edits do not rely only on dates.
+
+Implemented:
+
+- 2026 matches include `sessionId`.
+- Current sessions use `session-YYYY-MM-DD-001`.
+- The importer assigns session IDs for newly parsed raw notes.
+- The validator requires session IDs to match the match date.
+- `scripts/migrate-session-ids.js` can backfill IDs into match files.
+
 ## Phase 3: Import UX Prototype
 
 Goal: validate whether non-technical users can use the workflow.

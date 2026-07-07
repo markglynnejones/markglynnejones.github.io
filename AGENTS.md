@@ -75,7 +75,7 @@ The next implementation work should happen in this order:
 - CSV exports. Implemented.
 - Schema versioning. Implemented.
 - Stable player IDs. Implemented.
-- Stable session IDs.
+- Stable session IDs. Implemented.
 - Importer and validator updates for any new data shape.
 
 Keep these changes compatible with the current static GitHub Pages deployment.
@@ -88,7 +88,7 @@ Keep these changes compatible with the current static GitHub Pages deployment.
 - Do not introduce a build step unless there is a strong reason.
 - Do not restructure data files casually; changes to data shape need importer, validator, render, and test updates.
 - Current JSON data files use `schemaVersion: 1`.
-- Match files use stable `id`, `playerId`, and `winnerId` fields while retaining display names.
+- Match files use stable `id`, `sessionId`, `playerId`, and `winnerId` fields while retaining display names.
 - Player IDs live in `data/player-definitions.json`; typo aliases live in `data/player-aliases.json`.
 - Preserve raw notes as the source-of-truth audit trail for imported sessions.
 - Use stable, testable helper functions for new stats.

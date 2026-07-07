@@ -78,6 +78,7 @@ function validData(overrides = {}) {
           matches: [
             {
               id: "2026-04-06-001",
+              sessionId: "session-2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -133,6 +134,7 @@ test("validateData catches missing or unsupported schema versions", () => {
           matches: [
             {
               id: "2026-04-06-001",
+              sessionId: "session-2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -164,6 +166,7 @@ test("validateData accepts optional match notes and tags", () => {
           matches: [
             {
               id: "2026-04-06-001",
+              sessionId: "session-2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -229,6 +232,7 @@ test("validateData catches unknown deck ids", () => {
           matches: [
             {
               id: "2026-04-06-001",
+              sessionId: "session-2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -259,6 +263,7 @@ test("validateData catches duplicate players and invalid winners", () => {
           matches: [
             {
               id: "2026-04-06-001",
+              sessionId: "session-2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -291,6 +296,7 @@ test("validateData catches missing, malformed, duplicate, and date-mismatched ma
           schemaVersion: 1,
           matches: [
             {
+              sessionId: "session-2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -301,6 +307,7 @@ test("validateData catches missing, malformed, duplicate, and date-mismatched ma
             },
             {
               id: "bad-id",
+              sessionId: "session-2026-04-07-001",
               date: "2026-04-07",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -311,6 +318,7 @@ test("validateData catches missing, malformed, duplicate, and date-mismatched ma
             },
             {
               id: "2026-04-08-001",
+              sessionId: "session-2026-04-08-001",
               date: "2026-04-08",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -321,6 +329,7 @@ test("validateData catches missing, malformed, duplicate, and date-mismatched ma
             },
             {
               id: "2026-04-08-001",
+              sessionId: "session-2026-04-09-001",
               date: "2026-04-09",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -331,6 +340,7 @@ test("validateData catches missing, malformed, duplicate, and date-mismatched ma
             },
             {
               id: "2026-04-10-001",
+              sessionId: "session-2026-04-11-001",
               date: "2026-04-11",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -355,6 +365,49 @@ test("validateData catches missing, malformed, duplicate, and date-mismatched ma
   assert.match(result.errors[4], /does not match date "2026-04-11"/);
 });
 
+test("validateData catches malformed and date-mismatched session ids", () => {
+  const data = validData({
+    matchesFiles: [
+      {
+        label: "data/matches-2026.json",
+        data: {
+          schemaVersion: 1,
+          matches: [
+            {
+              id: "2026-04-06-001",
+              sessionId: "bad-session",
+              date: "2026-04-06",
+              players: [
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Jo",
+              winnerId: "jo",
+            },
+            {
+              id: "2026-04-07-001",
+              sessionId: "session-2026-04-06-001",
+              date: "2026-04-07",
+              players: [
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
+              ],
+              winner: "Liam",
+              winnerId: "liam",
+            },
+          ],
+        },
+      },
+    ],
+  });
+
+  const result = validateData(data);
+
+  assert.strictEqual(result.errors.length, 2);
+  assert.match(result.errors[0], /invalid sessionId/);
+  assert.match(result.errors[1], /sessionId "session-2026-04-06-001" does not match date "2026-04-07"/);
+});
+
 test("validateData catches invalid match notes and tags", () => {
   const data = validData({
     matchesFiles: [
@@ -365,6 +418,7 @@ test("validateData catches invalid match notes and tags", () => {
           matches: [
             {
               id: "2026-04-06-001",
+              sessionId: "session-2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -400,6 +454,7 @@ test("validateData catches non-array match tags", () => {
           matches: [
             {
               id: "2026-04-06-001",
+              sessionId: "session-2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -431,6 +486,7 @@ test("validateData warns when match dates are out of order", () => {
           matches: [
             {
               id: "2026-04-07-001",
+              sessionId: "session-2026-04-07-001",
               date: "2026-04-07",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },
@@ -441,6 +497,7 @@ test("validateData warns when match dates are out of order", () => {
             },
             {
               id: "2026-04-06-001",
+              sessionId: "session-2026-04-06-001",
               date: "2026-04-06",
               players: [
                 { playerId: "jo", name: "Jo", deckId: "bad-misc" },

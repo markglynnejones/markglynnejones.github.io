@@ -93,6 +93,7 @@ function exportMatchesCsv(matchesData, deckDefinitions) {
 
   return toCsv(rows, [
     { header: "id", value: (row) => row.id },
+    { header: "sessionId", value: (row) => row.sessionId || "" },
     { header: "date", value: (row) => row.date },
     { header: "winnerId", value: (row) => row.winnerId || "" },
     { header: "winner", value: (row) => row.winner },
