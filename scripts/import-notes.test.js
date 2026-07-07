@@ -15,6 +15,7 @@ const {
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const deckDefinitions = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "deck-definitions.json"), "utf8"));
+const playerDefinitions = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "player-definitions.json"), "utf8"));
 const playerAliases = buildPlayerAliases(JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "player-aliases.json"), "utf8")));
 
 function test(name, fn) {
@@ -29,7 +30,7 @@ function test(name, fn) {
 
 function parseFixture() {
   const raw = fs.readFileSync(path.join(REPO_ROOT, "data", "raw", "2026", "2026-04-06-magic.txt"), "utf8");
-  return parseNotes(raw, "2026", deckDefinitions, playerAliases);
+  return parseNotes(raw, "2026", deckDefinitions, playerAliases, playerDefinitions);
 }
 
 test("parses the 2026-04-06 raw note fixture", () => {
@@ -129,10 +130,11 @@ test("formatMatchesData preserves optional notes and tags", () => {
         id: "2026-04-06-001",
         date: "2026-04-06",
         players: [
-          { name: "Jo", deckId: "bad-misc" },
-          { name: "Liam", deckId: "big-sues" },
+          { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+          { playerId: "liam", name: "Liam", deckId: "big-sues" },
         ],
         winner: "Jo",
+        winnerId: "jo",
         notes: "Planechase got messy.",
         tags: ["planechase", "precon-night"],
       },

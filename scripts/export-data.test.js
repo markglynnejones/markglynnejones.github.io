@@ -28,10 +28,11 @@ const sampleMatches = {
       id: "2026-04-06-001",
       date: "2026-04-06",
       players: [
-        { name: "Jo", deckId: "bad-misc" },
-        { name: "Liam", deckId: "big-sues" },
+        { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+        { playerId: "liam", name: "Liam", deckId: "big-sues" },
       ],
       winner: "Jo",
+      winnerId: "jo",
       notes: "Big comeback, very loud.",
       tags: ["planechase", "precon-night"],
     },
@@ -39,10 +40,11 @@ const sampleMatches = {
       id: "2026-04-06-002",
       date: "2026-04-06",
       players: [
-        { name: "Jo", deckId: "bad-misc" },
-        { name: "Liam", deckId: "big-sues" },
+        { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+        { playerId: "liam", name: "Liam", deckId: "big-sues" },
       ],
       winner: "Liam",
+      winnerId: "liam",
     },
   ],
 };
@@ -98,8 +100,12 @@ test("parseArgs accepts csv exports and rejects unsupported options", () => {
 test("exportMatchesCsv includes ids, decks, notes, and tags", () => {
   const csv = exportMatchesCsv(sampleMatches, sampleDecks);
 
-  assert.match(csv, /^id,date,winner,players,deckIds,deckNames,notes,tags\n/);
-  assert.match(csv, /2026-04-06-001,2026-04-06,Jo,Jo; Liam,bad-misc; big-sues,Bad Misc; Big Sue's,"Big comeback, very loud.",planechase; precon-night/);
+  assert.match(csv, /^id,date,winnerId,winner,playerIds,players,deckIds,deckNames,notes,tags\n/);
+  assert.match(csv, /2026-04-06-001,2026-04-06,jo,Jo,jo; liam,Jo; Liam/);
+  assert.match(
+    csv,
+    /2026-04-06-001,2026-04-06,jo,Jo,jo; liam,Jo; Liam,bad-misc; big-sues,Bad Misc; Big Sue's,"Big comeback, very loud.",planechase; precon-night/
+  );
 });
 
 test("exportPlayersCsv totals player stats", () => {

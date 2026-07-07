@@ -84,6 +84,7 @@ function exportMatchesCsv(matchesData, deckDefinitions) {
   const names = deckNameMap(deckDefinitions);
   const rows = (matchesData.matches || []).map((match) => ({
     ...match,
+    playerIds: (match.players || []).map((player) => player.playerId),
     playerNames: (match.players || []).map((player) => player.name),
     deckIds: (match.players || []).map((player) => player.deckId),
     deckNames: (match.players || []).map((player) => names.get(player.deckId) || player.deckId),
@@ -93,7 +94,9 @@ function exportMatchesCsv(matchesData, deckDefinitions) {
   return toCsv(rows, [
     { header: "id", value: (row) => row.id },
     { header: "date", value: (row) => row.date },
+    { header: "winnerId", value: (row) => row.winnerId || "" },
     { header: "winner", value: (row) => row.winner },
+    { header: "playerIds", value: (row) => row.playerIds },
     { header: "players", value: (row) => row.playerNames },
     { header: "deckIds", value: (row) => row.deckIds },
     { header: "deckNames", value: (row) => row.deckNames },

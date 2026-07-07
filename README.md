@@ -81,7 +81,14 @@ If the preview looks right, write the JSON updates:
 npm run import -- data/raw/2026/2026-04-06-magic.txt --year 2026 --write
 ```
 
-The importer understands shorthand deck aliases from `data/deck-definitions.json`, player aliases from `data/player-aliases.json`, and writes into `data/matches-YYYY.json`. If it cannot resolve a deck, it suggests the closest existing decks and prints a new-deck stub you can add to `data/deck-definitions.json`.
+The importer understands shorthand deck aliases from `data/deck-definitions.json`, stable player IDs from `data/player-definitions.json`, player typo aliases from `data/player-aliases.json`, and writes into `data/matches-YYYY.json`. If it cannot resolve a deck, it suggests the closest existing decks and prints a new-deck stub you can add to `data/deck-definitions.json`.
+
+Match files use stable `id`, `playerId`, and `winnerId` fields alongside display names. If old match data needs backfilling, use:
+
+```bash
+npm run matches:migrate-ids -- --year 2026 --write
+npm run players:migrate-ids -- --year 2026 --write
+```
 
 Check a deck alias before importing:
 

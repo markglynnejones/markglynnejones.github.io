@@ -51,6 +51,15 @@ function validData(overrides = {}) {
       schemaVersion: 1,
       players: [{ name: "Jake", wins: 2, matchesPlayed: 5 }],
     },
+    playerDefinitions: {
+      schemaVersion: 1,
+      players: [
+        { id: "jake", name: "Jake", active: true },
+        { id: "jo", name: "Jo", active: true },
+        { id: "liam", name: "Liam", active: true },
+        { id: "ollie", name: "Ollie", active: true },
+      ],
+    },
     combinationsData: {
       schemaVersion: 1,
       combinations: {
@@ -71,10 +80,11 @@ function validData(overrides = {}) {
               id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
             },
           ],
         },
@@ -125,10 +135,11 @@ test("validateData catches missing or unsupported schema versions", () => {
               id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
             },
           ],
         },
@@ -155,10 +166,11 @@ test("validateData accepts optional match notes and tags", () => {
               id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
               notes: "Planechase got messy.",
               tags: ["planechase", "precon-night"],
             },
@@ -219,10 +231,11 @@ test("validateData catches unknown deck ids", () => {
               id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "missing-deck" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "missing-deck" },
               ],
               winner: "Jo",
+              winnerId: "jo",
             },
           ],
         },
@@ -248,10 +261,11 @@ test("validateData catches duplicate players and invalid winners", () => {
               id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Jo", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "jo", name: "Jo", deckId: "big-sues" },
               ],
               winner: "Mark",
+              winnerId: "mark",
             },
           ],
         },
@@ -261,9 +275,11 @@ test("validateData catches duplicate players and invalid winners", () => {
 
   const result = validateData(data);
 
-  assert.strictEqual(result.errors.length, 2);
-  assert.match(result.errors[0], /contains duplicate player "Jo"/);
-  assert.match(result.errors[1], /winner "Mark" is not one of the match players/);
+  assert.strictEqual(result.errors.length, 4);
+  assert.match(result.errors[0], /contains duplicate playerId "jo"/);
+  assert.match(result.errors[1], /contains duplicate player "Jo"/);
+  assert.match(result.errors[2], /winner "Mark" is not one of the match players/);
+  assert.match(result.errors[3], /winnerId "mark" is not one of the match playerIds/);
 });
 
 test("validateData catches missing, malformed, duplicate, and date-mismatched match ids", () => {
@@ -277,46 +293,51 @@ test("validateData catches missing, malformed, duplicate, and date-mismatched ma
             {
               date: "2026-04-06",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
             },
             {
               id: "bad-id",
               date: "2026-04-07",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
             },
             {
               id: "2026-04-08-001",
               date: "2026-04-08",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
             },
             {
               id: "2026-04-08-001",
               date: "2026-04-09",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
             },
             {
               id: "2026-04-10-001",
               date: "2026-04-11",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
             },
           ],
         },
@@ -346,10 +367,11 @@ test("validateData catches invalid match notes and tags", () => {
               id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
               notes: "",
               tags: ["planechase", "Bad Tag", "planechase", ""],
             },
@@ -380,10 +402,11 @@ test("validateData catches non-array match tags", () => {
               id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
               tags: "planechase",
             },
           ],
@@ -410,19 +433,21 @@ test("validateData warns when match dates are out of order", () => {
               id: "2026-04-07-001",
               date: "2026-04-07",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Jo",
+              winnerId: "jo",
             },
             {
               id: "2026-04-06-001",
               date: "2026-04-06",
               players: [
-                { name: "Jo", deckId: "bad-misc" },
-                { name: "Liam", deckId: "big-sues" },
+                { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+                { playerId: "liam", name: "Liam", deckId: "big-sues" },
               ],
               winner: "Liam",
+              winnerId: "liam",
             },
           ],
         },

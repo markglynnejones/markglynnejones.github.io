@@ -304,6 +304,19 @@ Implemented:
 - The importer writes `schemaVersion: 1` for match files.
 - Player alias metadata is ignored by alias resolution.
 
+### 5. Player IDs
+
+Add stable player IDs so future edits do not rely only on display names.
+
+Implemented:
+
+- `data/player-definitions.json` defines known players with stable IDs.
+- 2026 match participants include `playerId`.
+- 2026 matches include `winnerId`.
+- The importer writes player IDs for newly parsed raw notes.
+- The validator requires player IDs and winner IDs to match the player registry.
+- `scripts/migrate-player-ids.js` can backfill IDs into match files.
+
 ## Phase 3: Import UX Prototype
 
 Goal: validate whether non-technical users can use the workflow.

@@ -70,9 +70,12 @@ The next implementation work should happen in this order:
 4. Apply accessibility fixes for navigation, headings, tables, focus, and mobile table scroll. Implemented.
 5. Then resume Phase 2 data model work:
 
-- Stable match IDs.
-- Optional match notes and tags.
-- CSV exports.
+- Stable match IDs. Implemented.
+- Optional match notes and tags. Implemented.
+- CSV exports. Implemented.
+- Schema versioning. Implemented.
+- Stable player IDs. Implemented.
+- Stable session IDs.
 - Importer and validator updates for any new data shape.
 
 Keep these changes compatible with the current static GitHub Pages deployment.
@@ -84,6 +87,9 @@ Keep these changes compatible with the current static GitHub Pages deployment.
 - Keep DOM rendering in `scripts/render/` modules.
 - Do not introduce a build step unless there is a strong reason.
 - Do not restructure data files casually; changes to data shape need importer, validator, render, and test updates.
+- Current JSON data files use `schemaVersion: 1`.
+- Match files use stable `id`, `playerId`, and `winnerId` fields while retaining display names.
+- Player IDs live in `data/player-definitions.json`; typo aliases live in `data/player-aliases.json`.
 - Preserve raw notes as the source-of-truth audit trail for imported sessions.
 - Use stable, testable helper functions for new stats.
 
