@@ -240,6 +240,14 @@ Implementation:
 - Add a migration script for existing 2026 matches.
 - Keep display behavior unchanged.
 
+Implemented:
+
+- `scripts/match-ids.js` centralizes match ID formatting and generation.
+- `scripts/migrate-match-ids.js` migrates existing match files.
+- `data/matches-2026.json` has stable IDs for all current matches.
+- The importer assigns IDs to newly added matches.
+- The validator now requires unique IDs that match each match date.
+
 ### 2. Optional Notes And Tags
 
 Add optional fields:
@@ -257,6 +265,13 @@ Example tags:
 
 Keep these optional until the import flow needs them.
 
+Implemented:
+
+- The match formatter preserves optional `notes` and `tags` when present.
+- The validator accepts optional non-empty `notes`.
+- The validator accepts optional normalized lowercase slug `tags`.
+- The validator rejects empty notes, non-array tags, malformed tags, and duplicate tags.
+
 ### 3. Export
 
 Add a simple export command:
@@ -270,6 +285,49 @@ Initial export targets:
 - Matches CSV.
 - Player stats CSV.
 - Deck stats CSV.
+
+Implemented:
+
+- `npm run export -- --format csv --year 2026` writes all CSV exports under `data/exports/`.
+- `--target matches`, `--target players`, and `--target decks` export individual CSVs to stdout.
+- `--out path` writes a single target to a specific file.
+- Match exports include stable IDs, notes, and tags.
+
+### 4. Schema Versioning
+
+Add a top-level `schemaVersion` to JSON data files so future migrations can detect incompatible shapes before parsing.
+
+Implemented:
+
+- Current data files use `schemaVersion: 1`.
+- The validator requires supported schema metadata on core data files.
+- The importer writes `schemaVersion: 1` for match files.
+- Player alias metadata is ignored by alias resolution.
+
+### 5. Player IDs
+
+Add stable player IDs so future edits do not rely only on display names.
+
+Implemented:
+
+- `data/player-definitions.json` defines known players with stable IDs.
+- 2026 match participants include `playerId`.
+- 2026 matches include `winnerId`.
+- The importer writes player IDs for newly parsed raw notes.
+- The validator requires player IDs and winner IDs to match the player registry.
+- `scripts/migrate-player-ids.js` can backfill IDs into match files.
+
+### 6. Session IDs
+
+Add stable session IDs so session-level links and future edits do not rely only on dates.
+
+Implemented:
+
+- 2026 matches include `sessionId`.
+- Current sessions use `session-YYYY-MM-DD-001`.
+- The importer assigns session IDs for newly parsed raw notes.
+- The validator requires session IDs to match the match date.
+- `scripts/migrate-session-ids.js` can backfill IDs into match files.
 
 ## Phase 3: Import UX Prototype
 

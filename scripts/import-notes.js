@@ -2,10 +2,16 @@
 
 const fs = require("fs");
 const path = require("path");
+const { assignMissingMatchIds, createMatchIdGenerator } = require("./match-ids");
+const { buildPlayerLookup, playerIdFromName } = require("./player-ids");
+const { assignMissingSessionIds } = require("./session-ids");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DECKS_PATH = path.join(REPO_ROOT, "data", "deck-definitions.json");
+const PLAYERS_PATH = path.join(REPO_ROOT, "data", "player-definitions.json");
 const PLAYER_ALIASES_PATH = path.join(REPO_ROOT, "data", "player-aliases.json");
+const CURRENT_SCHEMA_VERSION = 1;
+const METADATA_KEYS = new Set(["schemaVersion"]);
 
 function usage() {
   console.log(`Usage: node scripts/import-notes.js <notes-file> [--year 2026] [--write]
@@ -150,6 +156,7 @@ function readJson(filePath, fallback) {
 function buildPlayerAliases(aliasData) {
   const aliases = new Map();
   for (const [alias, canonical] of Object.entries(aliasData || {})) {
+    if (METADATA_KEYS.has(alias)) continue;
     aliases.set(normalise(alias), canonical);
   }
   return aliases;
@@ -165,18 +172,28 @@ function writeJson(filePath, data) {
 }
 
 function formatMatchesData(data) {
-  const lines = ["{", '  "matches": ['];
+  const schemaVersion = data.schemaVersion || CURRENT_SCHEMA_VERSION;
+  const lines = ["{", `  "schemaVersion": ${JSON.stringify(schemaVersion)},`, '  "matches": ['];
 
   data.matches.forEach((match, matchIndex) => {
     lines.push("    {");
+    if (match.id) lines.push(`      "id": ${JSON.stringify(match.id)},`);
+    if (match.sessionId) lines.push(`      "sessionId": ${JSON.stringify(match.sessionId)},`);
     lines.push(`      "date": ${JSON.stringify(match.date)},`);
     lines.push('      "players": [');
     match.players.forEach((player, playerIndex) => {
       const suffix = playerIndex === match.players.length - 1 ? "" : ",";
-      lines.push(`        { "name": ${JSON.stringify(player.name)}, "deckId": ${JSON.stringify(player.deckId)} }${suffix}`);
+      lines.push(
+        `        { "playerId": ${JSON.stringify(player.playerId)}, "name": ${JSON.stringify(player.name)}, "deckId": ${JSON.stringify(player.deckId)} }${suffix}`
+      );
     });
     lines.push("      ],");
-    lines.push(`      "winner": ${JSON.stringify(match.winner)}`);
+    const hasNotes = typeof match.notes === "string";
+    const hasTags = Array.isArray(match.tags);
+    lines.push(`      "winner": ${JSON.stringify(match.winner)},`);
+    lines.push(`      "winnerId": ${JSON.stringify(match.winnerId)}${hasNotes || hasTags ? "," : ""}`);
+    if (hasNotes) lines.push(`      "notes": ${JSON.stringify(match.notes)}${hasTags ? "," : ""}`);
+    if (hasTags) lines.push(`      "tags": ${JSON.stringify(match.tags)}`);
     lines.push(`    }${matchIndex === data.matches.length - 1 ? "" : ","}`);
   });
 
@@ -312,7 +329,7 @@ function canonicalPlayerName(name, playerAliases) {
   return playerAliases.get(key) || titleCase(name);
 }
 
-function parsePlayerLine(line, deckDefinitions, playerAliases) {
+function parsePlayerLine(line, deckDefinitions, playerAliases, playerLookup) {
   const parts = String(line || "")
     .split(/\s+-\s+/)
     .map((part) => part.trim())
@@ -321,15 +338,17 @@ function parsePlayerLine(line, deckDefinitions, playerAliases) {
   if (parts.length < 2) return { error: `Can't parse line "${line}". Expected: Player - Deck [- win].` };
 
   const name = canonicalPlayerName(parts[0], playerAliases);
+  const playerId = playerLookup?.byName.get(normalise(name))?.id || playerIdFromName(name);
   const hasWin = parts.some((part) => normalise(part) === "win");
   const deckTokens = parts.slice(1).filter((part) => normalise(part) !== "win");
   const resolved = resolveDeck(deckTokens, deckDefinitions);
 
   if (resolved.error) return { error: `Line: "${line}".\n${resolved.error}` };
-  return { player: { name, deckId: resolved.deckId }, winner: hasWin ? name : null };
+  return { player: { playerId, name, deckId: resolved.deckId }, winner: hasWin ? name : null, winnerId: hasWin ? playerId : null };
 }
 
-function parseNotes(text, fallbackYear, deckDefinitions, playerAliases = new Map()) {
+function parseNotes(text, fallbackYear, deckDefinitions, playerAliases = new Map(), playerDefinitions = null) {
+  const playerLookup = playerDefinitions ? buildPlayerLookup(playerDefinitions, Object.fromEntries(playerAliases)) : null;
   const blocks = splitIntoBlocks(text);
   let fallbackDate = null;
 
@@ -354,9 +373,10 @@ function parseNotes(text, fallbackYear, deckDefinitions, playerAliases = new Map
     const playerLines = block.filter((line) => !parseDateFromLine(line, fallbackYear));
     const players = [];
     let winner = null;
+    let winnerId = null;
 
     for (const line of playerLines) {
-      const parsed = parsePlayerLine(line, deckDefinitions, playerAliases);
+      const parsed = parsePlayerLine(line, deckDefinitions, playerAliases, playerLookup);
       if (parsed.error) {
         errors.push(`Block ${index + 1}: ${parsed.error}`);
         return;
@@ -370,15 +390,16 @@ function parseNotes(text, fallbackYear, deckDefinitions, playerAliases = new Map
           return;
         }
         winner = parsed.winner;
+        winnerId = parsed.winnerId;
       }
     }
 
-    const names = players.map((player) => player.name);
+    const playerIds = players.map((player) => player.playerId);
     if (players.length < 2) {
       errors.push(`Block ${index + 1}: need at least two players.`);
       return;
     }
-    if (new Set(names).size !== names.length) {
+    if (new Set(playerIds).size !== playerIds.length) {
       errors.push(`Block ${index + 1}: duplicate player name.`);
       return;
     }
@@ -387,7 +408,7 @@ function parseNotes(text, fallbackYear, deckDefinitions, playerAliases = new Map
       return;
     }
 
-    matches.push({ date, players, winner });
+    matches.push({ date, players, winner, winnerId });
   });
 
   return { matches, errors };
@@ -399,7 +420,11 @@ function matchSignature(match) {
 
 function appendMatches(matchesData, matches) {
   if (!Array.isArray(matchesData.matches)) matchesData.matches = [];
+  assignMissingMatchIds(matchesData.matches);
+  assignMissingSessionIds(matchesData.matches);
+
   const existing = new Set(matchesData.matches.map(matchSignature));
+  const nextMatchId = createMatchIdGenerator(matchesData.matches);
   let added = 0;
   let skipped = 0;
 
@@ -409,7 +434,10 @@ function appendMatches(matchesData, matches) {
       skipped += 1;
       continue;
     }
+
+    if (!match.id) match.id = nextMatchId(match.date);
     matchesData.matches.push(match);
+    assignMissingSessionIds(matchesData.matches);
     existing.add(signature);
     added += 1;
   }
@@ -482,9 +510,10 @@ function main() {
   const notesPath = path.resolve(process.cwd(), args.file);
   const deckDefinitions = readJson(DECKS_PATH, { decks: [] });
   const deckDefinitionsBeforeWrite = JSON.parse(JSON.stringify(deckDefinitions));
+  const playerDefinitions = readJson(PLAYERS_PATH, { players: [] });
   const playerAliases = buildPlayerAliases(readJson(PLAYER_ALIASES_PATH, {}));
   const notes = fs.readFileSync(notesPath, "utf8");
-  const result = parseNotes(notes, args.year, deckDefinitions, playerAliases);
+  const result = parseNotes(notes, args.year, deckDefinitions, playerAliases, playerDefinitions);
 
   printSummary(result, deckDefinitions);
 
@@ -513,6 +542,7 @@ function main() {
 module.exports = {
   appendMatches,
   buildPlayerAliases,
+  formatMatchesData,
   parseNotes,
   resolveDeck,
   summariseDeckDefinitionChanges,

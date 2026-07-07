@@ -1,636 +1,823 @@
 {
+  "schemaVersion": 1,
   "matches": [
     {
+      "id": "2026-01-04-001",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
-        { "name": "Jo", "deckId": "fishes" },
-        { "name": "Jake", "deckId": "baelyn" },
-        { "name": "Mark", "deckId": "the-vamp-clamp" },
-        { "name": "Liam", "deckId": "zombieland" }
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
+        { "playerId": "jake", "name": "Jake", "deckId": "baelyn" },
+        { "playerId": "mark", "name": "Mark", "deckId": "the-vamp-clamp" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" }
       ],
-      "winner": "Jake"
+      "winner": "Jake",
+      "winnerId": "jake"
     },
     {
+      "id": "2026-01-04-002",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
-        { "name": "Jo", "deckId": "tricky-terrain" },
-        { "name": "Jake", "deckId": "uwu-otters" },
-        { "name": "Mark", "deckId": "the-vamp-clamp" },
-        { "name": "Liam", "deckId": "zombieland" }
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "jake", "name": "Jake", "deckId": "uwu-otters" },
+        { "playerId": "mark", "name": "Mark", "deckId": "the-vamp-clamp" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-01-04-003",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
-        { "name": "Jo", "deckId": "ahoy-mateys" },
-        { "name": "Jake", "deckId": "this-is-a-crossover-episode" },
-        { "name": "Mark", "deckId": "big-stompy-stomp" },
-        { "name": "Liam", "deckId": "tricky-terrain" }
+        { "playerId": "jo", "name": "Jo", "deckId": "ahoy-mateys" },
+        { "playerId": "jake", "name": "Jake", "deckId": "this-is-a-crossover-episode" },
+        { "playerId": "mark", "name": "Mark", "deckId": "big-stompy-stomp" },
+        { "playerId": "liam", "name": "Liam", "deckId": "tricky-terrain" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-01-04-004",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "blood-in-the-water" },
-        { "name": "Mark", "deckId": "zombieland" },
-        { "name": "Liam", "deckId": "this-is-a-crossover-episode" }
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "blood-in-the-water" },
+        { "playerId": "mark", "name": "Mark", "deckId": "zombieland" },
+        { "playerId": "liam", "name": "Liam", "deckId": "this-is-a-crossover-episode" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-01-04-005",
+      "sessionId": "session-2026-01-04-001",
       "date": "2026-01-04",
       "players": [
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "the-frog-is-loose" },
-        { "name": "Mark", "deckId": "blood-in-the-water" },
-        { "name": "Liam", "deckId": "junkerton" }
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "playerId": "mark", "name": "Mark", "deckId": "blood-in-the-water" },
+        { "playerId": "liam", "name": "Liam", "deckId": "junkerton" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-01-17-001",
+      "sessionId": "session-2026-01-17-001",
       "date": "2026-01-17",
       "players": [
-        { "name": "Jo", "deckId": "fishes" },
-        { "name": "Jake", "deckId": "the-frog-is-loose" },
-        { "name": "Ollie", "deckId": "all-but-one-mana" },
-        { "name": "Liam", "deckId": "zombieland" }
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-01-17-002",
+      "sessionId": "session-2026-01-17-001",
       "date": "2026-01-17",
       "players": [
-        { "name": "Jo", "deckId": "tricky-terrain" },
-        { "name": "Jake", "deckId": "the-frog-is-loose" },
-        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
-        { "name": "Liam", "deckId": "zombieland" }
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" }
       ],
-      "winner": "Jake"
+      "winner": "Jake",
+      "winnerId": "jake"
     },
     {
+      "id": "2026-01-17-003",
+      "sessionId": "session-2026-01-17-001",
       "date": "2026-01-17",
       "players": [
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "fishes" },
-        { "name": "Ollie", "deckId": "terraisms" },
-        { "name": "Liam", "deckId": "women-wielding-swords" }
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "fishes" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "terraisms" },
+        { "playerId": "liam", "name": "Liam", "deckId": "women-wielding-swords" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-01-17-004",
+      "sessionId": "session-2026-01-17-001",
       "date": "2026-01-17",
       "players": [
-        { "name": "Jo", "deckId": "ahoy-mateys" },
-        { "name": "Jake", "deckId": "saruman" },
-        { "name": "Ollie", "deckId": "eldrazi-incursion" },
-        { "name": "Liam", "deckId": "abzan-deetz-nuts-out" }
+        { "playerId": "jo", "name": "Jo", "deckId": "ahoy-mateys" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "eldrazi-incursion" },
+        { "playerId": "liam", "name": "Liam", "deckId": "abzan-deetz-nuts-out" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-02-08-001",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
-        { "name": "Mark", "deckId": "markeus-calgar" },
-        { "name": "Ollie", "deckId": "toms-zoo" },
-        { "name": "Liam", "deckId": "cloni-macaroni" }
+        { "playerId": "mark", "name": "Mark", "deckId": "markeus-calgar" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "toms-zoo" },
+        { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-02-08-002",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
-        { "name": "Mark", "deckId": "blight-curse" },
-        { "name": "Ollie", "deckId": "ha-ha-sephiroth" },
-        { "name": "Liam", "deckId": "artifact-black" }
+        { "playerId": "mark", "name": "Mark", "deckId": "blight-curse" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "ha-ha-sephiroth" },
+        { "playerId": "liam", "name": "Liam", "deckId": "artifact-black" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-02-08-003",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
-        { "name": "Mark", "deckId": "the-vamp-clamp" },
-        { "name": "Ollie", "deckId": "scions-spellcraft" },
-        { "name": "Liam", "deckId": "zombieland" }
+        { "playerId": "mark", "name": "Mark", "deckId": "the-vamp-clamp" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "scions-spellcraft" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-02-08-004",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
-        { "name": "Mark", "deckId": "gotta-have-hope" },
-        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
-        { "name": "Liam", "deckId": "world-shaper" }
+        { "playerId": "mark", "name": "Mark", "deckId": "gotta-have-hope" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
+        { "playerId": "liam", "name": "Liam", "deckId": "world-shaper" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-02-08-005",
+      "sessionId": "session-2026-02-08-001",
       "date": "2026-02-08",
       "players": [
-        { "name": "Mark", "deckId": "blood-in-the-water" },
-        { "name": "Ollie", "deckId": "all-but-one-mana" },
-        { "name": "Liam", "deckId": "the-vamp-clamp" }
+        { "playerId": "mark", "name": "Mark", "deckId": "blood-in-the-water" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "playerId": "liam", "name": "Liam", "deckId": "the-vamp-clamp" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-02-15-001",
+      "sessionId": "session-2026-02-15-001",
       "date": "2026-02-15",
       "players": [
-        { "name": "Ollie", "deckId": "toms-zoo" },
-        { "name": "Liam", "deckId": "zombieland" },
-        { "name": "Jo", "deckId": "tricky-terrain" },
-        { "name": "Jake", "deckId": "saruman" },
-        { "name": "Mark", "deckId": "dance-of-the-elements" }
+        { "playerId": "ollie", "name": "Ollie", "deckId": "toms-zoo" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" },
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "mark", "name": "Mark", "deckId": "dance-of-the-elements" }
       ],
-      "winner": "Jake"
+      "winner": "Jake",
+      "winnerId": "jake"
     },
     {
+      "id": "2026-02-15-002",
+      "sessionId": "session-2026-02-15-001",
       "date": "2026-02-15",
       "players": [
-        { "name": "Ollie", "deckId": "ha-ha-sephiroth" },
-        { "name": "Liam", "deckId": "junkerton" },
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "women-wielding-swords" },
-        { "name": "Mark", "deckId": "markeus-calgar" }
+        { "playerId": "ollie", "name": "Ollie", "deckId": "ha-ha-sephiroth" },
+        { "playerId": "liam", "name": "Liam", "deckId": "junkerton" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "women-wielding-swords" },
+        { "playerId": "mark", "name": "Mark", "deckId": "markeus-calgar" }
       ],
-      "winner": "Jake"
+      "winner": "Jake",
+      "winnerId": "jake"
     },
     {
+      "id": "2026-02-15-003",
+      "sessionId": "session-2026-02-15-001",
       "date": "2026-02-15",
       "players": [
-        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
-        { "name": "Liam", "deckId": "blight-curse" },
-        { "name": "Jo", "deckId": "fishes" },
-        { "name": "Jake", "deckId": "the-frog-is-loose" },
-        { "name": "Mark", "deckId": "markeus-calgar" }
+        { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
+        { "playerId": "liam", "name": "Liam", "deckId": "blight-curse" },
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "playerId": "mark", "name": "Mark", "deckId": "markeus-calgar" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-02-15-004",
+      "sessionId": "session-2026-02-15-001",
       "date": "2026-02-15",
       "players": [
-        { "name": "Ollie", "deckId": "jelly-belly" },
-        { "name": "Liam", "deckId": "blight-curse" },
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "cloni-macaroni" },
-        { "name": "Mark", "deckId": "blood-in-the-water" }
+        { "playerId": "ollie", "name": "Ollie", "deckId": "jelly-belly" },
+        { "playerId": "liam", "name": "Liam", "deckId": "blight-curse" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "cloni-macaroni" },
+        { "playerId": "mark", "name": "Mark", "deckId": "blood-in-the-water" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-03-08-001",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
-        { "name": "Mark", "deckId": "ring-sting" },
-        { "name": "Liam", "deckId": "cloni-macaroni" },
-        { "name": "Ollie", "deckId": "toms-zoo" },
-        { "name": "Jo", "deckId": "fishes" },
-        { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" }
+        { "playerId": "mark", "name": "Mark", "deckId": "ring-sting" },
+        { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "toms-zoo" },
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-03-08-002",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
-        { "name": "Mark", "deckId": "hurtie-not-curie" },
-        { "name": "Liam", "deckId": "junkerton" },
-        { "name": "Ollie", "deckId": "all-but-one-mana" },
-        { "name": "Jo", "deckId": "blood-in-the-water" },
-        { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" }
+        { "playerId": "mark", "name": "Mark", "deckId": "hurtie-not-curie" },
+        { "playerId": "liam", "name": "Liam", "deckId": "junkerton" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "playerId": "jo", "name": "Jo", "deckId": "blood-in-the-water" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-03-08-003",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
-        { "name": "Mark", "deckId": "why-are-there-so-many-wizards" },
-        { "name": "Liam", "deckId": "artifact-black" },
-        { "name": "Ollie", "deckId": "all-but-one-mana" },
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "the-frog-is-loose" }
+        { "playerId": "mark", "name": "Mark", "deckId": "why-are-there-so-many-wizards" },
+        { "playerId": "liam", "name": "Liam", "deckId": "artifact-black" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-03-08-004",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
-        { "name": "Mark", "deckId": "abzan-deetz-nuts-out" },
-        { "name": "Liam", "deckId": "dance-of-the-elements" },
-        { "name": "Ollie", "deckId": "baelyn" },
-        { "name": "Jo", "deckId": "tricky-terrain" },
-        { "name": "Jake", "deckId": "women-wielding-swords" }
+        { "playerId": "mark", "name": "Mark", "deckId": "abzan-deetz-nuts-out" },
+        { "playerId": "liam", "name": "Liam", "deckId": "dance-of-the-elements" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "baelyn" },
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "jake", "name": "Jake", "deckId": "women-wielding-swords" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-03-08-005",
+      "sessionId": "session-2026-03-08-001",
       "date": "2026-03-08",
       "players": [
-        { "name": "Mark", "deckId": "hurtie-not-curie" },
-        { "name": "Liam", "deckId": "zombieland" },
-        { "name": "Ollie", "deckId": "scions-spellcraft" },
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "saruman" }
+        { "playerId": "mark", "name": "Mark", "deckId": "hurtie-not-curie" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "scions-spellcraft" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-03-15-001",
+      "sessionId": "session-2026-03-15-001",
       "date": "2026-03-15",
       "players": [
-        { "name": "Mark", "deckId": "artifact-black" },
-        { "name": "Liam", "deckId": "abzan-deetz-nuts-out" },
-        { "name": "Ollie", "deckId": "ha-ha-sephiroth" }
+        { "playerId": "mark", "name": "Mark", "deckId": "artifact-black" },
+        { "playerId": "liam", "name": "Liam", "deckId": "abzan-deetz-nuts-out" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "ha-ha-sephiroth" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-03-15-002",
+      "sessionId": "session-2026-03-15-001",
       "date": "2026-03-15",
       "players": [
-        { "name": "Mark", "deckId": "eldrazi-incursion" },
-        { "name": "Liam", "deckId": "revival-trance" },
-        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" }
+        { "playerId": "mark", "name": "Mark", "deckId": "eldrazi-incursion" },
+        { "playerId": "liam", "name": "Liam", "deckId": "revival-trance" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-03-22-001",
+      "sessionId": "session-2026-03-22-001",
       "date": "2026-03-22",
       "players": [
-        { "name": "Jo", "deckId": "fishes" },
-        { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
-        { "name": "Ollie", "deckId": "revival-trance" },
-        { "name": "Mark", "deckId": "peace-offering" },
-        { "name": "Liam", "deckId": "zombieland" }
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "revival-trance" },
+        { "playerId": "mark", "name": "Mark", "deckId": "peace-offering" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-03-22-002",
+      "sessionId": "session-2026-03-22-001",
       "date": "2026-03-22",
       "players": [
-        { "name": "Jo", "deckId": "tricky-terrain" },
-        { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
-        { "name": "Ollie", "deckId": "all-but-one-mana" },
-        { "name": "Mark", "deckId": "women-wielding-swords" },
-        { "name": "Liam", "deckId": "jelly-belly" }
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "playerId": "mark", "name": "Mark", "deckId": "women-wielding-swords" },
+        { "playerId": "liam", "name": "Liam", "deckId": "jelly-belly" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-03-22-003",
+      "sessionId": "session-2026-03-22-001",
       "date": "2026-03-22",
       "players": [
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "uwu-otters" },
-        { "name": "Ollie", "deckId": "the-frog-is-loose" },
-        { "name": "Mark", "deckId": "hurtie-not-curie" },
-        { "name": "Liam", "deckId": "ketrappa-the-rappa-the-papa" }
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "uwu-otters" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "the-frog-is-loose" },
+        { "playerId": "mark", "name": "Mark", "deckId": "hurtie-not-curie" },
+        { "playerId": "liam", "name": "Liam", "deckId": "ketrappa-the-rappa-the-papa" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-03-22-004",
+      "sessionId": "session-2026-03-22-001",
       "date": "2026-03-22",
       "players": [
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "blood-in-the-water" },
-        { "name": "Ollie", "deckId": "scions-spellcraft" },
-        { "name": "Mark", "deckId": "why-are-there-so-many-wizards" },
-        { "name": "Liam", "deckId": "junkerton" }
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "blood-in-the-water" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "scions-spellcraft" },
+        { "playerId": "mark", "name": "Mark", "deckId": "why-are-there-so-many-wizards" },
+        { "playerId": "liam", "name": "Liam", "deckId": "junkerton" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-04-06-001",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
-        { "name": "Jake", "deckId": "ring-sting" },
-        { "name": "Jo", "deckId": "bad-misc" },
-        { "name": "Liam", "deckId": "big-sues" },
-        { "name": "Ollie", "deckId": "toms-zoo" },
-        { "name": "Mark", "deckId": "tricky-terrain" }
+        { "playerId": "jake", "name": "Jake", "deckId": "ring-sting" },
+        { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "toms-zoo" },
+        { "playerId": "mark", "name": "Mark", "deckId": "tricky-terrain" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-04-06-002",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
-        { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
-        { "name": "Jo", "deckId": "bad-misc" },
-        { "name": "Liam", "deckId": "big-sues" },
-        { "name": "Ollie", "deckId": "ha-ha-sephiroth" },
-        { "name": "Mark", "deckId": "big-stompy-stomp" }
+        { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
+        { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "ha-ha-sephiroth" },
+        { "playerId": "mark", "name": "Mark", "deckId": "big-stompy-stomp" }
       ],
-      "winner": "Jake"
+      "winner": "Jake",
+      "winnerId": "jake"
     },
     {
+      "id": "2026-04-06-003",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
-        { "name": "Jake", "deckId": "zombieland" },
-        { "name": "Jo", "deckId": "bad-misc" },
-        { "name": "Liam", "deckId": "big-sues" },
-        { "name": "Ollie", "deckId": "revival-trance" },
-        { "name": "Mark", "deckId": "big-stompy-stomp" }
+        { "playerId": "jake", "name": "Jake", "deckId": "zombieland" },
+        { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "revival-trance" },
+        { "playerId": "mark", "name": "Mark", "deckId": "big-stompy-stomp" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-04-06-004",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
-        { "name": "Jake", "deckId": "baelyn" },
-        { "name": "Jo", "deckId": "bad-misc" },
-        { "name": "Liam", "deckId": "big-sues" },
-        { "name": "Ollie", "deckId": "limit-break" },
-        { "name": "Mark", "deckId": "peace-offering" }
+        { "playerId": "jake", "name": "Jake", "deckId": "baelyn" },
+        { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "limit-break" },
+        { "playerId": "mark", "name": "Mark", "deckId": "peace-offering" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-04-06-005",
+      "sessionId": "session-2026-04-06-001",
       "date": "2026-04-06",
       "players": [
-        { "name": "Jake", "deckId": "uwu-otters" },
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Liam", "deckId": "bad-misc" },
-        { "name": "Ollie", "deckId": "all-but-one-mana" },
-        { "name": "Mark", "deckId": "markeus-calgar" }
+        { "playerId": "jake", "name": "Jake", "deckId": "uwu-otters" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "liam", "name": "Liam", "deckId": "bad-misc" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "all-but-one-mana" },
+        { "playerId": "mark", "name": "Mark", "deckId": "markeus-calgar" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-04-12-001",
+      "sessionId": "session-2026-04-12-001",
       "date": "2026-04-12",
       "players": [
-        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
-        { "name": "Jake", "deckId": "uwu-otters" },
-        { "name": "Mark", "deckId": "the-vamp-clamp" }
+        { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" },
+        { "playerId": "jake", "name": "Jake", "deckId": "uwu-otters" },
+        { "playerId": "mark", "name": "Mark", "deckId": "the-vamp-clamp" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-04-19-001",
+      "sessionId": "session-2026-04-19-001",
       "date": "2026-04-19",
       "players": [
-        { "name": "Ollie", "deckId": "toms-zoo" },
-        { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
-        { "name": "Mark", "deckId": "faries" }
+        { "playerId": "ollie", "name": "Ollie", "deckId": "toms-zoo" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
+        { "playerId": "mark", "name": "Mark", "deckId": "faries" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-04-19-002",
+      "sessionId": "session-2026-04-19-001",
       "date": "2026-04-19",
       "players": [
-        { "name": "Ollie", "deckId": "hurtie-not-curie" },
-        { "name": "Jake", "deckId": "necron-dynasties" },
-        { "name": "Mark", "deckId": "faries" }
+        { "playerId": "ollie", "name": "Ollie", "deckId": "hurtie-not-curie" },
+        { "playerId": "jake", "name": "Jake", "deckId": "necron-dynasties" },
+        { "playerId": "mark", "name": "Mark", "deckId": "faries" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-05-04-001",
+      "sessionId": "session-2026-05-04-001",
       "date": "2026-05-04",
       "players": [
-        { "name": "Mark", "deckId": "prismari-performance" },
-        { "name": "Jake", "deckId": "quantum-quandrix" },
-        { "name": "Ollie", "deckId": "lorehold-legacies" },
-        { "name": "Liam", "deckId": "witherbloom-witchcraft" },
-        { "name": "Jo", "deckId": "silverquill-statement" }
+        { "playerId": "mark", "name": "Mark", "deckId": "prismari-performance" },
+        { "playerId": "jake", "name": "Jake", "deckId": "quantum-quandrix" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "lorehold-legacies" },
+        { "playerId": "liam", "name": "Liam", "deckId": "witherbloom-witchcraft" },
+        { "playerId": "jo", "name": "Jo", "deckId": "silverquill-statement" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-05-04-002",
+      "sessionId": "session-2026-05-04-001",
       "date": "2026-05-04",
       "players": [
-        { "name": "Mark", "deckId": "witherbloom-witchcraft" },
-        { "name": "Jake", "deckId": "silverquill-statement" },
-        { "name": "Ollie", "deckId": "prismari-performance" },
-        { "name": "Liam", "deckId": "lorehold-legacies" },
-        { "name": "Jo", "deckId": "quantum-quandrix" }
+        { "playerId": "mark", "name": "Mark", "deckId": "witherbloom-witchcraft" },
+        { "playerId": "jake", "name": "Jake", "deckId": "silverquill-statement" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "prismari-performance" },
+        { "playerId": "liam", "name": "Liam", "deckId": "lorehold-legacies" },
+        { "playerId": "jo", "name": "Jo", "deckId": "quantum-quandrix" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-05-04-003",
+      "sessionId": "session-2026-05-04-001",
       "date": "2026-05-04",
       "players": [
-        { "name": "Mark", "deckId": "quintorius" },
-        { "name": "Jake", "deckId": "saruman" },
-        { "name": "Ollie", "deckId": "rogue-one" },
-        { "name": "Liam", "deckId": "ring-sting" },
-        { "name": "Jo", "deckId": "squirrelled-away" }
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "rogue-one" },
+        { "playerId": "liam", "name": "Liam", "deckId": "ring-sting" },
+        { "playerId": "jo", "name": "Jo", "deckId": "squirrelled-away" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-05-10-001",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
-        { "name": "Liam", "deckId": "zombieland" },
-        { "name": "Jo", "deckId": "bad-misc" },
-        { "name": "Jake", "deckId": "women-wielding-swords" },
-        { "name": "Mark", "deckId": "quintorius" }
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" },
+        { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
+        { "playerId": "jake", "name": "Jake", "deckId": "women-wielding-swords" },
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" }
       ],
-      "winner": "Jake"
+      "winner": "Jake",
+      "winnerId": "jake"
     },
     {
+      "id": "2026-05-10-002",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
-        { "name": "Liam", "deckId": "hurtie-not-curie" },
-        { "name": "Jo", "deckId": "fishes" },
-        { "name": "Jake", "deckId": "ring-sting" },
-        { "name": "Mark", "deckId": "quintorius" }
+        { "playerId": "liam", "name": "Liam", "deckId": "hurtie-not-curie" },
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ring-sting" },
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-05-10-003",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
-        { "name": "Liam", "deckId": "bad-misc" },
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
-        { "name": "Mark", "deckId": "quantum-quandrix" }
+        { "playerId": "liam", "name": "Liam", "deckId": "bad-misc" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
+        { "playerId": "mark", "name": "Mark", "deckId": "quantum-quandrix" }
       ],
-      "winner": "Jake"
+      "winner": "Jake",
+      "winnerId": "jake"
     },
     {
+      "id": "2026-05-10-004",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
-        { "name": "Liam", "deckId": "big-sues" },
-        { "name": "Jo", "deckId": "squirrelled-away" },
-        { "name": "Jake", "deckId": "uwu-otters" },
-        { "name": "Mark", "deckId": "silverquill-statement" }
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
+        { "playerId": "jo", "name": "Jo", "deckId": "squirrelled-away" },
+        { "playerId": "jake", "name": "Jake", "deckId": "uwu-otters" },
+        { "playerId": "mark", "name": "Mark", "deckId": "silverquill-statement" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-05-10-005",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
-        { "name": "Liam", "deckId": "big-sues" },
-        { "name": "Jo", "deckId": "bad-misc" },
-        { "name": "Jake", "deckId": "uwu-otters" },
-        { "name": "Mark", "deckId": "the-vamp-clamp" }
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
+        { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
+        { "playerId": "jake", "name": "Jake", "deckId": "uwu-otters" },
+        { "playerId": "mark", "name": "Mark", "deckId": "the-vamp-clamp" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-05-10-006",
+      "sessionId": "session-2026-05-10-001",
       "date": "2026-05-10",
       "players": [
-        { "name": "Liam", "deckId": "cloni-macaroni" },
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Jake", "deckId": "the-frog-is-loose" },
-        { "name": "Mark", "deckId": "hurtie-not-curie" }
+        { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "playerId": "mark", "name": "Mark", "deckId": "hurtie-not-curie" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-05-21-001",
+      "sessionId": "session-2026-05-21-001",
       "date": "2026-05-21",
       "players": [
-        { "name": "Mark", "deckId": "quintorius" },
-        { "name": "Ben", "deckId": "fishes" },
-        { "name": "Ollie", "deckId": "sin" }
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "ben", "name": "Ben", "deckId": "fishes" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "sin" }
       ],
-      "winner": "Ben"
+      "winner": "Ben",
+      "winnerId": "ben"
     },
     {
+      "id": "2026-05-21-002",
+      "sessionId": "session-2026-05-21-001",
       "date": "2026-05-21",
       "players": [
-        { "name": "Mark", "deckId": "quintorius" },
-        { "name": "Ben", "deckId": "elas-il-kor" },
-        { "name": "Ollie", "deckId": "sin" }
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "ben", "name": "Ben", "deckId": "elas-il-kor" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "sin" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-05-21-003",
+      "sessionId": "session-2026-05-21-001",
       "date": "2026-05-21",
       "players": [
-        { "name": "Mark", "deckId": "big-stompy-stomp" },
-        { "name": "Ben", "deckId": "quintorius" },
-        { "name": "Ollie", "deckId": "toms-zoo" }
+        { "playerId": "mark", "name": "Mark", "deckId": "big-stompy-stomp" },
+        { "playerId": "ben", "name": "Ben", "deckId": "quintorius" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "toms-zoo" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-05-25-001",
+      "sessionId": "session-2026-05-25-001",
       "date": "2026-05-25",
       "players": [
-        { "name": "Mark", "deckId": "quintorius" },
-        { "name": "Jake", "deckId": "saruman" },
-        { "name": "Ollie", "deckId": "rogue-one" }
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "rogue-one" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-05-25-002",
+      "sessionId": "session-2026-05-25-001",
       "date": "2026-05-25",
       "players": [
-        { "name": "Mark", "deckId": "the-vamp-clamp" },
-        { "name": "Jake", "deckId": "women-wielding-swords" },
-        { "name": "Ollie", "deckId": "sin" }
+        { "playerId": "mark", "name": "Mark", "deckId": "the-vamp-clamp" },
+        { "playerId": "jake", "name": "Jake", "deckId": "women-wielding-swords" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "sin" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-05-29-001",
+      "sessionId": "session-2026-05-29-001",
       "date": "2026-05-29",
       "players": [
-        { "name": "Liam", "deckId": "big-sues" },
-        { "name": "Mark", "deckId": "quintorius" },
-        { "name": "Ollie", "deckId": "sin" }
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "sin" }
       ],
-      "winner": "Ollie"
+      "winner": "Ollie",
+      "winnerId": "ollie"
     },
     {
+      "id": "2026-05-29-002",
+      "sessionId": "session-2026-05-29-001",
       "date": "2026-05-29",
       "players": [
-        { "name": "Liam", "deckId": "big-sues" },
-        { "name": "Mark", "deckId": "quintorius" },
-        { "name": "Ollie", "deckId": "sin" }
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" },
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "sin" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-06-04-001",
+      "sessionId": "session-2026-06-04-001",
       "date": "2026-06-04",
       "players": [
-        { "name": "Mark", "deckId": "prismari-performance" },
-        { "name": "Jake", "deckId": "quantum-quandrix" },
-        { "name": "Ollie", "deckId": "lorehold-legacies" },
-        { "name": "Liam", "deckId": "witherbloom-witchcraft" },
-        { "name": "Jo", "deckId": "silverquill-statement" }
+        { "playerId": "mark", "name": "Mark", "deckId": "prismari-performance" },
+        { "playerId": "jake", "name": "Jake", "deckId": "quantum-quandrix" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "lorehold-legacies" },
+        { "playerId": "liam", "name": "Liam", "deckId": "witherbloom-witchcraft" },
+        { "playerId": "jo", "name": "Jo", "deckId": "silverquill-statement" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-06-04-002",
+      "sessionId": "session-2026-06-04-001",
       "date": "2026-06-04",
       "players": [
-        { "name": "Mark", "deckId": "witherbloom-witchcraft" },
-        { "name": "Jake", "deckId": "silverquill-statement" },
-        { "name": "Ollie", "deckId": "prismari-performance" },
-        { "name": "Liam", "deckId": "lorehold-legacies" },
-        { "name": "Jo", "deckId": "quantum-quandrix" }
+        { "playerId": "mark", "name": "Mark", "deckId": "witherbloom-witchcraft" },
+        { "playerId": "jake", "name": "Jake", "deckId": "silverquill-statement" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "prismari-performance" },
+        { "playerId": "liam", "name": "Liam", "deckId": "lorehold-legacies" },
+        { "playerId": "jo", "name": "Jo", "deckId": "quantum-quandrix" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-06-04-003",
+      "sessionId": "session-2026-06-04-001",
       "date": "2026-06-04",
       "players": [
-        { "name": "Mark", "deckId": "quintorius" },
-        { "name": "Jake", "deckId": "saruman" },
-        { "name": "Ollie", "deckId": "rogue-one" },
-        { "name": "Liam", "deckId": "ring-sting" },
-        { "name": "Jo", "deckId": "squirrelled-away" }
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "rogue-one" },
+        { "playerId": "liam", "name": "Liam", "deckId": "ring-sting" },
+        { "playerId": "jo", "name": "Jo", "deckId": "squirrelled-away" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-06-14-001",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
-        { "name": "Liam", "deckId": "artifact-black" },
-        { "name": "Jo", "deckId": "tricky-terrain" },
-        { "name": "Mark", "deckId": "prismari-performance" },
-        { "name": "Ollie", "deckId": "hosts-of-mordor" }
+        { "playerId": "liam", "name": "Liam", "deckId": "artifact-black" },
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "mark", "name": "Mark", "deckId": "prismari-performance" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "hosts-of-mordor" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     },
     {
+      "id": "2026-06-14-002",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
-        { "name": "Liam", "deckId": "zombieland" },
-        { "name": "Jake", "deckId": "ring-sting" },
-        { "name": "Jo", "deckId": "bad-misc" },
-        { "name": "Mark", "deckId": "quintorius" },
-        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" }
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ring-sting" },
+        { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-06-14-003",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
-        { "name": "Liam", "deckId": "bad-misc" },
-        { "name": "Jake", "deckId": "rhys-french-lessons" },
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Mark", "deckId": "quintorius" },
-        { "name": "Ollie", "deckId": "sin" }
+        { "playerId": "liam", "name": "Liam", "deckId": "bad-misc" },
+        { "playerId": "jake", "name": "Jake", "deckId": "rhys-french-lessons" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "sin" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-06-14-004",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
-        { "name": "Liam", "deckId": "cloni-macaroni" },
-        { "name": "Jake", "deckId": "saruman" },
-        { "name": "Jo", "deckId": "squirrelled-away" },
-        { "name": "Mark", "deckId": "hurtie-not-curie" },
-        { "name": "Ollie", "deckId": "sin" }
+        { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "jo", "name": "Jo", "deckId": "squirrelled-away" },
+        { "playerId": "mark", "name": "Mark", "deckId": "hurtie-not-curie" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "sin" }
       ],
-      "winner": "Mark"
+      "winner": "Mark",
+      "winnerId": "mark"
     },
     {
+      "id": "2026-06-14-005",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
-        { "name": "Liam", "deckId": "cloni-macaroni" },
-        { "name": "Jake", "deckId": "saruman" },
-        { "name": "Jo", "deckId": "fishes" },
-        { "name": "Mark", "deckId": "squirrelled-away" },
-        { "name": "Ollie", "deckId": "rogue-one" }
+        { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
+        { "playerId": "mark", "name": "Mark", "deckId": "squirrelled-away" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "rogue-one" }
       ],
-      "winner": "Liam"
+      "winner": "Liam",
+      "winnerId": "liam"
     },
     {
+      "id": "2026-06-14-006",
+      "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",
       "players": [
-        { "name": "Liam", "deckId": "saruman" },
-        { "name": "Jake", "deckId": "rhys-french-lessons" },
-        { "name": "Jo", "deckId": "peace-offering" },
-        { "name": "Mark", "deckId": "bad-misc" },
-        { "name": "Ollie", "deckId": "abzan-deetz-nuts-out" }
+        { "playerId": "liam", "name": "Liam", "deckId": "saruman" },
+        { "playerId": "jake", "name": "Jake", "deckId": "rhys-french-lessons" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "mark", "name": "Mark", "deckId": "bad-misc" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" }
       ],
-      "winner": "Jo"
+      "winner": "Jo",
+      "winnerId": "jo"
     }
   ]
 }

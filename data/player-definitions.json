@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "players": [
+    {
+      "id": "ben",
+      "name": "Ben",
+      "active": true
+    },
+    {
+      "id": "jake",
+      "name": "Jake",
+      "active": true
+    },
+    {
+      "id": "jo",
+      "name": "Jo",
+      "active": true
+    },
+    {
+      "id": "josh",
+      "name": "Josh",
+      "active": false
+    },
+    {
+      "id": "liam",
+      "name": "Liam",
+      "active": true
+    },
+    {
+      "id": "mark",
+      "name": "Mark",
+      "active": true
+    },
+    {
+      "id": "ollie",
+      "name": "Ollie",
+      "active": true
+    },
+    {
+      "id": "rhys",
+      "name": "Rhys",
+      "active": false
+    }
+  ]
+}

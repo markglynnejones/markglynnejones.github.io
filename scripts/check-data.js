@@ -2,10 +2,15 @@
 
 const fs = require("fs");
 const path = require("path");
+const { matchIdDate, validMatchId } = require("./match-ids");
+const { normalisePlayerName, validPlayerId } = require("./player-ids");
+const { sessionIdDate, validSessionId } = require("./session-ids");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
 const ALLOWED_COLORS = new Set(["White", "Blue", "Black", "Red", "Green", "Colorless"]);
+const CURRENT_SCHEMA_VERSION = 1;
+const METADATA_KEYS = new Set(["schemaVersion"]);
 
 function createIssueCollector() {
   return {
@@ -49,6 +54,21 @@ function isNonEmptyString(value) {
 
 function isNonNegativeNumber(value) {
   return typeof value === "number" && Number.isFinite(value) && value >= 0;
+}
+
+function checkSchemaVersion(fileLabel, data, issues) {
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    issues.fail(`${fileLabel} must contain a JSON object.`);
+    return;
+  }
+
+  if (data.schemaVersion !== CURRENT_SCHEMA_VERSION) {
+    issues.fail(`${fileLabel} must have schemaVersion ${CURRENT_SCHEMA_VERSION}.`);
+  }
+}
+
+function isNormalisedTag(value) {
+  return typeof value === "string" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value);
 }
 
 function validIsoDate(value) {
@@ -116,7 +136,43 @@ function checkDeckDefinitions(deckDefinitions, issues) {
   return deckById;
 }
 
-function checkMatchesData(fileLabel, data, deckById, issues) {
+function checkPlayerDefinitions(playerDefinitions, issues) {
+  const players = playerDefinitions?.players;
+  if (!Array.isArray(players)) {
+    issues.fail("data/player-definitions.json must contain a players array.");
+    return new Map();
+  }
+
+  const playerById = new Map();
+  const names = new Map();
+
+  players.forEach((player, index) => {
+    const label = `data/player-definitions.json players[${index}]`;
+
+    if (!validPlayerId(player.id)) issues.fail(`${label} must have a normalized player id.`);
+    if (!isNonEmptyString(player.name)) issues.fail(`${label} (${player.id || "missing id"}) must have a non-empty name.`);
+    if (typeof player.active !== "boolean") issues.fail(`${label} (${player.id || "missing id"}) must have a boolean active value.`);
+
+    if (player.id) {
+      if (playerById.has(player.id)) issues.fail(`Duplicate player id "${player.id}" in data/player-definitions.json.`);
+      playerById.set(player.id, player);
+    }
+
+    if (player.name) {
+      const key = normalisePlayerName(player.name);
+      if (names.has(key)) issues.fail(`Duplicate player name "${player.name}" in data/player-definitions.json.`);
+      names.set(key, player.id);
+    }
+
+    for (const alias of player.aliases || []) {
+      if (!isNonEmptyString(alias)) issues.fail(`${label} (${player.id || "missing id"}) has an empty alias.`);
+    }
+  });
+
+  return playerById;
+}
+
+function checkMatchesData(fileLabel, data, deckById, playerById, issues) {
   const matches = data?.matches;
   if (!Array.isArray(matches)) {
     issues.fail(`${fileLabel} must contain a matches array.`);
@@ -125,9 +181,26 @@ function checkMatchesData(fileLabel, data, deckById, issues) {
 
   let previousDate = "";
   const signatures = new Set();
+  const ids = new Set();
 
   matches.forEach((match, index) => {
     const label = `${fileLabel} matches[${index}]`;
+
+    if (!validMatchId(match.id)) {
+      issues.fail(`${label} has invalid id "${match.id}". Expected YYYY-MM-DD-001 format.`);
+    } else {
+      if (ids.has(match.id)) issues.fail(`${label} duplicates match id "${match.id}" in ${fileLabel}.`);
+      ids.add(match.id);
+      if (validIsoDate(match.date) && matchIdDate(match.id) !== match.date) {
+        issues.fail(`${label} id "${match.id}" does not match date "${match.date}".`);
+      }
+    }
+
+    if (!validSessionId(match.sessionId)) {
+      issues.fail(`${label} has invalid sessionId "${match.sessionId}". Expected session-YYYY-MM-DD-001 format.`);
+    } else if (validIsoDate(match.date) && sessionIdDate(match.sessionId) !== match.date) {
+      issues.fail(`${label} sessionId "${match.sessionId}" does not match date "${match.date}".`);
+    }
 
     if (!validIsoDate(match.date)) issues.fail(`${label} has invalid date "${match.date}".`);
     if (previousDate && String(match.date).localeCompare(previousDate) < 0) {
@@ -141,21 +214,68 @@ function checkMatchesData(fileLabel, data, deckById, issues) {
     }
 
     const playerNames = new Set();
+    const playerIds = new Set();
     match.players.forEach((player, playerIndex) => {
       const playerLabel = `${label} players[${playerIndex}]`;
+      const playerDefinition = playerById.get(player.playerId);
+
+      if (!validPlayerId(player.playerId)) issues.fail(`${playerLabel} must have a normalized playerId.`);
+      if (player.playerId && !playerDefinition) issues.fail(`${playerLabel} references unknown playerId "${player.playerId}".`);
       if (!isNonEmptyString(player.name)) issues.fail(`${playerLabel} must have a non-empty name.`);
+      if (playerDefinition && player.name !== playerDefinition.name) {
+        issues.fail(`${playerLabel} name "${player.name}" does not match playerId "${player.playerId}" (${playerDefinition.name}).`);
+      }
       if (!isNonEmptyString(player.deckId)) issues.fail(`${playerLabel} must have a non-empty deckId.`);
       if (player.deckId && !deckById.has(player.deckId)) issues.fail(`${playerLabel} references unknown deckId "${player.deckId}".`);
+
+      if (player.playerId) {
+        if (playerIds.has(player.playerId)) issues.fail(`${label} contains duplicate playerId "${player.playerId}".`);
+        playerIds.add(player.playerId);
+      }
       if (player.name) {
         if (playerNames.has(player.name)) issues.fail(`${label} contains duplicate player "${player.name}".`);
         playerNames.add(player.name);
       }
     });
 
+    let winnerNameIsPlayer = false;
     if (!isNonEmptyString(match.winner)) {
       issues.fail(`${label} must have a winner.`);
     } else if (!playerNames.has(match.winner)) {
       issues.fail(`${label} winner "${match.winner}" is not one of the match players.`);
+    } else {
+      winnerNameIsPlayer = true;
+    }
+
+    if (!validPlayerId(match.winnerId)) {
+      issues.fail(`${label} must have a normalized winnerId.`);
+    } else if (!playerIds.has(match.winnerId)) {
+      issues.fail(`${label} winnerId "${match.winnerId}" is not one of the match playerIds.`);
+    } else if (winnerNameIsPlayer) {
+      const winnerPlayer = match.players.find((player) => player.playerId === match.winnerId);
+      if (winnerPlayer?.name !== match.winner) {
+        issues.fail(`${label} winner "${match.winner}" does not match winnerId "${match.winnerId}".`);
+      }
+    }
+
+    if (match.notes !== undefined && !isNonEmptyString(match.notes)) {
+      issues.fail(`${label} notes must be a non-empty string when present.`);
+    }
+
+    if (match.tags !== undefined) {
+      if (!Array.isArray(match.tags)) {
+        issues.fail(`${label} tags must be an array when present.`);
+      } else {
+        const tags = new Set();
+        match.tags.forEach((tag, tagIndex) => {
+          if (!isNormalisedTag(tag)) {
+            issues.fail(`${label} tags[${tagIndex}] must be a non-empty lowercase slug.`);
+            return;
+          }
+          if (tags.has(tag)) issues.fail(`${label} tags contains duplicate tag "${tag}".`);
+          tags.add(tag);
+        });
+      }
     }
 
     const signature = `${match.date}|${match.winner}|${match.players.map((player) => `${player.name}:${player.deckId}`).sort().join(",")}`;
@@ -164,7 +284,7 @@ function checkMatchesData(fileLabel, data, deckById, issues) {
   });
 }
 
-function checkHistoricPlayers(players2025, issues) {
+function checkHistoricPlayers(players2025, playerById, issues) {
   const players = players2025?.players;
   if (!Array.isArray(players)) {
     issues.fail("data/players-2025.json must contain a players array.");
@@ -172,9 +292,13 @@ function checkHistoricPlayers(players2025, issues) {
   }
 
   const names = new Set();
+  const knownNames = new Set(Array.from(playerById.values()).map((player) => normalisePlayerName(player.name)));
   players.forEach((player, index) => {
     const label = `data/players-2025.json players[${index}]`;
     if (!isNonEmptyString(player.name)) issues.fail(`${label} must have a non-empty name.`);
+    if (player.name && !knownNames.has(normalisePlayerName(player.name))) {
+      issues.fail(`${label} references unknown player "${player.name}".`);
+    }
     if (!isNonNegativeNumber(player.wins)) issues.fail(`${label} must have non-negative numeric wins.`);
     if (!isNonNegativeNumber(player.matchesPlayed)) issues.fail(`${label} must have non-negative numeric matchesPlayed.`);
     if (player.wins > player.matchesPlayed) issues.fail(`${label} has more wins than matchesPlayed.`);
@@ -221,7 +345,7 @@ function checkCombinations(combinationsData, issues) {
   }
 }
 
-function checkPlayerAliases(playerAliases, issues) {
+function checkPlayerAliases(playerAliases, playerById, issues) {
   if (!playerAliases || typeof playerAliases !== "object" || Array.isArray(playerAliases)) {
     issues.fail("data/player-aliases.json must contain an alias-to-player object.");
     return;
@@ -229,9 +353,14 @@ function checkPlayerAliases(playerAliases, issues) {
 
   const seen = new Set();
   for (const [alias, canonical] of Object.entries(playerAliases)) {
+    if (METADATA_KEYS.has(alias)) continue;
     const key = normalise(alias);
     if (!key) issues.fail("data/player-aliases.json contains an empty alias.");
     if (!isNonEmptyString(canonical)) issues.fail(`Player alias "${alias}" must point at a non-empty player name.`);
+    if (isNonEmptyString(canonical)) {
+      const player = Array.from(playerById.values()).find((entry) => normalisePlayerName(entry.name) === normalisePlayerName(canonical));
+      if (!player) issues.fail(`Player alias "${alias}" points at unknown player "${canonical}".`);
+    }
     if (seen.has(key)) issues.fail(`Duplicate normalised player alias "${key}" in data/player-aliases.json.`);
     seen.add(key);
   }
@@ -250,14 +379,23 @@ function checkStaticReferences(issues) {
 }
 
 function validateData(data, issues = createIssueCollector()) {
+  checkSchemaVersion("data/deck-definitions.json", data.deckDefinitions, issues);
+  checkSchemaVersion("data/decks-2025.json", data.decks2025, issues);
+  checkSchemaVersion("data/players-2025.json", data.players2025, issues);
+  checkSchemaVersion("data/player-definitions.json", data.playerDefinitions, issues);
+  checkSchemaVersion("data/combinations.json", data.combinationsData, issues);
+  checkSchemaVersion("data/player-aliases.json", data.playerAliases, issues);
+
   const deckById = checkDeckDefinitions(data.deckDefinitions, issues);
+  const playerById = checkPlayerDefinitions(data.playerDefinitions, issues);
   checkHistoricDecks(data.decks2025, issues);
-  checkHistoricPlayers(data.players2025, issues);
+  checkHistoricPlayers(data.players2025, playerById, issues);
   checkCombinations(data.combinationsData, issues);
-  checkPlayerAliases(data.playerAliases, issues);
+  checkPlayerAliases(data.playerAliases, playerById, issues);
 
   for (const matchesFile of data.matchesFiles || []) {
-    checkMatchesData(matchesFile.label, matchesFile.data, deckById, issues);
+    checkSchemaVersion(matchesFile.label, matchesFile.data, issues);
+    checkMatchesData(matchesFile.label, matchesFile.data, deckById, playerById, issues);
   }
 
   return issues;
@@ -266,11 +404,12 @@ function validateData(data, issues = createIssueCollector()) {
 function main() {
   const issues = createIssueCollector();
   const deckDefinitions = readJson(path.join(DATA_DIR, "deck-definitions.json"), issues);
+  const playerDefinitions = readJson(path.join(DATA_DIR, "player-definitions.json"), issues);
   const decks2025 = readJson(path.join(DATA_DIR, "decks-2025.json"), issues);
   const players2025 = readJson(path.join(DATA_DIR, "players-2025.json"), issues);
   const combinationsData = readJson(path.join(DATA_DIR, "combinations.json"), issues);
   const playerAliases = readJson(path.join(DATA_DIR, "player-aliases.json"), issues);
-  readJson(path.join(DATA_DIR, "doubles.json"), issues);
+  const doublesData = readJson(path.join(DATA_DIR, "doubles.json"), issues);
 
   const matchesFiles = fs.readdirSync(DATA_DIR)
     .filter((name) => /^matches-\d{4}\.json$/.test(name))
@@ -283,7 +422,8 @@ function main() {
       };
     });
 
-  validateData({ deckDefinitions, decks2025, players2025, combinationsData, playerAliases, matchesFiles }, issues);
+  validateData({ deckDefinitions, playerDefinitions, decks2025, players2025, combinationsData, playerAliases, matchesFiles }, issues);
+  checkSchemaVersion("data/doubles.json", doublesData, issues);
 
   checkStaticReferences(issues);
 
@@ -304,7 +444,9 @@ if (require.main === module) {
 
 module.exports = {
   checkMatchesData,
+  checkPlayerDefinitions,
   createIssueCollector,
+  CURRENT_SCHEMA_VERSION,
   validateData,
   validIsoDate,
 };

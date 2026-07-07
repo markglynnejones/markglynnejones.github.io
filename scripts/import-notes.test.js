@@ -4,10 +4,18 @@ const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
 
-const { appendMatches, buildPlayerAliases, parseNotes, suggestedDeckStub, summariseDeckDefinitionChanges } = require("./import-notes");
+const {
+  appendMatches,
+  buildPlayerAliases,
+  formatMatchesData,
+  parseNotes,
+  suggestedDeckStub,
+  summariseDeckDefinitionChanges,
+} = require("./import-notes");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const deckDefinitions = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "deck-definitions.json"), "utf8"));
+const playerDefinitions = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "player-definitions.json"), "utf8"));
 const playerAliases = buildPlayerAliases(JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "data", "player-aliases.json"), "utf8")));
 
 function test(name, fn) {
@@ -22,7 +30,7 @@ function test(name, fn) {
 
 function parseFixture() {
   const raw = fs.readFileSync(path.join(REPO_ROOT, "data", "raw", "2026", "2026-04-06-magic.txt"), "utf8");
-  return parseNotes(raw, "2026", deckDefinitions, playerAliases);
+  return parseNotes(raw, "2026", deckDefinitions, playerAliases, playerDefinitions);
 }
 
 test("parses the 2026-04-06 raw note fixture", () => {
@@ -37,6 +45,13 @@ test("normalises Olly to Ollie", () => {
   const result = parseFixture();
 
   assert.strictEqual(result.matches[0].players[3].name, "Ollie");
+});
+
+test("buildPlayerAliases ignores schema metadata", () => {
+  const aliases = buildPlayerAliases({ schemaVersion: 1, olly: "Ollie" });
+
+  assert.strictEqual(aliases.get("olly"), "Ollie");
+  assert.strictEqual(aliases.has("schemaversion"), false);
 });
 
 test("resolves messy deck aliases", () => {
@@ -95,6 +110,42 @@ test("appendMatches skips exact duplicates", () => {
 
   assert.deepStrictEqual(result, { added: 0, skipped: 1 });
   assert.strictEqual(matchesData.matches.length, 1);
+});
+
+test("appendMatches assigns ids to existing and new matches", () => {
+  const [first, second] = parseFixture().matches;
+  const matchesData = { matches: [structuredClone(first)] };
+
+  const result = appendMatches(matchesData, [structuredClone(second)]);
+
+  assert.deepStrictEqual(result, { added: 1, skipped: 0 });
+  assert.strictEqual(matchesData.matches[0].id, "2026-04-06-001");
+  assert.strictEqual(matchesData.matches[1].id, "2026-04-06-002");
+});
+
+test("formatMatchesData preserves optional notes and tags", () => {
+  const formatted = formatMatchesData({
+    matches: [
+      {
+        id: "2026-04-06-001",
+        sessionId: "session-2026-04-06-001",
+        date: "2026-04-06",
+        players: [
+          { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+          { playerId: "liam", name: "Liam", deckId: "big-sues" },
+        ],
+        winner: "Jo",
+        winnerId: "jo",
+        notes: "Planechase got messy.",
+        tags: ["planechase", "precon-night"],
+      },
+    ],
+  });
+
+  assert.strictEqual(JSON.parse(formatted).schemaVersion, 1);
+  assert.match(formatted, /"notes": "Planechase got messy\."/);
+  assert.match(formatted, /"tags": \["planechase","precon-night"\]/);
+  assert.deepStrictEqual(JSON.parse(formatted).matches[0].tags, ["planechase", "precon-night"]);
 });
 
 test("suggestedDeckStub creates a usable starter deck", () => {
