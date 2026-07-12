@@ -349,6 +349,7 @@ Implemented:
 - The preview screen shows parser errors or a parsed match table using current deck, player, and alias data.
 - Import preview drafts are saved in local browser storage and can be cleared.
 - Unresolved-deck errors preserve the suggested deck stub formatting in the UI.
+- Import preview actions can copy parsed match JSON or unresolved deck stubs after a fresh preview.
 
 Important constraint:
 

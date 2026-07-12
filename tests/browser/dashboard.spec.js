@@ -2,6 +2,20 @@
 
 const { expect, test } = require("@playwright/test");
 
+async function installClipboardMock(page) {
+  await page.addInitScript(() => {
+    window.__copiedText = "";
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (text) => {
+          window.__copiedText = text;
+        },
+      },
+    });
+  });
+}
+
 test("dashboard boots with populated primary sections", async ({ page }) => {
   const consoleErrors = [];
   page.on("console", (message) => {
@@ -102,6 +116,7 @@ test("sessions can switch selected dates", async ({ page }) => {
 });
 
 test("import preview parses valid raw notes without writing data", async ({ page }) => {
+  await installClipboardMock(page);
   await page.goto("/#/import");
 
   await expect(page.locator("#view-import")).toBeVisible();
@@ -118,9 +133,24 @@ Liam - big sues`);
   await expect(page.locator("#import-preview-body tr").first()).toContainText("Jo");
   await expect(page.locator("#import-preview-body tr").first()).toContainText("Bad Misc");
   await expect(page.locator("#import-preview-body tr").first()).toContainText("Big Sue's");
+  await expect(page.locator("#import-readiness-list")).toContainText("1 parsed match.");
+  await expect(page.getByRole("button", { name: "Copy parsed JSON" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Copy deck stubs" })).toBeDisabled();
+
+  await page.getByRole("button", { name: "Copy parsed JSON" }).click();
+  await expect(page.locator("#import-preview-status")).toHaveText("Parsed JSON copied.");
+  const copiedText = await page.evaluate(() => window.__copiedText);
+  expect(JSON.parse(copiedText)).toMatchObject([
+    {
+      date: "2026-06-04",
+      winner: "Jo",
+      winnerId: "jo",
+    },
+  ]);
 });
 
 test("import preview reports unresolved decks", async ({ page }) => {
+  await installClipboardMock(page);
   await page.goto("/#/import");
 
   await page.locator("#import-notes").fill(`04/06 magic
@@ -134,6 +164,20 @@ Liam - big sues`);
   await expect(page.locator("#import-preview-errors")).toContainText("Couldn't resolve deck");
   await expect(page.locator("#import-preview-errors")).toContainText("Suggested new deck stub");
   await expect(page.locator("#import-preview-body tr")).toHaveCount(0);
+  await expect(page.locator("#import-readiness-list")).toContainText("1 issue found.");
+  await expect(page.getByRole("button", { name: "Copy parsed JSON" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Copy deck stubs" })).toBeEnabled();
+
+  await page.getByRole("button", { name: "Copy deck stubs" }).click();
+  await expect(page.locator("#import-preview-status")).toHaveText("Deck stubs copied.");
+  const copiedText = await page.evaluate(() => window.__copiedText);
+  expect(JSON.parse(copiedText)).toMatchObject([
+    {
+      id: "mystery-frog",
+      name: "Mystery Frog",
+      active: true,
+    },
+  ]);
 });
 
 test("import preview keeps and clears local drafts", async ({ page }) => {
@@ -145,9 +189,15 @@ test("import preview keeps and clears local drafts", async ({ page }) => {
 Jo - bad misc - win
 Liam - big sues`);
 
+  await page.getByRole("button", { name: "Preview" }).click();
+  await expect(page.getByRole("button", { name: "Copy parsed JSON" })).toBeEnabled();
+  await page.locator("#import-notes").fill("05/07 magic");
+  await expect(page.locator("#import-readiness-list")).toContainText("Draft changed. Run preview again.");
+  await expect(page.getByRole("button", { name: "Copy parsed JSON" })).toBeDisabled();
+
   await page.reload();
   await expect(page.locator("#import-year")).toHaveValue("2027");
-  await expect(page.locator("#import-notes")).toHaveValue(/05\/07 magic/);
+  await expect(page.locator("#import-notes")).toHaveValue("05/07 magic");
 
   await page.getByRole("button", { name: "Clear draft" }).click();
   await expect(page.locator("#import-year")).toHaveValue("2026");

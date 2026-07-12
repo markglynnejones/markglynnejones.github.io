@@ -86,6 +86,7 @@ The next implementation work should happen in this order:
 - Importer and validator updates for any new data shape.
 - Phase 3 import parser extraction. Implemented.
 - Browser import preview at `#/import`. Implemented.
+- Import preview copy actions for parsed JSON and deck stubs. Implemented.
 
 Keep these changes compatible with the current static GitHub Pages deployment.
 
@@ -99,7 +100,7 @@ Keep these changes compatible with the current static GitHub Pages deployment.
 - Current JSON data files use `schemaVersion: 1`.
 - Match files use stable `id`, `sessionId`, `playerId`, and `winnerId` fields while retaining display names.
 - Player IDs live in `data/player-definitions.json`; typo aliases live in `data/player-aliases.json`.
-- The browser Import view is preview-only; it must not write JSON from the static GitHub Pages app.
+- The browser Import view is preview-only; it can copy parsed JSON and deck stubs, but it must not write JSON from the static GitHub Pages app.
 - Preserve raw notes as the source-of-truth audit trail for imported sessions.
 - Use stable, testable helper functions for new stats.
 

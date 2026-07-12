@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let matches2026 = null;
   let playerDefinitions = null;
   let playerAliasesData = null;
+  let importPreviewResult = { matches: [], errors: [], deckStubs: [] };
 
   let combinationsData = null;
 
@@ -151,6 +152,91 @@ document.addEventListener("DOMContentLoaded", () => {
     return deck?.name || deckId;
   }
 
+  function extractDeckStubs(errors) {
+    const marker = "Suggested new deck stub:";
+    const stubs = [];
+
+    for (const error of errors) {
+      const message = String(error || "");
+      const markerIndex = message.indexOf(marker);
+      if (markerIndex === -1) continue;
+
+      const jsonText = message.slice(markerIndex + marker.length).trim();
+      try {
+        stubs.push(JSON.parse(jsonText));
+      } catch {
+        // Keep the preview resilient if an error message changes shape.
+      }
+    }
+
+    return stubs;
+  }
+
+  function setImportCopyState() {
+    const copyJsonButton = document.getElementById("import-copy-json-button");
+    const copyStubsButton = document.getElementById("import-copy-stubs-button");
+
+    if (copyJsonButton) copyJsonButton.disabled = importPreviewResult.matches.length === 0;
+    if (copyStubsButton) copyStubsButton.disabled = importPreviewResult.deckStubs.length === 0;
+  }
+
+  function renderImportReadiness(message) {
+    const list = document.getElementById("import-readiness-list");
+    if (!list) return;
+
+    list.textContent = "";
+    const items = message
+      ? [message]
+      : [
+          `${importPreviewResult.matches.length} parsed match${importPreviewResult.matches.length === 1 ? "" : "es"}.`,
+          `${importPreviewResult.errors.length} issue${importPreviewResult.errors.length === 1 ? "" : "s"} found.`,
+          `${importPreviewResult.deckStubs.length} deck stub${importPreviewResult.deckStubs.length === 1 ? "" : "s"} ready to copy.`,
+        ];
+
+    for (const itemText of items) {
+      const item = document.createElement("li");
+      item.textContent = itemText;
+      list.appendChild(item);
+    }
+  }
+
+  function resetImportPreview(message = "Preview not run yet.") {
+    importPreviewResult = { matches: [], errors: [], deckStubs: [] };
+    setImportCopyState();
+    renderImportReadiness(message);
+  }
+
+  function importPreviewJson() {
+    return JSON.stringify(importPreviewResult.matches, null, 2);
+  }
+
+  function importDeckStubsJson() {
+    return JSON.stringify(importPreviewResult.deckStubs, null, 2);
+  }
+
+  async function copyText(text, successMessage) {
+    const status = document.getElementById("import-preview-status");
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+      }
+      if (status) status.textContent = successMessage;
+    } catch {
+      if (status) status.textContent = "Could not copy. Select the preview output and copy manually.";
+    }
+  }
+
   function renderImportPreview() {
     const notesInput = document.getElementById("import-notes");
     const yearInput = document.getElementById("import-year");
@@ -168,17 +254,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const year = yearInput.value.trim() || "2026";
 
     if (!/^\d{4}$/.test(year)) {
+      resetImportPreview("Fix the year before previewing.");
       status.textContent = "Year must be four digits.";
       return;
     }
 
     if (!notes) {
+      resetImportPreview("Paste raw notes before previewing.");
       status.textContent = "No notes entered.";
       return;
     }
 
     const playerAliases = commanderImportParser.buildPlayerAliases(playerAliasesData || {});
     const result = commanderImportParser.parseNotes(notes, year, deckDefinitions, playerAliases, playerDefinitions);
+    importPreviewResult = {
+      matches: result.matches,
+      errors: result.errors,
+      deckStubs: extractDeckStubs(result.errors),
+    };
+    setImportCopyState();
+    renderImportReadiness();
 
     if (result.errors.length) {
       status.textContent = `${result.errors.length} issue${result.errors.length === 1 ? "" : "s"} found.`;
@@ -251,9 +346,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const tbody = document.getElementById("import-preview-body");
 
     window.localStorage.removeItem(IMPORT_DRAFT_KEY);
+    resetImportPreview();
     if (notesInput) notesInput.value = "";
     if (yearInput) yearInput.value = "2026";
     if (status) status.textContent = "Draft cleared.";
+    if (errors) {
+      errors.hidden = true;
+      errors.textContent = "";
+    }
+    if (tbody) tbody.textContent = "";
+  }
+
+  function handleImportDraftInput() {
+    const status = document.getElementById("import-preview-status");
+    const errors = document.getElementById("import-preview-errors");
+    const tbody = document.getElementById("import-preview-body");
+
+    writeImportDraft();
+    resetImportPreview("Draft changed. Run preview again.");
+    if (status) status.textContent = "";
     if (errors) {
       errors.hidden = true;
       errors.textContent = "";
@@ -792,15 +903,24 @@ document.addEventListener("DOMContentLoaded", () => {
   function wireImportPreviewControls() {
     const button = document.getElementById("import-preview-button");
     const clearButton = document.getElementById("import-clear-button");
+    const copyJsonButton = document.getElementById("import-copy-json-button");
+    const copyStubsButton = document.getElementById("import-copy-stubs-button");
     const notesInput = document.getElementById("import-notes");
     const yearInput = document.getElementById("import-year");
 
     restoreImportDraft();
+    resetImportPreview();
 
     if (button) button.addEventListener("click", renderImportPreview);
     if (clearButton) clearButton.addEventListener("click", clearImportDraft);
-    if (notesInput) notesInput.addEventListener("input", writeImportDraft);
-    if (yearInput) yearInput.addEventListener("input", writeImportDraft);
+    if (copyJsonButton) {
+      copyJsonButton.addEventListener("click", () => copyText(importPreviewJson(), "Parsed JSON copied."));
+    }
+    if (copyStubsButton) {
+      copyStubsButton.addEventListener("click", () => copyText(importDeckStubsJson(), "Deck stubs copied."));
+    }
+    if (notesInput) notesInput.addEventListener("input", handleImportDraftInput);
+    if (yearInput) yearInput.addEventListener("input", handleImportDraftInput);
   }
 
   // -----------------------------

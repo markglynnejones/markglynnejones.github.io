@@ -306,8 +306,13 @@
           <div class="button-row">
             <button id="import-preview-button" type="button">Preview</button>
             <button id="import-clear-button" class="secondary-button" type="button">Clear draft</button>
+            <button id="import-copy-json-button" class="secondary-button" type="button" disabled>Copy parsed JSON</button>
+            <button id="import-copy-stubs-button" class="secondary-button" type="button" disabled>Copy deck stubs</button>
           </div>
           <p id="import-preview-status" class="section-note" aria-live="polite"></p>
+          <ul id="import-readiness-list" class="import-readiness-list" aria-live="polite">
+            <li>Preview not run yet.</li>
+          </ul>
           <div id="import-preview-errors" class="import-preview-errors" role="alert" hidden></div>
 
           <p id="import-preview-scroll-hint" class="table-scroll-hint">Scroll table sideways</p>
