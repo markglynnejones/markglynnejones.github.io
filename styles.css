@@ -194,6 +194,14 @@ main section {
   width: 7rem;
 }
 
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+
 textarea {
   width: 100%;
   min-height: 220px;
@@ -220,6 +228,19 @@ textarea {
 .import-preview-errors ul {
   margin: 8px 0 0;
   padding-left: 20px;
+}
+
+.import-preview-errors li + li {
+  margin-top: 10px;
+}
+
+.import-preview-errors pre {
+  white-space: pre-wrap;
+  margin: 8px 0 0;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  color: inherit;
 }
 
 .muted-note,

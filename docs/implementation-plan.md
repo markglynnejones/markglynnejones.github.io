@@ -347,6 +347,8 @@ Implemented:
 - `scripts/import-parser.test.js` covers date parsing, block splitting, deck resolution, aliases, and parsed match previews.
 - `#/import` adds a browser paste-and-preview screen that parses raw notes locally without writing JSON.
 - The preview screen shows parser errors or a parsed match table using current deck, player, and alias data.
+- Import preview drafts are saved in local browser storage and can be cleared.
+- Unresolved-deck errors preserve the suggested deck stub formatting in the UI.
 
 Important constraint:
 

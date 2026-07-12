@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     session: "sessions",
   };
   const RECENT_MATCH_LIMITS = [5, 10, 20];
+  const IMPORT_DRAFT_KEY = "commander-import-preview-draft-v1";
 
   // -----------------------------
   // State
@@ -184,7 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const list = document.createElement("ul");
       result.errors.forEach((message) => {
         const item = document.createElement("li");
-        item.textContent = message;
+        const [summary, ...details] = String(message).split("\n");
+        item.textContent = summary;
+        if (details.length) {
+          const detail = document.createElement("pre");
+          detail.textContent = details.join("\n");
+          item.appendChild(detail);
+        }
         list.appendChild(item);
       });
       errors.appendChild(list);
@@ -204,6 +211,54 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       tbody.appendChild(row);
     }
+  }
+
+  function readImportDraft() {
+    try {
+      return JSON.parse(window.localStorage.getItem(IMPORT_DRAFT_KEY) || "{}");
+    } catch {
+      return {};
+    }
+  }
+
+  function writeImportDraft() {
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+    if (!notesInput || !yearInput) return;
+
+    const draft = {
+      notes: notesInput.value,
+      year: yearInput.value,
+    };
+    window.localStorage.setItem(IMPORT_DRAFT_KEY, JSON.stringify(draft));
+  }
+
+  function restoreImportDraft() {
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+    if (!notesInput || !yearInput) return;
+
+    const draft = readImportDraft();
+    if (typeof draft.notes === "string") notesInput.value = draft.notes;
+    if (typeof draft.year === "string" && draft.year) yearInput.value = draft.year;
+  }
+
+  function clearImportDraft() {
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+    const status = document.getElementById("import-preview-status");
+    const errors = document.getElementById("import-preview-errors");
+    const tbody = document.getElementById("import-preview-body");
+
+    window.localStorage.removeItem(IMPORT_DRAFT_KEY);
+    if (notesInput) notesInput.value = "";
+    if (yearInput) yearInput.value = "2026";
+    if (status) status.textContent = "Draft cleared.";
+    if (errors) {
+      errors.hidden = true;
+      errors.textContent = "";
+    }
+    if (tbody) tbody.textContent = "";
   }
 
   function appendRowHeaderCell(row, text) {
@@ -736,8 +791,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function wireImportPreviewControls() {
     const button = document.getElementById("import-preview-button");
-    if (!button) return;
-    button.addEventListener("click", renderImportPreview);
+    const clearButton = document.getElementById("import-clear-button");
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+
+    restoreImportDraft();
+
+    if (button) button.addEventListener("click", renderImportPreview);
+    if (clearButton) clearButton.addEventListener("click", clearImportDraft);
+    if (notesInput) notesInput.addEventListener("input", writeImportDraft);
+    if (yearInput) yearInput.addEventListener("input", writeImportDraft);
   }
 
   // -----------------------------
