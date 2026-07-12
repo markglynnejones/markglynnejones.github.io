@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let matches2026 = null;
   let playerDefinitions = null;
   let playerAliasesData = null;
-  let importPreviewResult = { matches: [], errors: [], deckStubs: [] };
+  let importPreviewResult = { matches: [], errors: [], deckStubs: [], duplicates: [] };
 
   let combinationsData = null;
 
@@ -190,6 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       : [
           `${importPreviewResult.matches.length} parsed match${importPreviewResult.matches.length === 1 ? "" : "es"}.`,
           `${importPreviewResult.errors.length} issue${importPreviewResult.errors.length === 1 ? "" : "s"} found.`,
+          `${importPreviewResult.duplicates.length} possible duplicate${importPreviewResult.duplicates.length === 1 ? "" : "s"} already logged.`,
           `${importPreviewResult.deckStubs.length} deck stub${importPreviewResult.deckStubs.length === 1 ? "" : "s"} ready to copy.`,
         ];
 
@@ -201,9 +202,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function resetImportPreview(message = "Preview not run yet.") {
-    importPreviewResult = { matches: [], errors: [], deckStubs: [] };
+    importPreviewResult = { matches: [], errors: [], deckStubs: [], duplicates: [] };
     setImportCopyState();
     renderImportReadiness(message);
+  }
+
+  function importDuplicateByIndex() {
+    return new Map(importPreviewResult.duplicates.map((entry) => [entry.index, entry]));
   }
 
   function importPreviewJson() {
@@ -271,6 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
       matches: result.matches,
       errors: result.errors,
       deckStubs: extractDeckStubs(result.errors),
+      duplicates: commanderImportParser.findDuplicateMatches(matches2026?.matches || [], result.matches),
     };
     setImportCopyState();
     renderImportReadiness();
@@ -296,16 +302,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     status.textContent = `${result.matches.length} match${result.matches.length === 1 ? "" : "es"} parsed.`;
 
-    for (const match of result.matches) {
+    const duplicatesByIndex = importDuplicateByIndex();
+    result.matches.forEach((match, index) => {
+      const duplicate = duplicatesByIndex.get(index);
       const row = document.createElement("tr");
+      if (duplicate) row.classList.add("duplicate-preview-row");
       appendTextCell(row, match.date);
       appendTextCell(row, match.winner);
       appendTextCell(
         row,
         match.players.map((player) => `${player.name}: ${deckName(player.deckId)}`).join(" | ")
       );
+      appendTextCell(row, duplicate ? `Already logged as ${duplicate.existing.id || duplicate.existing.date}` : "New");
       tbody.appendChild(row);
-    }
+    });
   }
 
   function readImportDraft() {

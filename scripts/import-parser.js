@@ -336,9 +336,31 @@ function parseNotes(text, fallbackYear, deckDefinitions, playerAliases = new Map
   return { matches, errors };
 }
 
+function matchSignature(match) {
+  return `${match.date}|${match.winner}|${match.players.map((player) => `${player.name}:${player.deckId}`).sort().join(",")}`;
+}
+
+function findDuplicateMatches(existingMatches, previewMatches) {
+  const existingBySignature = new Map();
+
+  for (const match of existingMatches || []) {
+    existingBySignature.set(matchSignature(match), match);
+  }
+
+  return (previewMatches || [])
+    .map((match, index) => ({
+      index,
+      match,
+      existing: existingBySignature.get(matchSignature(match)) || null,
+    }))
+    .filter((entry) => entry.existing);
+}
+
 return {
   buildPlayerAliases,
   deckLabel,
+  findDuplicateMatches,
+  matchSignature,
   normalise,
   parseDateFromLine,
   parseNotes,

@@ -38,7 +38,7 @@ Read these before larger feature work:
 
 ## Import match notes
 
-The browser app has an Import view at `#/import`. It lets you paste raw notes, preview parsed matches or parser errors, copy parsed JSON, and copy suggested deck stubs using the current deck, player, and alias data.
+The browser app has an Import view at `#/import`. It lets you paste raw notes, preview parsed matches or parser errors, flag already-logged matches, copy parsed JSON, and copy suggested deck stubs using the current deck, player, and alias data.
 
 This browser flow is preview-only. It does not write to `data/matches-YYYY.json`; use the CLI importer when you want to commit new matches.
 

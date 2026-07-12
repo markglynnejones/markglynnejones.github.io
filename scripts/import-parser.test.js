@@ -2,7 +2,15 @@
 
 const assert = require("assert");
 
-const { buildPlayerAliases, parseDateFromLine, parseNotes, resolveDeck, splitIntoBlocks } = require("./import-parser");
+const {
+  buildPlayerAliases,
+  findDuplicateMatches,
+  matchSignature,
+  parseDateFromLine,
+  parseNotes,
+  resolveDeck,
+  splitIntoBlocks,
+} = require("./import-parser");
 
 function test(name, fn) {
   try {
@@ -81,4 +89,33 @@ Liam - big sues`,
     winner: "Jo",
     winnerId: "jo",
   });
+});
+
+test("findDuplicateMatches uses the importer match signature", () => {
+  const existing = [
+    {
+      id: "2026-06-04-001",
+      date: "2026-06-04",
+      players: [
+        { playerId: "liam", name: "Liam", deckId: "big-sues" },
+        { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+      ],
+      winner: "Jo",
+      winnerId: "jo",
+    },
+  ];
+  const preview = [
+    {
+      date: "2026-06-04",
+      players: [
+        { playerId: "jo", name: "Jo", deckId: "bad-misc" },
+        { playerId: "liam", name: "Liam", deckId: "big-sues" },
+      ],
+      winner: "Jo",
+      winnerId: "jo",
+    },
+  ];
+
+  assert.strictEqual(matchSignature(existing[0]), matchSignature(preview[0]));
+  assert.deepStrictEqual(findDuplicateMatches(existing, preview), [{ index: 0, match: preview[0], existing: existing[0] }]);
 });
