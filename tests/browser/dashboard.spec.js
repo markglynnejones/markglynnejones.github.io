@@ -149,6 +149,23 @@ Liam - big sues`);
   ]);
 });
 
+test("import preview warns about already logged matches", async ({ page }) => {
+  await page.goto("/#/import");
+
+  await page.locator("#import-notes").fill(`04/01 magic
+
+Jo - fishes
+Jake - baelyn - win
+Mark - the vamp clamp
+Liam - zombieland`);
+  await page.getByRole("button", { name: "Preview" }).click();
+
+  await expect(page.locator("#import-preview-status")).toHaveText("1 match parsed.");
+  await expect(page.locator("#import-readiness-list")).toContainText("1 possible duplicate already logged.");
+  await expect(page.locator("#import-preview-body tr")).toHaveCount(1);
+  await expect(page.locator("#import-preview-body tr").first()).toContainText("Already logged as 2026-01-04-001");
+});
+
 test("import preview reports unresolved decks", async ({ page }) => {
   await installClipboardMock(page);
   await page.goto("/#/import");

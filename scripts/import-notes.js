@@ -86,22 +86,18 @@ function formatMatchesData(data) {
   return `${lines.join("\n")}\n`;
 }
 
-function matchSignature(match) {
-  return `${match.date}|${match.winner}|${match.players.map((player) => `${player.name}:${player.deckId}`).sort().join(",")}`;
-}
-
 function appendMatches(matchesData, matches) {
   if (!Array.isArray(matchesData.matches)) matchesData.matches = [];
   assignMissingMatchIds(matchesData.matches);
   assignMissingSessionIds(matchesData.matches);
 
-  const existing = new Set(matchesData.matches.map(matchSignature));
+  const existing = new Set(matchesData.matches.map(ImportParser.matchSignature));
   const nextMatchId = createMatchIdGenerator(matchesData.matches);
   let added = 0;
   let skipped = 0;
 
   for (const match of matches) {
-    const signature = matchSignature(match);
+    const signature = ImportParser.matchSignature(match);
     if (existing.has(signature)) {
       skipped += 1;
       continue;

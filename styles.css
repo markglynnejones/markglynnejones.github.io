@@ -235,6 +235,10 @@ textarea {
   color: var(--color-text-muted);
 }
 
+.duplicate-preview-row {
+  background: #fff7d6;
+}
+
 .import-preview-errors ul {
   margin: 8px 0 0;
   padding-left: 20px;

@@ -87,6 +87,7 @@ The next implementation work should happen in this order:
 - Phase 3 import parser extraction. Implemented.
 - Browser import preview at `#/import`. Implemented.
 - Import preview copy actions for parsed JSON and deck stubs. Implemented.
+- Browser duplicate warnings for already-logged preview matches. Implemented.
 
 Keep these changes compatible with the current static GitHub Pages deployment.
 

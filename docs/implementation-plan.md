@@ -350,6 +350,7 @@ Implemented:
 - Import preview drafts are saved in local browser storage and can be cleared.
 - Unresolved-deck errors preserve the suggested deck stub formatting in the UI.
 - Import preview actions can copy parsed match JSON or unresolved deck stubs after a fresh preview.
+- Import preview flags parsed matches that already appear in the current match log.
 
 Important constraint:
 
