@@ -95,3 +95,38 @@ test("sessions can switch selected dates", async ({ page }) => {
   await expect(page.locator("#session-panel h3")).toHaveText(secondLabel);
   await expect(page.locator("#session-panel h3")).not.toHaveText(firstLabel);
 });
+
+test("import preview parses valid raw notes without writing data", async ({ page }) => {
+  await page.goto("/#/import");
+
+  await expect(page.locator("#view-import")).toBeVisible();
+  await page.locator("#import-notes").fill(`04/06 magic
+
+Jon - bad misc - win
+Liam - big sues`);
+  await page.getByRole("button", { name: "Preview" }).click();
+
+  await expect(page.locator("#import-preview-status")).toHaveText("1 match parsed.");
+  await expect(page.locator("#import-preview-errors")).toBeHidden();
+  await expect(page.locator("#import-preview-body tr")).toHaveCount(1);
+  await expect(page.locator("#import-preview-body tr").first()).toContainText("2026-06-04");
+  await expect(page.locator("#import-preview-body tr").first()).toContainText("Jo");
+  await expect(page.locator("#import-preview-body tr").first()).toContainText("Bad Misc");
+  await expect(page.locator("#import-preview-body tr").first()).toContainText("Big Sue's");
+});
+
+test("import preview reports unresolved decks", async ({ page }) => {
+  await page.goto("/#/import");
+
+  await page.locator("#import-notes").fill(`04/06 magic
+
+Jo - mystery frog - win
+Liam - big sues`);
+  await page.getByRole("button", { name: "Preview" }).click();
+
+  await expect(page.locator("#import-preview-status")).toContainText("1 issue found.");
+  await expect(page.locator("#import-preview-errors")).toBeVisible();
+  await expect(page.locator("#import-preview-errors")).toContainText("Couldn't resolve deck");
+  await expect(page.locator("#import-preview-errors")).toContainText("Suggested new deck stub");
+  await expect(page.locator("#import-preview-body tr")).toHaveCount(0);
+});
