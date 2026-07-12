@@ -14,7 +14,7 @@ Current product direction:
 - Do not start with accounts, billing, or a backend.
 - Treat accounts as a future private-group hosting option, not current scope.
 - Keep CLI import as the trusted personal workflow.
-- Plan browser import preview later, without removing CLI import.
+- Keep browser import preview as a preview-only helper unless a backend is added.
 - Improve the static dashboard, then stabilize the data model, then validate demand with other playgroups.
 - See `docs/product-roadmap.md` and `docs/implementation-plan.md` before starting larger product work.
 
@@ -24,6 +24,7 @@ Current product direction:
 - `scripts.js`: browser app coordinator and shared page state.
 - `scripts/stats.js`: core stat calculations, usable in browser and Node tests.
 - `scripts/render/`: browser render modules for dashboard sections.
+- `scripts/import-parser.js`: reusable raw-note parser used by CLI import and browser preview.
 - `scripts/import-notes.js`: CLI parser/importer for raw match notes.
 - `scripts/check-data.js`: JSON/data validation.
 - `data/*.json`: canonical app data.
@@ -38,6 +39,12 @@ Use these commands before finishing meaningful changes:
 ```bash
 npm test
 npm run check
+```
+
+Use browser tests when touching app navigation, rendering, or import preview behavior:
+
+```bash
+npm run test:browser
 ```
 
 Common data workflow:
@@ -77,6 +84,8 @@ The next implementation work should happen in this order:
 - Stable player IDs. Implemented.
 - Stable session IDs. Implemented.
 - Importer and validator updates for any new data shape.
+- Phase 3 import parser extraction. Implemented.
+- Browser import preview at `#/import`. Implemented.
 
 Keep these changes compatible with the current static GitHub Pages deployment.
 
@@ -90,6 +99,7 @@ Keep these changes compatible with the current static GitHub Pages deployment.
 - Current JSON data files use `schemaVersion: 1`.
 - Match files use stable `id`, `sessionId`, `playerId`, and `winnerId` fields while retaining display names.
 - Player IDs live in `data/player-definitions.json`; typo aliases live in `data/player-aliases.json`.
+- The browser Import view is preview-only; it must not write JSON from the static GitHub Pages app.
 - Preserve raw notes as the source-of-truth audit trail for imported sessions.
 - Use stable, testable helper functions for new stats.
 
