@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const commanderDashboardSummary = window.CommanderDashboardSummary;
   const commanderDeepLinks = window.CommanderDeepLinks;
   const commanderFunStats = window.CommanderFunStats;
+  const commanderImportParser = window.CommanderImportParser;
   const commanderPhaseOneInsights = window.CommanderPhaseOneInsights;
   const commanderRecentForm = window.CommanderRecentForm;
   const commanderRecentMatches = window.CommanderRecentMatches;
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   const YEARS = ["2025", "2026"];
   const TAB_KEYS = ["overall", ...YEARS];
-  const VIEW_KEYS = ["overview", "players", "decks", "sessions", "fun"];
+  const VIEW_KEYS = ["overview", "players", "decks", "sessions", "fun", "import"];
   const VIEW_BY_HASH_KIND = {
     deck: "decks",
     player: "players",
@@ -82,6 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let deckDefinitions = null;
   let matches2026 = null;
+  let playerDefinitions = null;
+  let playerAliasesData = null;
 
   let combinationsData = null;
 
@@ -140,6 +143,67 @@ document.addEventListener("DOMContentLoaded", () => {
     cell.textContent = String(text);
     row.appendChild(cell);
     return cell;
+  }
+
+  function deckName(deckId) {
+    const deck = (deckDefinitions?.decks || []).find((entry) => entry.id === deckId);
+    return deck?.name || deckId;
+  }
+
+  function renderImportPreview() {
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+    const status = document.getElementById("import-preview-status");
+    const errors = document.getElementById("import-preview-errors");
+    const tbody = document.getElementById("import-preview-body");
+
+    if (!notesInput || !yearInput || !status || !errors || !tbody) return;
+
+    tbody.textContent = "";
+    errors.hidden = true;
+    errors.textContent = "";
+
+    const notes = notesInput.value.trim();
+    const year = yearInput.value.trim() || "2026";
+
+    if (!/^\d{4}$/.test(year)) {
+      status.textContent = "Year must be four digits.";
+      return;
+    }
+
+    if (!notes) {
+      status.textContent = "No notes entered.";
+      return;
+    }
+
+    const playerAliases = commanderImportParser.buildPlayerAliases(playerAliasesData || {});
+    const result = commanderImportParser.parseNotes(notes, year, deckDefinitions, playerAliases, playerDefinitions);
+
+    if (result.errors.length) {
+      status.textContent = `${result.errors.length} issue${result.errors.length === 1 ? "" : "s"} found.`;
+      const list = document.createElement("ul");
+      result.errors.forEach((message) => {
+        const item = document.createElement("li");
+        item.textContent = message;
+        list.appendChild(item);
+      });
+      errors.appendChild(list);
+      errors.hidden = false;
+      return;
+    }
+
+    status.textContent = `${result.matches.length} match${result.matches.length === 1 ? "" : "es"} parsed.`;
+
+    for (const match of result.matches) {
+      const row = document.createElement("tr");
+      appendTextCell(row, match.date);
+      appendTextCell(row, match.winner);
+      appendTextCell(
+        row,
+        match.players.map((player) => `${player.name}: ${deckName(player.deckId)}`).join(" | ")
+      );
+      tbody.appendChild(row);
+    }
   }
 
   function appendRowHeaderCell(row, text) {
@@ -670,6 +734,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function wireImportPreviewControls() {
+    const button = document.getElementById("import-preview-button");
+    if (!button) return;
+    button.addEventListener("click", renderImportPreview);
+  }
+
   // -----------------------------
   // Boot
   // -----------------------------
@@ -681,13 +751,17 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchJSON("data/deck-definitions.json"),
     fetchJSON("data/matches-2026.json"),
     fetchJSON("data/combinations.json"),
+    fetchJSON("data/player-definitions.json"),
+    fetchJSON("data/player-aliases.json"),
   ])
-    .then(([p25, d25, defs, m26, combos]) => {
+    .then(([p25, d25, defs, m26, combos, playerDefs, playerAliases]) => {
       players2025 = p25;
       decks2025 = d25;
       deckDefinitions = defs;
       matches2026 = m26;
       combinationsData = combos;
+      playerDefinitions = playerDefs;
+      playerAliasesData = playerAliases;
 
       // Build 2026 extras
       playerDeckStats2026 = buildPlayerDeckStats2026(matches2026);
@@ -725,6 +799,7 @@ document.addEventListener("DOMContentLoaded", () => {
       wireInactiveToggle(rerender);
       wireRecentMatchesControls(rerender);
       wireSearchControls(rerender);
+      wireImportPreviewControls();
 
       selectTab("overall");
     })

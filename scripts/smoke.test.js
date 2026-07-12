@@ -42,6 +42,8 @@ test("browser scripts load in dependency order", () => {
     "scripts/insights/streaks.js",
     "scripts/insights/fun-stats.js",
     "scripts/insights/deep-links.js",
+    "scripts/player-ids.js",
+    "scripts/import-parser.js",
     "scripts/scryfall.js",
     "scripts/render/dashboard-summary.js",
     "scripts/render/phase-one-insights.js",
@@ -62,6 +64,7 @@ test("page keeps the core render targets", () => {
     "view-decks",
     "view-sessions",
     "view-fun",
+    "view-import",
     "tab-overall",
     "tab-2025",
     "tab-2026",
@@ -77,6 +80,8 @@ test("page keeps the core render targets", () => {
     "sessions-body",
     "wins-over-time-chart",
     "decks-table-body",
+    "import-notes",
+    "import-preview-body",
   ];
 
   for (const id of requiredIds) {
@@ -95,6 +100,7 @@ test("app view navigation is hash based", () => {
   assert.match(html, /href="#\/decks"[^>]+data-view-link="decks"/);
   assert.match(html, /href="#\/sessions"[^>]+data-view-link="sessions"/);
   assert.match(html, /href="#\/fun"[^>]+data-view-link="fun"/);
+  assert.match(html, /href="#\/import"[^>]+data-view-link="import"/);
 });
 
 test("year tabs control the shared tab panel", () => {
@@ -125,6 +131,8 @@ test("helper modules expose the globals used by scripts.js", () => {
   const streaks = require("./insights/streaks");
   const funStats = require("./insights/fun-stats");
   const deepLinks = require("./insights/deep-links");
+  const playerIds = require("./player-ids");
+  const importParser = require("./import-parser");
   const scryfall = require("./scryfall");
   const dashboardSummary = require("./render/dashboard-summary");
   const phaseOneInsights = require("./render/phase-one-insights");
@@ -140,6 +148,8 @@ test("helper modules expose the globals used by scripts.js", () => {
   assert.strictEqual(typeof streaks.buildWinStreaks, "function");
   assert.strictEqual(typeof funStats.buildFunStats, "function");
   assert.strictEqual(typeof deepLinks.deckAnchorId, "function");
+  assert.strictEqual(typeof playerIds.buildPlayerLookup, "function");
+  assert.strictEqual(typeof importParser.parseNotes, "function");
   assert.strictEqual(typeof scryfall.createCommanderScryfallClient, "function");
   assert.strictEqual(typeof scryfall.normaliseCommanderName, "function");
   assert.strictEqual(typeof dashboardSummary.renderDashboardSummary, "function");

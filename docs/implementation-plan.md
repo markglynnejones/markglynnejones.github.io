@@ -345,6 +345,8 @@ Implemented:
 - `scripts/import-parser.js` contains preview-safe parsing and deck/player resolution helpers without file I/O.
 - The CLI importer calls the extracted parser while preserving existing import behavior.
 - `scripts/import-parser.test.js` covers date parsing, block splitting, deck resolution, aliases, and parsed match previews.
+- `#/import` adds a browser paste-and-preview screen that parses raw notes locally without writing JSON.
+- The preview screen shows parser errors or a parsed match table using current deck, player, and alias data.
 
 Important constraint:
 

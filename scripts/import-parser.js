@@ -1,4 +1,11 @@
-const { buildPlayerLookup, playerIdFromName } = require("./player-ids");
+(function initImportParserModule(root, factory) {
+  if (typeof module === "object" && module.exports) {
+    module.exports = factory(require("./player-ids"));
+  } else {
+    root.CommanderImportParser = factory(root.CommanderPlayerIds);
+  }
+})(typeof globalThis !== "undefined" ? globalThis : this, function createImportParserModule(playerIds) {
+const { buildPlayerLookup, playerIdFromName } = playerIds;
 
 const METADATA_KEYS = new Set(["schemaVersion"]);
 
@@ -329,7 +336,7 @@ function parseNotes(text, fallbackYear, deckDefinitions, playerAliases = new Map
   return { matches, errors };
 }
 
-module.exports = {
+return {
   buildPlayerAliases,
   deckLabel,
   normalise,
@@ -339,3 +346,4 @@ module.exports = {
   splitIntoBlocks,
   suggestedDeckStub,
 };
+});

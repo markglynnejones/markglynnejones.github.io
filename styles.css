@@ -145,6 +145,8 @@ footer {
 #player-deck-select:focus,
 #head-to-head-player-select:focus,
 .table-controls input:focus,
+.short-input:focus,
+textarea:focus,
 .table-scroll:focus,
 .session-game-players a:focus,
 #tab-panel:focus {
@@ -179,6 +181,45 @@ main section {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.stacked-field {
+  display: grid;
+  gap: 8px;
+  width: min(880px, 100%);
+  margin: 12px auto;
+}
+
+.short-input {
+  width: 7rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 220px;
+  resize: vertical;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font: inherit;
+  line-height: 1.5;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.import-preview-errors {
+  width: min(880px, 100%);
+  margin: 12px auto;
+  padding: 12px;
+  border: 1px solid #b3261e;
+  border-radius: 8px;
+  background: #fff2f0;
+  color: #7a1b14;
+}
+
+.import-preview-errors ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
 }
 
 .muted-note,

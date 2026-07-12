@@ -25,6 +25,7 @@
       <a class="app-view-link" href="#/decks" data-view-link="decks">Decks</a>
       <a class="app-view-link" href="#/sessions" data-view-link="sessions">Sessions</a>
       <a class="app-view-link" href="#/fun" data-view-link="fun">Fun</a>
+      <a class="app-view-link" href="#/import" data-view-link="import">Import</a>
     </nav>
 
     <nav class="tabs" role="tablist" aria-label="Stats year">
@@ -287,6 +288,41 @@
           <div id="fun-stats-body" class="summary-grid fun-stats-grid"></div>
         </section>
       </div>
+
+      <div id="view-import" class="app-view" data-view="import" hidden>
+        <section id="import-preview-section" aria-labelledby="import-preview-heading">
+          <h2 id="import-preview-heading" class="section-heading">Import Preview</h2>
+
+          <div class="field-row">
+            <label for="import-year"><strong>Year:</strong></label>
+            <input id="import-year" class="short-input" type="text" value="2026" inputmode="numeric" pattern="[0-9]{4}" autocomplete="off" />
+          </div>
+
+          <div class="stacked-field">
+            <label for="import-notes"><strong>Raw notes</strong></label>
+            <textarea id="import-notes" rows="12" spellcheck="false"></textarea>
+          </div>
+
+          <button id="import-preview-button" type="button">Preview</button>
+          <p id="import-preview-status" class="section-note" aria-live="polite"></p>
+          <div id="import-preview-errors" class="import-preview-errors" role="alert" hidden></div>
+
+          <p id="import-preview-scroll-hint" class="table-scroll-hint">Scroll table sideways</p>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Import preview table, horizontally scrollable" aria-describedby="import-preview-scroll-hint">
+            <table id="import-preview-table">
+              <caption>Parsed matches from raw notes</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Winner</th>
+                  <th scope="col">Players</th>
+                </tr>
+              </thead>
+              <tbody id="import-preview-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer>
@@ -298,6 +334,8 @@
     <script src="scripts/insights/streaks.js?v=phase-one-module"></script>
     <script src="scripts/insights/fun-stats.js?v=phase-one-module"></script>
     <script src="scripts/insights/deep-links.js?v=phase-one-module"></script>
+    <script src="scripts/player-ids.js?v=phase-three-import-preview"></script>
+    <script src="scripts/import-parser.js?v=phase-three-import-preview"></script>
     <script src="scripts/scryfall.js?v=session-module"></script>
     <script src="scripts/render/dashboard-summary.js?v=dashboard-summary-module"></script>
     <script src="scripts/render/phase-one-insights.js?v=phase-one-module"></script>
