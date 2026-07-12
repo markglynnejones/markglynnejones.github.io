@@ -53,17 +53,22 @@ test("keyboard navigation supports accessibility shortcuts", async ({ page }) =>
   await page.keyboard.press("Tab");
   await expect(page.getByRole("link", { name: "Skip to dashboard content" })).toBeFocused();
 
-  await page.getByRole("tab", { name: "Overall" }).focus();
-  await page.keyboard.press("End");
-  await expect(page.getByRole("tab", { name: "2026" })).toBeFocused();
-  await page.keyboard.press("Home");
-  await expect(page.getByRole("tab", { name: "Overall" })).toBeFocused();
+  const overallTab = page.locator("#tab-overall");
+  const currentYearTab = page.locator("#tab-2026");
+  await overallTab.focus();
+  await expect(overallTab).toBeFocused();
+  await overallTab.press("End");
+  await expect(currentYearTab).toBeFocused();
+  await currentYearTab.press("Home");
+  await expect(overallTab).toBeFocused();
 
   const sessionTabs = page.locator(".session-tab");
+  await expect(sessionTabs.first()).toBeVisible();
   await sessionTabs.first().focus();
-  await page.keyboard.press("End");
+  await expect(sessionTabs.first()).toBeFocused();
+  await sessionTabs.first().press("End");
   await expect(sessionTabs.last()).toBeFocused();
-  await page.keyboard.press("Home");
+  await sessionTabs.last().press("Home");
   await expect(sessionTabs.first()).toBeFocused();
 });
 
@@ -94,4 +99,62 @@ test("sessions can switch selected dates", async ({ page }) => {
   await sessionTabs.nth(1).click();
   await expect(page.locator("#session-panel h3")).toHaveText(secondLabel);
   await expect(page.locator("#session-panel h3")).not.toHaveText(firstLabel);
+});
+
+test("import preview parses valid raw notes without writing data", async ({ page }) => {
+  await page.goto("/#/import");
+
+  await expect(page.locator("#view-import")).toBeVisible();
+  await page.locator("#import-notes").fill(`04/06 magic
+
+Jon - bad misc - win
+Liam - big sues`);
+  await page.getByRole("button", { name: "Preview" }).click();
+
+  await expect(page.locator("#import-preview-status")).toHaveText("1 match parsed.");
+  await expect(page.locator("#import-preview-errors")).toBeHidden();
+  await expect(page.locator("#import-preview-body tr")).toHaveCount(1);
+  await expect(page.locator("#import-preview-body tr").first()).toContainText("2026-06-04");
+  await expect(page.locator("#import-preview-body tr").first()).toContainText("Jo");
+  await expect(page.locator("#import-preview-body tr").first()).toContainText("Bad Misc");
+  await expect(page.locator("#import-preview-body tr").first()).toContainText("Big Sue's");
+});
+
+test("import preview reports unresolved decks", async ({ page }) => {
+  await page.goto("/#/import");
+
+  await page.locator("#import-notes").fill(`04/06 magic
+
+Jo - mystery frog - win
+Liam - big sues`);
+  await page.getByRole("button", { name: "Preview" }).click();
+
+  await expect(page.locator("#import-preview-status")).toContainText("1 issue found.");
+  await expect(page.locator("#import-preview-errors")).toBeVisible();
+  await expect(page.locator("#import-preview-errors")).toContainText("Couldn't resolve deck");
+  await expect(page.locator("#import-preview-errors")).toContainText("Suggested new deck stub");
+  await expect(page.locator("#import-preview-body tr")).toHaveCount(0);
+});
+
+test("import preview keeps and clears local drafts", async ({ page }) => {
+  await page.goto("/#/import");
+
+  await page.locator("#import-year").fill("2027");
+  await page.locator("#import-notes").fill(`05/07 magic
+
+Jo - bad misc - win
+Liam - big sues`);
+
+  await page.reload();
+  await expect(page.locator("#import-year")).toHaveValue("2027");
+  await expect(page.locator("#import-notes")).toHaveValue(/05\/07 magic/);
+
+  await page.getByRole("button", { name: "Clear draft" }).click();
+  await expect(page.locator("#import-year")).toHaveValue("2026");
+  await expect(page.locator("#import-notes")).toHaveValue("");
+  await expect(page.locator("#import-preview-status")).toHaveText("Draft cleared.");
+
+  await page.reload();
+  await expect(page.locator("#import-year")).toHaveValue("2026");
+  await expect(page.locator("#import-notes")).toHaveValue("");
 });

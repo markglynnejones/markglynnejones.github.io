@@ -340,6 +340,16 @@ Initial approach:
 - Build a local static paste-and-preview screen only after the parser is split cleanly.
 - Do not remove or weaken the CLI workflow; it remains the fastest personal-use path.
 
+Implemented:
+
+- `scripts/import-parser.js` contains preview-safe parsing and deck/player resolution helpers without file I/O.
+- The CLI importer calls the extracted parser while preserving existing import behavior.
+- `scripts/import-parser.test.js` covers date parsing, block splitting, deck resolution, aliases, and parsed match previews.
+- `#/import` adds a browser paste-and-preview screen that parses raw notes locally without writing JSON.
+- The preview screen shows parser errors or a parsed match table using current deck, player, and alias data.
+- Import preview drafts are saved in local browser storage and can be cleared.
+- Unresolved-deck errors preserve the suggested deck stub formatting in the UI.
+
 Important constraint:
 
 - A static GitHub Pages app cannot safely write back to repo JSON by itself. The first browser import UX should be preview-only or local-storage-only unless a backend is added.

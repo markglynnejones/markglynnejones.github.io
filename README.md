@@ -14,6 +14,7 @@ https://markglynnejones.github.io/
 - `scripts.js` - browser app coordinator and tab/render state.
 - `scripts/stats.js` - shared stat calculations used by the browser and tests.
 - `scripts/render/` - browser render modules for specific dashboard sections.
+- `scripts/import-parser.js` - reusable raw-note parser used by the CLI importer and browser preview.
 - `scripts/import-notes.js` - raw note parser and importer.
 - `scripts/check-data.js` - data validation.
 - `data/*.json` - canonical app data.
@@ -36,6 +37,10 @@ Read these before larger feature work:
 - `AGENTS.md`
 
 ## Import match notes
+
+The browser app has an Import view at `#/import`. It lets you paste raw notes and preview parsed matches or parser errors using the current deck, player, and alias data.
+
+This browser flow is preview-only. It does not write to `data/matches-YYYY.json`; use the CLI importer when you want to commit new matches.
 
 Typical flow:
 
@@ -129,4 +134,10 @@ Run the test suite:
 
 ```bash
 npm test
+```
+
+Run the browser interaction tests:
+
+```bash
+npm run test:browser
 ```

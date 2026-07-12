@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const commanderDashboardSummary = window.CommanderDashboardSummary;
   const commanderDeepLinks = window.CommanderDeepLinks;
   const commanderFunStats = window.CommanderFunStats;
+  const commanderImportParser = window.CommanderImportParser;
   const commanderPhaseOneInsights = window.CommanderPhaseOneInsights;
   const commanderRecentForm = window.CommanderRecentForm;
   const commanderRecentMatches = window.CommanderRecentMatches;
@@ -33,13 +34,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   const YEARS = ["2025", "2026"];
   const TAB_KEYS = ["overall", ...YEARS];
-  const VIEW_KEYS = ["overview", "players", "decks", "sessions", "fun"];
+  const VIEW_KEYS = ["overview", "players", "decks", "sessions", "fun", "import"];
   const VIEW_BY_HASH_KIND = {
     deck: "decks",
     player: "players",
     session: "sessions",
   };
   const RECENT_MATCH_LIMITS = [5, 10, 20];
+  const IMPORT_DRAFT_KEY = "commander-import-preview-draft-v1";
 
   // -----------------------------
   // State
@@ -82,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let deckDefinitions = null;
   let matches2026 = null;
+  let playerDefinitions = null;
+  let playerAliasesData = null;
 
   let combinationsData = null;
 
@@ -140,6 +144,121 @@ document.addEventListener("DOMContentLoaded", () => {
     cell.textContent = String(text);
     row.appendChild(cell);
     return cell;
+  }
+
+  function deckName(deckId) {
+    const deck = (deckDefinitions?.decks || []).find((entry) => entry.id === deckId);
+    return deck?.name || deckId;
+  }
+
+  function renderImportPreview() {
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+    const status = document.getElementById("import-preview-status");
+    const errors = document.getElementById("import-preview-errors");
+    const tbody = document.getElementById("import-preview-body");
+
+    if (!notesInput || !yearInput || !status || !errors || !tbody) return;
+
+    tbody.textContent = "";
+    errors.hidden = true;
+    errors.textContent = "";
+
+    const notes = notesInput.value.trim();
+    const year = yearInput.value.trim() || "2026";
+
+    if (!/^\d{4}$/.test(year)) {
+      status.textContent = "Year must be four digits.";
+      return;
+    }
+
+    if (!notes) {
+      status.textContent = "No notes entered.";
+      return;
+    }
+
+    const playerAliases = commanderImportParser.buildPlayerAliases(playerAliasesData || {});
+    const result = commanderImportParser.parseNotes(notes, year, deckDefinitions, playerAliases, playerDefinitions);
+
+    if (result.errors.length) {
+      status.textContent = `${result.errors.length} issue${result.errors.length === 1 ? "" : "s"} found.`;
+      const list = document.createElement("ul");
+      result.errors.forEach((message) => {
+        const item = document.createElement("li");
+        const [summary, ...details] = String(message).split("\n");
+        item.textContent = summary;
+        if (details.length) {
+          const detail = document.createElement("pre");
+          detail.textContent = details.join("\n");
+          item.appendChild(detail);
+        }
+        list.appendChild(item);
+      });
+      errors.appendChild(list);
+      errors.hidden = false;
+      return;
+    }
+
+    status.textContent = `${result.matches.length} match${result.matches.length === 1 ? "" : "es"} parsed.`;
+
+    for (const match of result.matches) {
+      const row = document.createElement("tr");
+      appendTextCell(row, match.date);
+      appendTextCell(row, match.winner);
+      appendTextCell(
+        row,
+        match.players.map((player) => `${player.name}: ${deckName(player.deckId)}`).join(" | ")
+      );
+      tbody.appendChild(row);
+    }
+  }
+
+  function readImportDraft() {
+    try {
+      return JSON.parse(window.localStorage.getItem(IMPORT_DRAFT_KEY) || "{}");
+    } catch {
+      return {};
+    }
+  }
+
+  function writeImportDraft() {
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+    if (!notesInput || !yearInput) return;
+
+    const draft = {
+      notes: notesInput.value,
+      year: yearInput.value,
+    };
+    window.localStorage.setItem(IMPORT_DRAFT_KEY, JSON.stringify(draft));
+  }
+
+  function restoreImportDraft() {
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+    if (!notesInput || !yearInput) return;
+
+    const draft = readImportDraft();
+    if (typeof draft.notes === "string") notesInput.value = draft.notes;
+    if (typeof draft.year === "string" && draft.year) yearInput.value = draft.year;
+  }
+
+  function clearImportDraft() {
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+    const status = document.getElementById("import-preview-status");
+    const errors = document.getElementById("import-preview-errors");
+    const tbody = document.getElementById("import-preview-body");
+
+    window.localStorage.removeItem(IMPORT_DRAFT_KEY);
+    if (notesInput) notesInput.value = "";
+    if (yearInput) yearInput.value = "2026";
+    if (status) status.textContent = "Draft cleared.";
+    if (errors) {
+      errors.hidden = true;
+      errors.textContent = "";
+    }
+    if (tbody) tbody.textContent = "";
   }
 
   function appendRowHeaderCell(row, text) {
@@ -670,6 +789,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function wireImportPreviewControls() {
+    const button = document.getElementById("import-preview-button");
+    const clearButton = document.getElementById("import-clear-button");
+    const notesInput = document.getElementById("import-notes");
+    const yearInput = document.getElementById("import-year");
+
+    restoreImportDraft();
+
+    if (button) button.addEventListener("click", renderImportPreview);
+    if (clearButton) clearButton.addEventListener("click", clearImportDraft);
+    if (notesInput) notesInput.addEventListener("input", writeImportDraft);
+    if (yearInput) yearInput.addEventListener("input", writeImportDraft);
+  }
+
   // -----------------------------
   // Boot
   // -----------------------------
@@ -681,13 +814,17 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchJSON("data/deck-definitions.json"),
     fetchJSON("data/matches-2026.json"),
     fetchJSON("data/combinations.json"),
+    fetchJSON("data/player-definitions.json"),
+    fetchJSON("data/player-aliases.json"),
   ])
-    .then(([p25, d25, defs, m26, combos]) => {
+    .then(([p25, d25, defs, m26, combos, playerDefs, playerAliases]) => {
       players2025 = p25;
       decks2025 = d25;
       deckDefinitions = defs;
       matches2026 = m26;
       combinationsData = combos;
+      playerDefinitions = playerDefs;
+      playerAliasesData = playerAliases;
 
       // Build 2026 extras
       playerDeckStats2026 = buildPlayerDeckStats2026(matches2026);
@@ -725,6 +862,7 @@ document.addEventListener("DOMContentLoaded", () => {
       wireInactiveToggle(rerender);
       wireRecentMatchesControls(rerender);
       wireSearchControls(rerender);
+      wireImportPreviewControls();
 
       selectTab("overall");
     })
