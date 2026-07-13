@@ -545,6 +545,16 @@
         "hosts of mordor",
         "host of mordor"
       ]
+    },
+    {
+      "id": "zur",
+      "name": "Zur",
+      "commander": "Zur, Eternal Schemer",
+      "active": true,
+      "owner": "Liam",
+      "aliases": [
+        "zur"
+      ]
     }
   ]
 }
