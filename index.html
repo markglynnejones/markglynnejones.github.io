@@ -25,6 +25,7 @@
       <a class="app-view-link" href="#/decks" data-view-link="decks">Decks</a>
       <a class="app-view-link" href="#/sessions" data-view-link="sessions">Sessions</a>
       <a class="app-view-link" href="#/fun" data-view-link="fun">Fun</a>
+      <a class="app-view-link" href="#/special" data-view-link="special">Special</a>
       <a class="app-view-link" href="#/import" data-view-link="import">Import</a>
     </nav>
 
@@ -286,6 +287,28 @@
           <h2 id="fun-stats-heading" class="section-heading">Fun Stats</h2>
           <p id="fun-stats-note" class="section-note" aria-live="polite"></p>
           <div id="fun-stats-body" class="summary-grid fun-stats-grid"></div>
+        </section>
+      </div>
+
+      <div id="view-special" class="app-view" data-view="special" hidden>
+        <section id="special-games-section" aria-labelledby="special-games-heading">
+          <h2 id="special-games-heading" class="section-heading">Special Games</h2>
+          <p id="special-games-note" class="section-note" aria-live="polite"></p>
+          <p id="special-games-scroll-hint" class="table-scroll-hint">Scroll table sideways</p>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Special games table, horizontally scrollable" aria-describedby="special-games-scroll-hint">
+            <table id="special-games-table">
+              <caption>Special games recorded outside the normal Commander stats</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Event</th>
+                  <th scope="col">Winner</th>
+                  <th scope="col">Players</th>
+                </tr>
+              </thead>
+              <tbody id="special-games-body"></tbody>
+            </table>
+          </div>
         </section>
       </div>
 

@@ -80,6 +80,8 @@ Mark - ghalta
 
 That becomes dated matches in `data/matches-2026.json`, with `win` marking the winner and deck names resolved through the aliases.
 
+One-off formats that should not affect normal Commander standings, such as box-opening deck nights, live in `data/special-matches-YYYY.json` and render in the Special view at `#/special`. Keep the raw notes in `data/raw/YYYY/` as the audit trail, but do not add those games to `data/matches-YYYY.json`.
+
 If the preview looks right, write the JSON updates:
 
 ```bash

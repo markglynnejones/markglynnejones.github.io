@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   const YEARS = ["2025", "2026"];
   const TAB_KEYS = ["overall", ...YEARS];
-  const VIEW_KEYS = ["overview", "players", "decks", "sessions", "fun", "import"];
+  const VIEW_KEYS = ["overview", "players", "decks", "sessions", "fun", "special", "import"];
   const VIEW_BY_HASH_KIND = {
     deck: "decks",
     player: "players",
@@ -84,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let deckDefinitions = null;
   let matches2026 = null;
+  let specialMatches2026 = null;
   let playerDefinitions = null;
   let playerAliasesData = null;
   let importPreviewResult = { matches: [], errors: [], deckStubs: [], duplicates: [] };
@@ -657,6 +658,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function specialPlayerSummary(player) {
+    const commanders = Array.isArray(player.commanders) ? player.commanders.filter(Boolean) : [];
+    const commanderText = commanders.length ? ` (${commanders.join(" / ")})` : "";
+    return `${player.name}: ${player.deckName}${commanderText}`;
+  }
+
+  function renderSpecialGames() {
+    const note = document.getElementById("special-games-note");
+    const tbody = document.getElementById("special-games-body");
+    if (!note || !tbody) return;
+
+    const matches = specialMatches2026?.specialMatches ?? [];
+    tbody.textContent = "";
+    note.textContent = `${matches.length} special game${matches.length === 1 ? "" : "s"} recorded outside normal Commander stats.`;
+
+    if (!matches.length) {
+      appendEmptyRow(tbody, 4, "No special games recorded yet.");
+      return;
+    }
+
+    for (const match of [...matches].sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(b.id).localeCompare(String(a.id)))) {
+      const row = document.createElement("tr");
+      appendTextCell(row, shortDisplayDate(match.date));
+      appendTextCell(row, match.event);
+      appendTextCell(row, match.winner);
+      appendTextCell(row, (match.players ?? []).map(specialPlayerSummary).join("; "));
+      tbody.appendChild(row);
+    }
+  }
+
   function renderWinsOverTimeChart() {
     if (!commanderPlayerInsights?.renderWinsOverTimeChart) return;
     commanderPlayerInsights.renderWinsOverTimeChart({
@@ -717,6 +748,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderSessions();
     renderSinglesTable(players);
     renderDecksTable(decks);
+    renderSpecialGames();
 
     // Only show player deck stats + charts on Overall/2026
     const showExtras = selectedTab === "overall" || selectedTab === "2026";
@@ -943,15 +975,17 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchJSON("data/decks-2025.json"),
     fetchJSON("data/deck-definitions.json"),
     fetchJSON("data/matches-2026.json"),
+    fetchJSON("data/special-matches-2026.json"),
     fetchJSON("data/combinations.json"),
     fetchJSON("data/player-definitions.json"),
     fetchJSON("data/player-aliases.json"),
   ])
-    .then(([p25, d25, defs, m26, combos, playerDefs, playerAliases]) => {
+    .then(([p25, d25, defs, m26, specialMatches, combos, playerDefs, playerAliases]) => {
       players2025 = p25;
       decks2025 = d25;
       deckDefinitions = defs;
       matches2026 = m26;
+      specialMatches2026 = specialMatches;
       combinationsData = combos;
       playerDefinitions = playerDefs;
       playerAliasesData = playerAliases;

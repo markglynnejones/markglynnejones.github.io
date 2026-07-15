@@ -737,6 +737,45 @@
       "winnerId": "jo"
     },
     {
+      "id": "2026-06-05-001",
+      "sessionId": "session-2026-06-05-001",
+      "date": "2026-06-05",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "gotta-have-hope" },
+        { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
+        { "playerId": "jake", "name": "Jake", "deckId": "women-wielding-swords" },
+        { "playerId": "liam", "name": "Liam", "deckId": "chchchchangelings" }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam"
+    },
+    {
+      "id": "2026-06-05-002",
+      "sessionId": "session-2026-06-05-001",
+      "date": "2026-06-05",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "why-are-there-so-many-wizards" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "playerId": "liam", "name": "Liam", "deckId": "junkerton" }
+      ],
+      "winner": "Jo",
+      "winnerId": "jo"
+    },
+    {
+      "id": "2026-06-05-003",
+      "sessionId": "session-2026-06-05-001",
+      "date": "2026-06-05",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "gotta-have-hope" },
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ring-sting" },
+        { "playerId": "liam", "name": "Liam", "deckId": "5-in-the-pink-4-in-the-stink" }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam"
+    },
+    {
       "id": "2026-06-14-001",
       "sessionId": "session-2026-06-14-001",
       "date": "2026-06-14",

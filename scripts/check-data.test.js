@@ -91,6 +91,7 @@ function validData(overrides = {}) {
         },
       },
     ],
+    specialMatchesFiles: [],
     ...overrides,
   };
 }
@@ -187,6 +188,97 @@ test("validateData accepts optional match notes and tags", () => {
 
   assert.deepStrictEqual(result.errors, []);
   assert.deepStrictEqual(result.warnings, []);
+});
+
+test("validateData accepts special matches outside normal stats", () => {
+  const data = validData({
+    specialMatchesFiles: [
+      {
+        label: "data/special-matches-2026.json",
+        data: {
+          schemaVersion: 1,
+          specialMatches: [
+            {
+              id: "special-2026-06-05-001",
+              date: "2026-06-05",
+              event: "Modern Horizons 3 box opening",
+              format: "mh3-box-opening",
+              notes: "Built from opened boxes.",
+              players: [
+                {
+                  playerId: "jake",
+                  name: "Jake",
+                  deckName: "Breya, Etherium Shaper",
+                  commanders: ["Breya, Etherium Shaper"],
+                },
+                {
+                  playerId: "jo",
+                  name: "Jo",
+                  deckName: "Skoa, Dreamtide Whale",
+                  commanders: ["Skoa, Dreamtide Whale"],
+                },
+              ],
+              winner: "Jake",
+              winnerId: "jake",
+            },
+          ],
+        },
+      },
+    ],
+  });
+
+  const result = validateData(data);
+
+  assert.deepStrictEqual(result.errors, []);
+  assert.deepStrictEqual(result.warnings, []);
+});
+
+test("validateData catches malformed special matches", () => {
+  const data = validData({
+    specialMatchesFiles: [
+      {
+        label: "data/special-matches-2026.json",
+        data: {
+          schemaVersion: 1,
+          specialMatches: [
+            {
+              id: "special-2026-06-06-001",
+              date: "2026-06-05",
+              event: "",
+              format: "MH3 Box Opening",
+              players: [
+                {
+                  playerId: "jake",
+                  name: "Jake",
+                  deckName: "",
+                  commanders: [],
+                },
+                {
+                  playerId: "jo",
+                  name: "Jo",
+                  deckName: "Skoa, Dreamtide Whale",
+                  commanders: ["Skoa, Dreamtide Whale"],
+                },
+              ],
+              winner: "Mark",
+              winnerId: "mark",
+            },
+          ],
+        },
+      },
+    ],
+  });
+
+  const result = validateData(data);
+
+  assert.strictEqual(result.errors.length, 7);
+  assert.match(result.errors[0], /does not match date/);
+  assert.match(result.errors[1], /non-empty event/);
+  assert.match(result.errors[2], /format must be a non-empty lowercase slug/);
+  assert.match(result.errors[3], /non-empty deckName/);
+  assert.match(result.errors[4], /non-empty commanders array/);
+  assert.match(result.errors[5], /winner "Mark" is not one of the special match players/);
+  assert.match(result.errors[6], /winnerId "mark" is not one of the special match playerIds/);
 });
 
 test("validateData accepts optional deck owner and review metadata", () => {

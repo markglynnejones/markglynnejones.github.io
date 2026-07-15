@@ -209,7 +209,10 @@
       "id": "gotta-have-hope",
       "name": "Gotta have HOPE",
       "commander": "Hope Estheim",
-      "active": true
+      "active": true,
+      "aliases": [
+        "hope"
+      ]
     },
     {
       "id": "the-frog-is-loose",
@@ -554,6 +557,17 @@
       "owner": "Liam",
       "aliases": [
         "zur"
+      ]
+    },
+    {
+      "id": "chchchchangelings",
+      "name": "Ch-ch-ch-changelings",
+      "commander": "Zur the Enchanter",
+      "active": true,
+      "owner": "Liam",
+      "aliases": [
+        "chchchchangelings",
+        "zur the enchanter"
       ]
     }
   ]
