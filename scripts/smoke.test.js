@@ -64,6 +64,7 @@ test("page keeps the core render targets", () => {
     "view-decks",
     "view-sessions",
     "view-fun",
+    "view-special",
     "view-import",
     "tab-overall",
     "tab-2025",
@@ -74,6 +75,7 @@ test("page keeps the core render targets", () => {
     "head-to-head-body",
     "recent-form-streaks-body",
     "fun-stats-body",
+    "special-games-body",
     "latest-session-summary",
     "recent-matches-body",
     "show-more-recent-matches",
@@ -100,6 +102,7 @@ test("app view navigation is hash based", () => {
   assert.match(html, /href="#\/decks"[^>]+data-view-link="decks"/);
   assert.match(html, /href="#\/sessions"[^>]+data-view-link="sessions"/);
   assert.match(html, /href="#\/fun"[^>]+data-view-link="fun"/);
+  assert.match(html, /href="#\/special"[^>]+data-view-link="special"/);
   assert.match(html, /href="#\/import"[^>]+data-view-link="import"/);
 });
 

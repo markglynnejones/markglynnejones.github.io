@@ -47,6 +47,10 @@ test("app view navigation switches top-level views", async ({ page }) => {
 
   await page.goto("/#/sessions");
   await expect(page.locator("#view-sessions")).toBeVisible();
+
+  await page.getByRole("link", { name: "Special" }).click();
+  await expect(page).toHaveURL(/#\/special$/);
+  await expect(page.locator("#view-special")).toBeVisible();
 });
 
 test("year tabs switch match-log-only sections clearly", async ({ page }) => {
@@ -113,6 +117,19 @@ test("sessions can switch selected dates", async ({ page }) => {
   await sessionTabs.nth(1).click();
   await expect(page.locator("#session-panel h3")).toHaveText(secondLabel);
   await expect(page.locator("#session-panel h3")).not.toHaveText(firstLabel);
+});
+
+test("special view shows games outside normal Commander stats", async ({ page }) => {
+  await page.goto("/#/special");
+
+  await expect(page.locator("#view-special")).toBeVisible();
+  await expect(page.locator("#special-games-note")).toContainText("2 special games recorded outside normal Commander stats.");
+  await expect(page.locator("#special-games-body tr")).toHaveCount(2);
+  await expect(page.locator("#special-games-body")).toContainText("Modern Horizons 3 box opening");
+  await expect(page.locator("#special-games-body")).toContainText("Jake");
+  await expect(page.locator("#special-games-body")).toContainText("Mark");
+  await expect(page.locator("#special-games-body")).toContainText("Breya, Etherium Shaper");
+  await expect(page.locator("#special-games-body")).toContainText("Ral, Monsoon Mage");
 });
 
 test("import preview parses valid raw notes without writing data", async ({ page }) => {

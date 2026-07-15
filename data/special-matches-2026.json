@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "specialMatches": [
+    {
+      "id": "special-2026-06-05-001",
+      "date": "2026-06-05",
+      "event": "Modern Horizons 3 box opening",
+      "format": "mh3-box-opening",
+      "notes": "Box set commander deck opening where players opened boxes and built two decks each.",
+      "players": [
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckName": "The Necrobloom",
+          "commanders": ["The Necrobloom"]
+        },
+        {
+          "playerId": "jo",
+          "name": "Jo",
+          "deckName": "Skoa, Dreamtide Whale",
+          "commanders": ["Skoa, Dreamtide Whale"]
+        },
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckName": "Breya, Etherium Shaper",
+          "commanders": ["Breya, Etherium Shaper"]
+        },
+        {
+          "playerId": "liam",
+          "name": "Liam",
+          "deckName": "Jyoti and Genku",
+          "commanders": ["Jyoti, Moag Ancient", "Genku, Future Shaper"]
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckName": "White Orchid Phantom and K'rrik",
+          "commanders": ["White Orchid Phantom", "K'rrik, Son of Yawgmoth"]
+        }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake"
+    },
+    {
+      "id": "special-2026-06-05-002",
+      "date": "2026-06-05",
+      "event": "Modern Horizons 3 box opening",
+      "format": "mh3-box-opening",
+      "notes": "Box set commander deck opening where players opened boxes and built two decks each.",
+      "players": [
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckName": "Ral, Monsoon Mage",
+          "commanders": ["Ral, Monsoon Mage"]
+        },
+        {
+          "playerId": "jo",
+          "name": "Jo",
+          "deckName": "Springheart Nantuko and Kudo",
+          "commanders": ["Springheart Nantuko", "Kudo, King Among Bears"]
+        },
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckName": "Nadu and Pastiche Frog",
+          "commanders": ["Nadu, Winged Wisdom", "Pastiche Frog"]
+        },
+        {
+          "playerId": "liam",
+          "name": "Liam",
+          "deckName": "Laelia and Coram",
+          "commanders": ["Laelia, the Blade Reforged", "Coram, the Undertaker"]
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckName": "Wight of the Reliquary and Skoa",
+          "commanders": ["Wight of the Reliquary", "Skoa, Embermage"]
+        }
+      ],
+      "winner": "Mark",
+      "winnerId": "mark"
+    }
+  ]
+}

@@ -100,6 +100,7 @@ Keep these changes compatible with the current static GitHub Pages deployment.
 - Do not restructure data files casually; changes to data shape need importer, validator, render, and test updates.
 - Current JSON data files use `schemaVersion: 1`.
 - Match files use stable `id`, `sessionId`, `playerId`, and `winnerId` fields while retaining display names.
+- One-off formats that should not affect normal Commander standings live in `data/special-matches-YYYY.json` and render at `#/special`.
 - Player IDs live in `data/player-definitions.json`; typo aliases live in `data/player-aliases.json`.
 - The browser Import view is preview-only; it can copy parsed JSON and deck stubs, but it must not write JSON from the static GitHub Pages app.
 - Preserve raw notes as the source-of-truth audit trail for imported sessions.

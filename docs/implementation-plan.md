@@ -245,6 +245,7 @@ Implemented:
 - `scripts/match-ids.js` centralizes match ID formatting and generation.
 - `scripts/migrate-match-ids.js` migrates existing match files.
 - `data/matches-2026.json` has stable IDs for all current matches.
+- One-off special formats that should not affect standings live in `data/special-matches-YYYY.json` and render in the Special view.
 - The importer assigns IDs to newly added matches.
 - The validator now requires unique IDs that match each match date.
 
