@@ -85,6 +85,7 @@ test("page keeps the core render targets", () => {
     "wins-over-time-chart",
     "decks-table-body",
     "import-notes",
+    "import-review-list",
     "import-preview-body",
   ];
 
