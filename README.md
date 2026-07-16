@@ -34,7 +34,12 @@ Read these before larger feature work:
 
 - `docs/product-roadmap.md`
 - `docs/implementation-plan.md`
+- `docs/playgroup-setup-guide.md`
 - `AGENTS.md`
+
+## Demo mode
+
+Open `?sample=1#/overview` to run the dashboard with fictional sample data from `data/sample/`. This is the safest way to show the app to another playgroup without exposing the private match log.
 
 ## Import match notes
 

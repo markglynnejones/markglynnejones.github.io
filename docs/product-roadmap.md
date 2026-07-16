@@ -339,21 +339,31 @@ Choose SaaS path if:
 
 ## Suggested Next Build Tickets
 
-1. Add dashboard summary cards.
-2. Add head-to-head player stats.
-3. Add recent form and streak calculations.
-4. Add stable match IDs to 2026 imports.
-5. Add optional match tags and notes.
-6. Add CSV export.
-7. Add player/deck/session deep links.
-8. Add a public sample-data mode.
-9. Add a browser raw-note import preview.
-10. Add a setup guide for other playgroups.
+Completed foundation:
+
+1. Dashboard summary cards.
+2. Head-to-head player stats.
+3. Recent form and streak calculations.
+4. Stable match, player, and session IDs.
+5. Optional match tags and notes.
+6. CSV export.
+7. Player, deck, and session deep links.
+8. Public sample-data mode.
+9. Browser raw-note import preview.
+10. Setup guide for other playgroups.
+
+Suggested next build tickets:
+
+1. Add a stronger browser review flow for imports.
+2. Add special-game detection guidance to the import workflow.
+3. Add JSON backup/export alongside CSV exports.
+4. Add a corrections workflow for editing old matches safely.
+5. Trial the setup guide with one outside playgroup.
 
 ## Recommended First Move
 
 Do not start with billing, accounts, or a backend.
 
-The best next move is to make the static dashboard feel complete, then add data-model stability, then create a public demo/setup path. That gives useful personal value immediately and creates evidence for whether a paid product is worth building.
+The best next move is to make importing and correcting data easier without weakening the static, private-first model. That gives useful personal value immediately and creates evidence for whether a paid product is worth building.
 
 For the practical build breakdown, see `docs/implementation-plan.md`.

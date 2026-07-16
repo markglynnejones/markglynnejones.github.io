@@ -352,6 +352,8 @@ Implemented:
 - Unresolved-deck errors preserve the suggested deck stub formatting in the UI.
 - Import preview actions can copy parsed match JSON or unresolved deck stubs after a fresh preview.
 - Import preview flags parsed matches that already appear in the current match log.
+- `?sample=1` loads fictional demo data from `data/sample/` so the app can be shown without exposing the private playgroup log.
+- `docs/playgroup-setup-guide.md` documents the minimum setup path for another playgroup trial.
 
 Important constraint:
 
@@ -381,4 +383,13 @@ Answered:
 
 ## Next Recommended Ticket
 
-Build dashboard summary cards first. It is visible, low risk, and creates the top-level product feel needed before deeper analytics.
+Add a stronger review-and-apply import workflow.
+
+The browser import preview is useful, but it still leaves the final repo edits to a technical user. The next practical step is a review screen that cleanly separates:
+
+- normal parsed matches;
+- unresolved deck stubs;
+- possible duplicates;
+- special games that should not affect standings.
+
+Keep it preview/copy based while the app is static. Do not add write-back behavior until there is a backend or an intentionally local-only persistence model.

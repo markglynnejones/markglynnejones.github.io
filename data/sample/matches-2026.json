@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "matches": [
+    {
+      "id": "2026-01-12-001",
+      "sessionId": "session-2026-01-12-001",
+      "date": "2026-01-12",
+      "players": [
+        { "playerId": "alex", "name": "Alex", "deckId": "dragon-lessons" },
+        { "playerId": "casey", "name": "Casey", "deckId": "graveyard-choir" },
+        { "playerId": "morgan", "name": "Morgan", "deckId": "spell-sprint" },
+        { "playerId": "riley", "name": "Riley", "deckId": "artifact-breakfast" }
+      ],
+      "winner": "Alex",
+      "winnerId": "alex",
+      "tags": ["sample"]
+    },
+    {
+      "id": "2026-01-12-002",
+      "sessionId": "session-2026-01-12-001",
+      "date": "2026-01-12",
+      "players": [
+        { "playerId": "alex", "name": "Alex", "deckId": "dragon-lessons" },
+        { "playerId": "casey", "name": "Casey", "deckId": "graveyard-choir" },
+        { "playerId": "morgan", "name": "Morgan", "deckId": "spell-sprint" },
+        { "playerId": "sam", "name": "Sam", "deckId": "enchantress-cafe" }
+      ],
+      "winner": "Casey",
+      "winnerId": "casey",
+      "tags": ["sample"]
+    },
+    {
+      "id": "2026-02-02-001",
+      "sessionId": "session-2026-02-02-001",
+      "date": "2026-02-02",
+      "players": [
+        { "playerId": "alex", "name": "Alex", "deckId": "dragon-lessons" },
+        { "playerId": "morgan", "name": "Morgan", "deckId": "spell-sprint" },
+        { "playerId": "riley", "name": "Riley", "deckId": "artifact-breakfast" },
+        { "playerId": "sam", "name": "Sam", "deckId": "enchantress-cafe" }
+      ],
+      "winner": "Morgan",
+      "winnerId": "morgan",
+      "tags": ["sample"]
+    },
+    {
+      "id": "2026-02-02-002",
+      "sessionId": "session-2026-02-02-001",
+      "date": "2026-02-02",
+      "players": [
+        { "playerId": "casey", "name": "Casey", "deckId": "graveyard-choir" },
+        { "playerId": "morgan", "name": "Morgan", "deckId": "spell-sprint" },
+        { "playerId": "riley", "name": "Riley", "deckId": "artifact-breakfast" },
+        { "playerId": "sam", "name": "Sam", "deckId": "enchantress-cafe" }
+      ],
+      "winner": "Riley",
+      "winnerId": "riley",
+      "notes": "Sample note showing optional match notes.",
+      "tags": ["sample", "league-night"]
+    },
+    {
+      "id": "2026-03-09-001",
+      "sessionId": "session-2026-03-09-001",
+      "date": "2026-03-09",
+      "players": [
+        { "playerId": "alex", "name": "Alex", "deckId": "dragon-lessons" },
+        { "playerId": "casey", "name": "Casey", "deckId": "graveyard-choir" },
+        { "playerId": "riley", "name": "Riley", "deckId": "artifact-breakfast" },
+        { "playerId": "sam", "name": "Sam", "deckId": "enchantress-cafe" }
+      ],
+      "winner": "Sam",
+      "winnerId": "sam",
+      "tags": ["sample"]
+    }
+  ]
+}
