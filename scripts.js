@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const YEARS = ["2025", "2026"];
   const TAB_KEYS = ["overall", ...YEARS];
   const VIEW_KEYS = ["overview", "players", "decks", "sessions", "fun", "special", "import"];
+  const SAMPLE_DATA_PARAM = "sample";
+  const isSampleMode = new URLSearchParams(window.location.search).get(SAMPLE_DATA_PARAM) === "1";
   const VIEW_BY_HASH_KIND = {
     deck: "decks",
     player: "players",
@@ -100,6 +102,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error(`Failed to load ${path} (${res.status}). URL: ${resolved}`);
       return res.json();
     });
+  }
+
+  function dataPath(fileName) {
+    return isSampleMode ? `data/sample/${fileName}` : `data/${fileName}`;
   }
 
   function showFatalError(message, error) {
@@ -421,7 +427,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!note) return;
 
     const latest = latestMatchDate(matches2026);
-    note.textContent = latest ? `Latest match logged: ${latest}` : "No 2026 matches logged yet.";
+    const prefix = isSampleMode ? "Sample data. " : "";
+    note.textContent = latest ? `${prefix}Latest match logged: ${latest}` : `${prefix}No 2026 matches logged yet.`;
+  }
+
+  function renderDataModeNotice() {
+    const note = document.getElementById("data-mode-note");
+    const link = document.getElementById("sample-data-link");
+
+    if (note) {
+      note.textContent = isSampleMode
+        ? "Demo mode uses fictional sample data and does not show the private playgroup log."
+        : "";
+      note.hidden = !isSampleMode;
+    }
+
+    if (link) {
+      link.textContent = isSampleMode ? "Personal Data" : "Demo Data";
+      link.href = isSampleMode ? "./#/overview" : "?sample=1#/overview";
+      link.setAttribute("aria-label", isSampleMode ? "Switch to personal data" : "Switch to demo data");
+    }
   }
 
   function shortDisplayDate(isoDate) {
@@ -969,16 +994,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // Boot
   // -----------------------------
   commanderScryfall.loadCacheFromStorage();
+  renderDataModeNotice();
 
   Promise.all([
-    fetchJSON("data/players-2025.json"),
-    fetchJSON("data/decks-2025.json"),
-    fetchJSON("data/deck-definitions.json"),
-    fetchJSON("data/matches-2026.json"),
-    fetchJSON("data/special-matches-2026.json"),
-    fetchJSON("data/combinations.json"),
-    fetchJSON("data/player-definitions.json"),
-    fetchJSON("data/player-aliases.json"),
+    fetchJSON(dataPath("players-2025.json")),
+    fetchJSON(dataPath("decks-2025.json")),
+    fetchJSON(dataPath("deck-definitions.json")),
+    fetchJSON(dataPath("matches-2026.json")),
+    fetchJSON(dataPath("special-matches-2026.json")),
+    fetchJSON(dataPath("combinations.json")),
+    fetchJSON(dataPath("player-definitions.json")),
+    fetchJSON(dataPath("player-aliases.json")),
   ])
     .then(([p25, d25, defs, m26, specialMatches, combos, playerDefs, playerAliases]) => {
       players2025 = p25;

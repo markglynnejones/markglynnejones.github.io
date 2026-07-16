@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "players": [
+    {
+      "id": "alex",
+      "name": "Alex",
+      "active": true
+    },
+    {
+      "id": "casey",
+      "name": "Casey",
+      "active": true
+    },
+    {
+      "id": "morgan",
+      "name": "Morgan",
+      "active": true
+    },
+    {
+      "id": "riley",
+      "name": "Riley",
+      "active": true
+    },
+    {
+      "id": "sam",
+      "name": "Sam",
+      "active": true
+    }
+  ]
+}

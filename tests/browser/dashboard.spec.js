@@ -33,6 +33,23 @@ test("dashboard boots with populated primary sections", async ({ page }) => {
   expect(consoleErrors).toEqual([]);
 });
 
+test("demo mode loads fictional sample data", async ({ page }) => {
+  await page.goto("/?sample=1#/overview");
+
+  await expect(page.locator("#data-mode-note")).toContainText("Demo mode uses fictional sample data");
+  await expect(page.locator("#last-updated-note")).toContainText("Sample data. Latest match logged:");
+  await expect(page.locator("#recent-matches-body")).toContainText("Sam");
+
+  await page.getByRole("link", { name: "Players" }).click();
+  await expect(page).toHaveURL(/\?sample=1#\/players$/);
+  await expect(page.locator("#wins-table-body")).toContainText("Alex");
+
+  await page.getByRole("link", { name: "Special" }).click();
+  await expect(page).toHaveURL(/\?sample=1#\/special$/);
+  await expect(page.locator("#special-games-body")).toContainText("Sample chaos draft commander night");
+  await expect(page.getByRole("link", { name: "Personal Data" })).toHaveAttribute("href", "./#/overview");
+});
+
 test("app view navigation switches top-level views", async ({ page }) => {
   await page.goto("/");
 

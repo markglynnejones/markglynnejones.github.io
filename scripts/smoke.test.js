@@ -59,6 +59,8 @@ test("browser scripts load in dependency order", () => {
 test("page keeps the core render targets", () => {
   const requiredIds = [
     "last-updated-note",
+    "data-mode-note",
+    "sample-data-link",
     "view-overview",
     "view-players",
     "view-decks",
@@ -104,6 +106,7 @@ test("app view navigation is hash based", () => {
   assert.match(html, /href="#\/fun"[^>]+data-view-link="fun"/);
   assert.match(html, /href="#\/special"[^>]+data-view-link="special"/);
   assert.match(html, /href="#\/import"[^>]+data-view-link="import"/);
+  assert.match(html, /id="sample-data-link"[^>]+href="\?sample=1#\/overview"/);
 });
 
 test("year tabs control the shared tab panel", () => {

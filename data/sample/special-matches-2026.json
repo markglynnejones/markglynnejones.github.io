@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "specialMatches": [
+    {
+      "id": "special-2026-03-23-001",
+      "date": "2026-03-23",
+      "event": "Sample chaos draft commander night",
+      "format": "sample-chaos-draft",
+      "notes": "A fictional one-off format kept outside normal Commander standings.",
+      "players": [
+        {
+          "playerId": "alex",
+          "name": "Alex",
+          "deckName": "Borrowed Dragons",
+          "commanders": ["Miirym, Sentinel Wyrm"]
+        },
+        {
+          "playerId": "casey",
+          "name": "Casey",
+          "deckName": "Graveyard Soup",
+          "commanders": ["Meren of Clan Nel Toth"]
+        },
+        {
+          "playerId": "morgan",
+          "name": "Morgan",
+          "deckName": "Instant Coffee",
+          "commanders": ["Veyran, Voice of Duality"]
+        }
+      ],
+      "winner": "Morgan",
+      "winnerId": "morgan"
+    }
+  ]
+}

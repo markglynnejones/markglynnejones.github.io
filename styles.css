@@ -88,6 +88,15 @@ footer {
   opacity: 0.85;
 }
 
+.data-mode-note {
+  width: min(720px, calc(100% - 32px));
+  margin: 12px auto 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
 .app-views,
 .tabs {
   display: flex;
@@ -121,6 +130,10 @@ footer {
 .app-view-link {
   color: var(--color-nav);
   text-decoration: none;
+}
+
+.utility-view-link {
+  border-style: dashed;
 }
 
 .app-view-link[aria-current="page"],

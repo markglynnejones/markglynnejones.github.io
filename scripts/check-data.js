@@ -492,39 +492,46 @@ function validateData(data, issues = createIssueCollector()) {
   return issues;
 }
 
-function main() {
-  const issues = createIssueCollector();
-  const deckDefinitions = readJson(path.join(DATA_DIR, "deck-definitions.json"), issues);
-  const playerDefinitions = readJson(path.join(DATA_DIR, "player-definitions.json"), issues);
-  const decks2025 = readJson(path.join(DATA_DIR, "decks-2025.json"), issues);
-  const players2025 = readJson(path.join(DATA_DIR, "players-2025.json"), issues);
-  const combinationsData = readJson(path.join(DATA_DIR, "combinations.json"), issues);
-  const playerAliases = readJson(path.join(DATA_DIR, "player-aliases.json"), issues);
-  const doublesData = readJson(path.join(DATA_DIR, "doubles.json"), issues);
+function readDataSet(dataDir, issues) {
+  const deckDefinitions = readJson(path.join(dataDir, "deck-definitions.json"), issues);
+  const playerDefinitions = readJson(path.join(dataDir, "player-definitions.json"), issues);
+  const decks2025 = readJson(path.join(dataDir, "decks-2025.json"), issues);
+  const players2025 = readJson(path.join(dataDir, "players-2025.json"), issues);
+  const combinationsData = readJson(path.join(dataDir, "combinations.json"), issues);
+  const playerAliases = readJson(path.join(dataDir, "player-aliases.json"), issues);
 
-  const matchesFiles = fs.readdirSync(DATA_DIR)
+  const matchesFiles = fs.readdirSync(dataDir)
     .filter((name) => /^matches-\d{4}\.json$/.test(name))
     .sort()
     .map((file) => {
-      const filePath = path.join(DATA_DIR, file);
+      const filePath = path.join(dataDir, file);
       return {
         label: rel(filePath),
         data: readJson(filePath, issues),
       };
     });
 
-  const specialMatchesFiles = fs.readdirSync(DATA_DIR)
+  const specialMatchesFiles = fs.readdirSync(dataDir)
     .filter((name) => /^special-matches-\d{4}\.json$/.test(name))
     .sort()
     .map((file) => {
-      const filePath = path.join(DATA_DIR, file);
+      const filePath = path.join(dataDir, file);
       return {
         label: rel(filePath),
         data: readJson(filePath, issues),
       };
     });
 
-  validateData({ deckDefinitions, playerDefinitions, decks2025, players2025, combinationsData, playerAliases, matchesFiles, specialMatchesFiles }, issues);
+  return { deckDefinitions, playerDefinitions, decks2025, players2025, combinationsData, playerAliases, matchesFiles, specialMatchesFiles };
+}
+
+function main() {
+  const issues = createIssueCollector();
+  const doublesData = readJson(path.join(DATA_DIR, "doubles.json"), issues);
+
+  validateData(readDataSet(DATA_DIR, issues), issues);
+  const sampleDataDir = path.join(DATA_DIR, "sample");
+  if (fs.existsSync(sampleDataDir)) validateData(readDataSet(sampleDataDir, issues), issues);
   checkSchemaVersion("data/doubles.json", doublesData, issues);
 
   checkStaticReferences(issues);

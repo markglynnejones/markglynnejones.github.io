@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "players": [
+    { "name": "Alex", "wins": 7, "matchesPlayed": 20 },
+    { "name": "Casey", "wins": 5, "matchesPlayed": 18 },
+    { "name": "Morgan", "wins": 4, "matchesPlayed": 16 },
+    { "name": "Riley", "wins": 3, "matchesPlayed": 14 }
+  ]
+}

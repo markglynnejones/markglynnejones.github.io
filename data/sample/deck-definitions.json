@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "decks": [
+    {
+      "id": "dragon-lessons",
+      "name": "Dragon Lessons",
+      "commander": "Miirym, Sentinel Wyrm",
+      "active": true,
+      "owner": "Alex",
+      "aliases": ["dragons", "miirym"]
+    },
+    {
+      "id": "graveyard-choir",
+      "name": "Graveyard Choir",
+      "commander": "Meren of Clan Nel Toth",
+      "active": true,
+      "owner": "Casey",
+      "aliases": ["meren"]
+    },
+    {
+      "id": "spell-sprint",
+      "name": "Spell Sprint",
+      "commander": "Veyran, Voice of Duality",
+      "active": true,
+      "owner": "Morgan",
+      "aliases": ["veyran", "spells"]
+    },
+    {
+      "id": "artifact-breakfast",
+      "name": "Artifact Breakfast",
+      "commander": "Breya, Etherium Shaper",
+      "active": true,
+      "owner": "Riley",
+      "aliases": ["breya"]
+    },
+    {
+      "id": "enchantress-cafe",
+      "name": "Enchantress Cafe",
+      "commander": "Sythis, Harvest's Hand",
+      "active": true,
+      "owner": "Sam",
+      "aliases": ["sythis"]
+    },
+    {
+      "id": "token-weather",
+      "name": "Token Weather",
+      "commander": "Jetmir, Nexus of Revels",
+      "active": false,
+      "owner": "Riley",
+      "aliases": ["jetmir"]
+    }
+  ]
+}
