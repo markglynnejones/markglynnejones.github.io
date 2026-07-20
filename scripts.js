@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let specialMatches2026 = null;
   let playerDefinitions = null;
   let playerAliasesData = null;
-  let importPreviewResult = { matches: [], errors: [], deckStubs: [], duplicates: [] };
+  let importPreviewResult = { matches: [], errors: [], deckStubs: [], duplicates: [], specialGameHints: [], year: "2026", hasPreview: false };
 
   let combinationsData = null;
 
@@ -179,12 +179,26 @@ document.addEventListener("DOMContentLoaded", () => {
     return stubs;
   }
 
+  function findSpecialGameHints(notes) {
+    const blocks = commanderImportParser.splitIntoBlocks?.(notes) || [];
+    return blocks
+      .map((block, index) => ({ block: index + 1, text: (Array.isArray(block) ? block.join("\n") : String(block || "")).trim() }))
+      .filter((entry) => /\bspecial games?\b|box opening|chaos draft|one[- ]off|special format/i.test(entry.text))
+      .map((entry) => ({
+        block: entry.block,
+        reason: "Possible special-game block. Review separately before adding to normal matches.",
+        text: entry.text,
+      }));
+  }
+
   function setImportCopyState() {
     const copyJsonButton = document.getElementById("import-copy-json-button");
     const copyStubsButton = document.getElementById("import-copy-stubs-button");
+    const copyPackButton = document.getElementById("import-copy-pack-button");
 
     if (copyJsonButton) copyJsonButton.disabled = importPreviewResult.matches.length === 0;
     if (copyStubsButton) copyStubsButton.disabled = importPreviewResult.deckStubs.length === 0;
+    if (copyPackButton) copyPackButton.disabled = !importPreviewResult.hasPreview;
   }
 
   function renderImportReadiness(message) {
@@ -208,10 +222,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function importReviewItems() {
+    if (!importPreviewResult.hasPreview) return ["Run preview to build an import review pack."];
+
+    const newMatches = importPreviewResult.matches.length - importPreviewResult.duplicates.length;
+    const items = [
+      `${newMatches} normal match${newMatches === 1 ? " looks" : "es look"} ready to add.`,
+      `${importPreviewResult.duplicates.length} possible duplicate${importPreviewResult.duplicates.length === 1 ? "" : "s"} need review before import.`,
+      `${importPreviewResult.deckStubs.length} unresolved deck stub${importPreviewResult.deckStubs.length === 1 ? "" : "s"} can be copied into deck definitions.`,
+      `${importPreviewResult.specialGameHints.length} possible special-game block${importPreviewResult.specialGameHints.length === 1 ? "" : "s"} should stay outside normal standings.`,
+    ];
+
+    if (importPreviewResult.errors.length) {
+      items.push(`${importPreviewResult.errors.length} parser issue${importPreviewResult.errors.length === 1 ? "" : "s"} must be fixed before parsed matches are complete.`);
+    }
+
+    return items;
+  }
+
+  function renderImportReview() {
+    const list = document.getElementById("import-review-list");
+    if (!list) return;
+
+    list.textContent = "";
+    for (const itemText of importReviewItems()) {
+      const item = document.createElement("li");
+      item.textContent = itemText;
+      list.appendChild(item);
+    }
+  }
+
   function resetImportPreview(message = "Preview not run yet.") {
-    importPreviewResult = { matches: [], errors: [], deckStubs: [], duplicates: [] };
+    importPreviewResult = { matches: [], errors: [], deckStubs: [], duplicates: [], specialGameHints: [], year: "2026", hasPreview: false };
     setImportCopyState();
     renderImportReadiness(message);
+    renderImportReview();
   }
 
   function importDuplicateByIndex() {
@@ -224,6 +269,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function importDeckStubsJson() {
     return JSON.stringify(importPreviewResult.deckStubs, null, 2);
+  }
+
+  function importPackJson() {
+    const duplicates = importPreviewResult.duplicates.map((entry) => ({
+      previewIndex: entry.index,
+      previewMatch: entry.match,
+      existingMatchId: entry.existing?.id || "",
+      existingMatchDate: entry.existing?.date || "",
+    }));
+
+    return JSON.stringify(
+      {
+        schemaVersion: 1,
+        year: importPreviewResult.year,
+        matches: importPreviewResult.matches,
+        deckStubs: importPreviewResult.deckStubs,
+        duplicates,
+        issues: importPreviewResult.errors,
+        specialGameReview: importPreviewResult.specialGameHints,
+      },
+      null,
+      2
+    );
   }
 
   async function copyText(text, successMessage) {
@@ -284,9 +352,13 @@ document.addEventListener("DOMContentLoaded", () => {
       errors: result.errors,
       deckStubs: extractDeckStubs(result.errors),
       duplicates: commanderImportParser.findDuplicateMatches(matches2026?.matches || [], result.matches),
+      specialGameHints: findSpecialGameHints(notes),
+      year,
+      hasPreview: true,
     };
     setImportCopyState();
     renderImportReadiness();
+    renderImportReview();
 
     if (result.errors.length) {
       status.textContent = `${result.errors.length} issue${result.errors.length === 1 ? "" : "s"} found.`;
@@ -381,6 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     writeImportDraft();
     resetImportPreview("Draft changed. Run preview again.");
+    renderImportReview();
     if (status) status.textContent = "";
     if (errors) {
       errors.hidden = true;
@@ -972,6 +1045,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const clearButton = document.getElementById("import-clear-button");
     const copyJsonButton = document.getElementById("import-copy-json-button");
     const copyStubsButton = document.getElementById("import-copy-stubs-button");
+    const copyPackButton = document.getElementById("import-copy-pack-button");
     const notesInput = document.getElementById("import-notes");
     const yearInput = document.getElementById("import-year");
 
@@ -985,6 +1059,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (copyStubsButton) {
       copyStubsButton.addEventListener("click", () => copyText(importDeckStubsJson(), "Deck stubs copied."));
+    }
+    if (copyPackButton) {
+      copyPackButton.addEventListener("click", () => copyText(importPackJson(), "Import pack copied."));
     }
     if (notesInput) notesInput.addEventListener("input", handleImportDraftInput);
     if (yearInput) yearInput.addEventListener("input", handleImportDraftInput);

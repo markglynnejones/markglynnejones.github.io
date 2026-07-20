@@ -168,19 +168,39 @@ Liam - big sues`);
   await expect(page.locator("#import-preview-body tr").first()).toContainText("Bad Misc");
   await expect(page.locator("#import-preview-body tr").first()).toContainText("Big Sue's");
   await expect(page.locator("#import-readiness-list")).toContainText("1 parsed match.");
+  await expect(page.locator("#import-review-list")).toContainText("1 normal match looks ready to add.");
   await expect(page.getByRole("button", { name: "Copy parsed JSON" })).toBeEnabled();
   await expect(page.getByRole("button", { name: "Copy deck stubs" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Copy import pack" })).toBeEnabled();
 
   await page.getByRole("button", { name: "Copy parsed JSON" }).click();
   await expect(page.locator("#import-preview-status")).toHaveText("Parsed JSON copied.");
-  const copiedText = await page.evaluate(() => window.__copiedText);
-  expect(JSON.parse(copiedText)).toMatchObject([
+  const copiedMatchesText = await page.evaluate(() => window.__copiedText);
+  expect(JSON.parse(copiedMatchesText)).toMatchObject([
     {
       date: "2026-06-04",
       winner: "Jo",
       winnerId: "jo",
     },
   ]);
+
+  await page.getByRole("button", { name: "Copy import pack" }).click();
+  await expect(page.locator("#import-preview-status")).toHaveText("Import pack copied.");
+  const copiedPackText = await page.evaluate(() => window.__copiedText);
+  expect(JSON.parse(copiedPackText)).toMatchObject({
+    schemaVersion: 1,
+    year: "2026",
+    matches: [
+      {
+        date: "2026-06-04",
+        winner: "Jo",
+      },
+    ],
+    deckStubs: [],
+    duplicates: [],
+    issues: [],
+    specialGameReview: [],
+  });
 });
 
 test("import preview warns about already logged matches", async ({ page }) => {
@@ -196,6 +216,7 @@ Liam - zombieland`);
 
   await expect(page.locator("#import-preview-status")).toHaveText("1 match parsed.");
   await expect(page.locator("#import-readiness-list")).toContainText("1 possible duplicate already logged.");
+  await expect(page.locator("#import-review-list")).toContainText("0 normal matches look ready to add.");
   await expect(page.locator("#import-preview-body tr")).toHaveCount(1);
   await expect(page.locator("#import-preview-body tr").first()).toContainText("Already logged as 2026-01-04-001");
 });
@@ -216,8 +237,10 @@ Liam - big sues`);
   await expect(page.locator("#import-preview-errors")).toContainText("Suggested new deck stub");
   await expect(page.locator("#import-preview-body tr")).toHaveCount(0);
   await expect(page.locator("#import-readiness-list")).toContainText("1 issue found.");
+  await expect(page.locator("#import-review-list")).toContainText("1 unresolved deck stub can be copied into deck definitions.");
   await expect(page.getByRole("button", { name: "Copy parsed JSON" })).toBeDisabled();
   await expect(page.getByRole("button", { name: "Copy deck stubs" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Copy import pack" })).toBeEnabled();
 
   await page.getByRole("button", { name: "Copy deck stubs" }).click();
   await expect(page.locator("#import-preview-status")).toHaveText("Deck stubs copied.");
@@ -229,6 +252,37 @@ Liam - big sues`);
       active: true,
     },
   ]);
+});
+
+test("import preview flags possible special-game blocks in the import pack", async ({ page }) => {
+  await installClipboardMock(page);
+  await page.goto("/#/import");
+
+  await page.locator("#import-notes").fill(`04/06 magic
+
+Jon - bad misc - win
+Liam - big sues
+
+---
+
+Special games
+
+Alex - Borrowed Dragons - win
+Casey - Graveyard Soup`);
+  await page.getByRole("button", { name: "Preview" }).click();
+
+  await expect(page.locator("#import-review-list")).toContainText("1 possible special-game block should stay outside normal standings.");
+
+  await page.getByRole("button", { name: "Copy import pack" }).click();
+  const copiedPackText = await page.evaluate(() => window.__copiedText);
+  expect(JSON.parse(copiedPackText)).toMatchObject({
+    specialGameReview: [
+      {
+        block: 2,
+        reason: expect.stringContaining("Possible special-game block"),
+      },
+    ],
+  });
 });
 
 test("import preview keeps and clears local drafts", async ({ page }) => {
