@@ -3,6 +3,7 @@
 const assert = require("assert");
 
 const {
+  buildBackupJson,
   buildExports,
   csvCell,
   exportDecksCsv,
@@ -95,8 +96,17 @@ test("parseArgs accepts csv exports and rejects unsupported options", () => {
     help: false,
   });
 
-  assert.throws(() => parseArgs(["node", "script", "--format", "json"]), /Only --format csv/);
+  assert.deepStrictEqual(parseArgs(["node", "script", "--format", "json", "--year", "2026", "--target", "backup"]), {
+    format: "json",
+    year: "2026",
+    target: "backup",
+    out: "",
+    help: false,
+  });
+
+  assert.throws(() => parseArgs(["node", "script", "--format", "pdf"]), /--format must be one of/);
   assert.throws(() => parseArgs(["node", "script", "--target", "nope"]), /--target must be one of/);
+  assert.throws(() => parseArgs(["node", "script", "--format", "csv", "--target", "backup"]), /--target must be one of for csv/);
 });
 
 test("exportMatchesCsv includes ids, decks, notes, and tags", () => {
@@ -131,4 +141,44 @@ test("buildExports returns requested target keys", () => {
 
   assert.deepStrictEqual(Object.keys(exports), ["players"]);
   assert.match(exports.players, /^player,wins,matchesPlayed,winRate\n/);
+});
+
+test("buildExports returns JSON backup exports", () => {
+  const exports = buildExports({ format: "json", year: "2026", target: "backup" });
+  const backup = JSON.parse(exports.backup);
+
+  assert.deepStrictEqual(Object.keys(exports), ["backup"]);
+  assert.strictEqual(backup.schemaVersion, 1);
+  assert.strictEqual(backup.year, "2026");
+  assert.ok(backup.files["matches-2026.json"]);
+  assert.ok(backup.files["special-matches-2026.json"]);
+  assert.ok(backup.files["deck-definitions.json"]);
+  assert.ok(backup.files["player-definitions.json"]);
+  assert.ok(backup.files["player-aliases.json"]);
+});
+
+test("buildExports returns individual JSON targets", () => {
+  const exports = buildExports({ format: "json", year: "2026", target: "special" });
+  const special = JSON.parse(exports.special);
+
+  assert.deepStrictEqual(Object.keys(exports), ["special"]);
+  assert.strictEqual(special.schemaVersion, 1);
+  assert.ok(Array.isArray(special.specialMatches));
+});
+
+test("buildBackupJson includes deterministic canonical files", () => {
+  const backup = buildBackupJson("2026");
+
+  assert.deepStrictEqual(Object.keys(backup), ["schemaVersion", "year", "files"]);
+  assert.deepStrictEqual(Object.keys(backup.files), [
+    "matches-2026.json",
+    "special-matches-2026.json",
+    "deck-definitions.json",
+    "player-definitions.json",
+    "player-aliases.json",
+    "players-2025.json",
+    "decks-2025.json",
+    "combinations.json",
+    "doubles.json",
+  ]);
 });

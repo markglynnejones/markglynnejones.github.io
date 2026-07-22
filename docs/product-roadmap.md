@@ -351,14 +351,15 @@ Completed foundation:
 8. Public sample-data mode.
 9. Browser raw-note import preview.
 10. Setup guide for other playgroups.
+11. Browser import review pack with duplicate and special-game guidance.
+12. JSON backup/export alongside CSV exports.
 
 Suggested next build tickets:
 
-1. Add a stronger browser review flow for imports.
-2. Add special-game detection guidance to the import workflow.
-3. Add JSON backup/export alongside CSV exports.
-4. Add a corrections workflow for editing old matches safely.
-5. Trial the setup guide with one outside playgroup.
+1. Add a corrections workflow for editing old matches safely.
+2. Trial the setup guide with one outside playgroup.
+3. Add restore guidance for JSON backups.
+4. Explore browser-only local edits if the repo-local correction workflow is too technical.
 
 ## Recommended First Move
 

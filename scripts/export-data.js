@@ -13,15 +13,33 @@ const {
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(REPO_ROOT, "data");
 const EXPORT_DIR = path.join(DATA_DIR, "exports");
-const TARGETS = ["matches", "players", "decks", "all"];
+const FORMAT_TARGETS = {
+  csv: ["matches", "players", "decks", "all"],
+  json: ["matches", "special", "deck-definitions", "player-definitions", "player-aliases", "backup", "all"],
+};
 
 function usage() {
-  console.log(`Usage: node scripts/export-data.js --format csv --year 2026 [--target matches|players|decks|all] [--out path]
+  console.log(`Usage: node scripts/export-data.js --format csv|json --year 2026 [--target target] [--out path]
 
 Defaults:
 - --target all
-- all targets write CSV files to data/exports/
-- a single target writes CSV to stdout unless --out is provided`);
+- all targets write files to data/exports/
+- a single target writes to stdout unless --out is provided
+
+CSV targets:
+- matches
+- players
+- decks
+- all
+
+JSON targets:
+- matches
+- special
+- deck-definitions
+- player-definitions
+- player-aliases
+- backup
+- all`);
 }
 
 function parseArgs(argv) {
@@ -48,9 +66,11 @@ function parseArgs(argv) {
     }
   }
 
-  if (args.format !== "csv") throw new Error("Only --format csv is currently supported.");
+  if (!FORMAT_TARGETS[args.format]) throw new Error(`--format must be one of: ${Object.keys(FORMAT_TARGETS).join(", ")}.`);
   if (!/^\d{4}$/.test(String(args.year))) throw new Error("--year must be a 4 digit year.");
-  if (!TARGETS.includes(args.target)) throw new Error(`--target must be one of: ${TARGETS.join(", ")}.`);
+  if (!FORMAT_TARGETS[args.format].includes(args.target)) {
+    throw new Error(`--target must be one of for ${args.format}: ${FORMAT_TARGETS[args.format].join(", ")}.`);
+  }
   if (args.out && args.target === "all") throw new Error("--out can only be used with a single target.");
 
   return args;
@@ -58,6 +78,11 @@ function parseArgs(argv) {
 
 function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(REPO_ROOT, relativePath), "utf8"));
+}
+
+function readOptionalJson(relativePath, fallback) {
+  const fullPath = path.join(REPO_ROOT, relativePath);
+  return fs.existsSync(fullPath) ? JSON.parse(fs.readFileSync(fullPath, "utf8")) : fallback;
 }
 
 function csvCell(value) {
@@ -143,8 +168,61 @@ function exportDecksCsv(matchesData, deckDefinitions) {
   ]);
 }
 
+function toJson(value) {
+  return `${JSON.stringify(value, null, 2)}\n`;
+}
+
+function buildBackupJson(year) {
+  return {
+    schemaVersion: 1,
+    year,
+    files: {
+      [`matches-${year}.json`]: readJson(`data/matches-${year}.json`),
+      [`special-matches-${year}.json`]: readOptionalJson(`data/special-matches-${year}.json`, {
+        schemaVersion: 1,
+        specialMatches: [],
+      }),
+      "deck-definitions.json": readJson("data/deck-definitions.json"),
+      "player-definitions.json": readJson("data/player-definitions.json"),
+      "player-aliases.json": readJson("data/player-aliases.json"),
+      "players-2025.json": readJson("data/players-2025.json"),
+      "decks-2025.json": readJson("data/decks-2025.json"),
+      "combinations.json": readJson("data/combinations.json"),
+      "doubles.json": readJson("data/doubles.json"),
+    },
+  };
+}
+
+function buildJsonExports(year, target) {
+  const exports = {};
+
+  if (target === "matches" || target === "all") exports.matches = toJson(readJson(`data/matches-${year}.json`));
+  if (target === "special" || target === "all") {
+    exports.special = toJson(
+      readOptionalJson(`data/special-matches-${year}.json`, {
+        schemaVersion: 1,
+        specialMatches: [],
+      })
+    );
+  }
+  if (target === "deck-definitions" || target === "all") {
+    exports["deck-definitions"] = toJson(readJson("data/deck-definitions.json"));
+  }
+  if (target === "player-definitions" || target === "all") {
+    exports["player-definitions"] = toJson(readJson("data/player-definitions.json"));
+  }
+  if (target === "player-aliases" || target === "all") {
+    exports["player-aliases"] = toJson(readJson("data/player-aliases.json"));
+  }
+  if (target === "backup" || target === "all") exports.backup = toJson(buildBackupJson(year));
+
+  return exports;
+}
+
 function buildExports(config) {
-  const { year, target } = config;
+  const { format = "csv", year, target } = config;
+  if (format === "json") return buildJsonExports(year, target);
+
   const matchesData = readJson(`data/matches-${year}.json`);
   const deckDefinitions = readJson("data/deck-definitions.json");
   const exports = {};
@@ -158,6 +236,7 @@ function buildExports(config) {
 
 function writeExports(args, exports) {
   const entries = Object.entries(exports);
+  const extension = args.format === "json" ? "json" : "csv";
 
   if (args.out) {
     fs.writeFileSync(path.resolve(process.cwd(), args.out), entries[0][1]);
@@ -170,8 +249,8 @@ function writeExports(args, exports) {
   }
 
   fs.mkdirSync(EXPORT_DIR, { recursive: true });
-  for (const [target, csv] of entries) {
-    fs.writeFileSync(path.join(EXPORT_DIR, `${args.year}-${target}.csv`), csv);
+  for (const [target, content] of entries) {
+    fs.writeFileSync(path.join(EXPORT_DIR, `${args.year}-${target}.${extension}`), content);
   }
 }
 
@@ -191,6 +270,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  buildBackupJson,
   buildExports,
   csvCell,
   exportDecksCsv,
@@ -198,4 +278,5 @@ module.exports = {
   exportPlayersCsv,
   parseArgs,
   toCsv,
+  toJson,
 };

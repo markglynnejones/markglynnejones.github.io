@@ -129,6 +129,21 @@ npm run decks:review
 
 Deck definitions can include optional `owner`, `needsReview`, and `reviewNote` fields. `needsReview: true` is reported by `npm run decks:review` and as a warning in `npm run check`.
 
+## Export data
+
+CSV exports for matches, player stats, and deck stats:
+
+```bash
+npm run export -- --format csv --year 2026
+```
+
+JSON exports include canonical match data, special games, definitions, aliases, and a combined backup bundle:
+
+```bash
+npm run export -- --format json --year 2026
+npm run export -- --format json --year 2026 --target backup --out data/exports/2026-backup.json
+```
+
 ## Check and test
 
 Run a data sanity check before pushing:

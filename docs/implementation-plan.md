@@ -293,6 +293,8 @@ Implemented:
 - `--target matches`, `--target players`, and `--target decks` export individual CSVs to stdout.
 - `--out path` writes a single target to a specific file.
 - Match exports include stable IDs, notes, and tags.
+- `npm run export -- --format json --year 2026` writes JSON exports under `data/exports/`.
+- JSON targets include canonical matches, special games, deck definitions, player definitions, player aliases, and a combined backup bundle.
 
 ### 4. Schema Versioning
 
@@ -352,6 +354,8 @@ Implemented:
 - Unresolved-deck errors preserve the suggested deck stub formatting in the UI.
 - Import preview actions can copy parsed match JSON or unresolved deck stubs after a fresh preview.
 - Import preview flags parsed matches that already appear in the current match log.
+- Import preview can copy a review pack with parsed matches, unresolved deck stubs, duplicate references, parser issues, and possible special-game review blocks.
+- Import preview flags possible special-game blocks for manual review without writing special-match data automatically.
 - `?sample=1` loads fictional demo data from `data/sample/` so the app can be shown without exposing the private playgroup log.
 - `docs/playgroup-setup-guide.md` documents the minimum setup path for another playgroup trial.
 
@@ -383,13 +387,15 @@ Answered:
 
 ## Next Recommended Ticket
 
-Add a stronger review-and-apply import workflow.
+Add a corrections workflow for editing old matches safely.
 
-The browser import preview is useful, but it still leaves the final repo edits to a technical user. The next practical step is a review screen that cleanly separates:
+The import and export paths are now strong enough for regular use. The next practical gap is correcting old data without hand-editing JSON and accidentally breaking IDs, session links, or standings.
 
-- normal parsed matches;
-- unresolved deck stubs;
-- possible duplicates;
-- special games that should not affect standings.
+Start with a CLI-assisted workflow that can:
 
-Keep it preview/copy based while the app is static. Do not add write-back behavior until there is a backend or an intentionally local-only persistence model.
+- locate a match by stable ID;
+- preview a proposed player, deck, winner, note, or tag correction;
+- validate the changed file before writing;
+- keep raw notes and JSON backups as the audit trail.
+
+Keep this repo-local and explicit. Do not add browser write-back behavior until there is a backend or an intentionally local-only persistence model.

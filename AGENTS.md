@@ -80,6 +80,7 @@ The next implementation work should happen in this order:
 - Stable match IDs. Implemented.
 - Optional match notes and tags. Implemented.
 - CSV exports. Implemented.
+- JSON backup/export. Implemented.
 - Schema versioning. Implemented.
 - Stable player IDs. Implemented.
 - Stable session IDs. Implemented.
@@ -88,6 +89,7 @@ The next implementation work should happen in this order:
 - Browser import preview at `#/import`. Implemented.
 - Import preview copy actions for parsed JSON and deck stubs. Implemented.
 - Browser duplicate warnings for already-logged preview matches. Implemented.
+- Import review pack with parser issues, parsed matches, duplicate warnings, deck stubs, and possible special-game flags. Implemented.
 - Public sample-data mode via `?sample=1`, backed by fictional data in `data/sample/`. Implemented.
 
 Keep these changes compatible with the current static GitHub Pages deployment.

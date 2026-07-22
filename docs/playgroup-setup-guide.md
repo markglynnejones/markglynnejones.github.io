@@ -66,7 +66,14 @@ CSV exports are available with:
 npm run export -- --format csv --year 2026
 ```
 
-Keep the repo history and raw notes as the audit trail. Before any hosted or commercial version, add clearer JSON backup and restore workflows.
+JSON backups are available with:
+
+```bash
+npm run export -- --format json --year 2026
+npm run export -- --format json --year 2026 --target backup --out data/exports/2026-backup.json
+```
+
+Keep the repo history and raw notes as the audit trail. Before any hosted or commercial version, add a restore workflow to pair with these backups.
 
 ## 6. Try The Public Demo
 
