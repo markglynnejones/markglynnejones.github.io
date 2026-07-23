@@ -75,7 +75,18 @@ npm run export -- --format json --year 2026 --target backup --out data/exports/2
 
 Keep the repo history and raw notes as the audit trail. Before any hosted or commercial version, add a restore workflow to pair with these backups.
 
-## 6. Try The Public Demo
+## 6. Correct Old Matches
+
+Use the match correction command when an old winner, deck, note, or tag needs fixing. Preview is the default:
+
+```bash
+npm run matches:correct -- --id 2026-06-14-003 --set winnerId=mark
+npm run matches:correct -- --id 2026-06-14-003 --player-deck liam=master
+```
+
+Add `--write` only after the preview looks right.
+
+## 7. Try The Public Demo
 
 Open:
 

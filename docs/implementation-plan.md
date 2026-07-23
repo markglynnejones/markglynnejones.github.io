@@ -385,7 +385,7 @@ Answered:
 - Include both serious and fun stats, separated in the UI.
 - Plan browser-based import preview, while keeping CLI import for personal use.
 
-## Next Recommended Ticket
+## Recently Implemented Ticket
 
 Add a corrections workflow for editing old matches safely.
 
@@ -399,3 +399,16 @@ Start with a CLI-assisted workflow that can:
 - keep raw notes and JSON backups as the audit trail.
 
 Keep this repo-local and explicit. Do not add browser write-back behavior until there is a backend or an intentionally local-only persistence model.
+
+Implemented:
+
+- `npm run matches:correct -- --id YYYY-MM-DD-001 --set winnerId=player-id` previews winner corrections and syncs the display winner name from the match participants.
+- `--player-deck player-id=deck-id` previews a participant deck correction.
+- `--set notes=...`, `--set tags=tag-one,tag-two`, `--clear notes`, and `--clear tags` cover optional metadata corrections.
+- `--write` applies changes only after full data validation passes.
+
+## Next Recommended Ticket
+
+Add restore guidance for JSON backups.
+
+The project can now export deterministic JSON backups, but restoring one is still an undocumented manual process. The next useful step is a short, explicit restore playbook that explains how to inspect a backup bundle, restore one canonical file, run validation, and commit the recovery safely.

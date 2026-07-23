@@ -5,6 +5,7 @@
     "decks:find": "node scripts/find-deck.js",
     "export": "node scripts/export-data.js",
     "import": "node scripts/import-notes.js",
+    "matches:correct": "node scripts/correct-match.js",
     "matches:migrate-ids": "node scripts/migrate-match-ids.js",
     "players:migrate-ids": "node scripts/migrate-player-ids.js",
     "sessions:migrate-ids": "node scripts/migrate-session-ids.js",
@@ -13,7 +14,7 @@
     "notes:preview-new": "node scripts/import-latest.js",
     "notes:new": "node scripts/new-note.js",
     "smoke": "node scripts/smoke.test.js",
-    "test": "node scripts/import-notes.test.js && node scripts/import-parser.test.js && node scripts/match-ids.test.js && node scripts/player-ids.test.js && node scripts/session-ids.test.js && node scripts/export-data.test.js && node scripts/stats.test.js && node scripts/insights/recent-form.test.js && node scripts/insights/streaks.test.js && node scripts/insights/fun-stats.test.js && node scripts/insights/deep-links.test.js && node scripts/check-data.test.js && node scripts/scryfall.test.js && node scripts/find-deck.test.js && npm run smoke",
+    "test": "node scripts/import-notes.test.js && node scripts/import-parser.test.js && node scripts/match-ids.test.js && node scripts/player-ids.test.js && node scripts/session-ids.test.js && node scripts/export-data.test.js && node scripts/correct-match.test.js && node scripts/stats.test.js && node scripts/insights/recent-form.test.js && node scripts/insights/streaks.test.js && node scripts/insights/fun-stats.test.js && node scripts/insights/deep-links.test.js && node scripts/check-data.test.js && node scripts/scryfall.test.js && node scripts/find-deck.test.js && npm run smoke",
     "test:browser": "playwright test",
     "test:all": "npm test && npm run test:browser"
   },

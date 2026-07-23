@@ -557,6 +557,7 @@ module.exports = {
   checkSpecialMatchesData,
   createIssueCollector,
   CURRENT_SCHEMA_VERSION,
+  readDataSet,
   validateData,
   validIsoDate,
 };

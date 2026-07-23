@@ -85,6 +85,7 @@ The next implementation work should happen in this order:
 - Stable player IDs. Implemented.
 - Stable session IDs. Implemented.
 - Importer and validator updates for any new data shape.
+- CLI match corrections by stable ID with preview, validation, and explicit write mode. Implemented.
 - Phase 3 import parser extraction. Implemented.
 - Browser import preview at `#/import`. Implemented.
 - Import preview copy actions for parsed JSON and deck stubs. Implemented.

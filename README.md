@@ -103,6 +103,16 @@ npm run players:migrate-ids -- --year 2026 --write
 npm run sessions:migrate-ids -- --year 2026 --write
 ```
 
+Preview a correction to an existing match by stable ID:
+
+```bash
+npm run matches:correct -- --id 2026-06-14-003 --set winnerId=mark
+npm run matches:correct -- --id 2026-06-14-003 --player-deck liam=master
+npm run matches:correct -- --id 2026-06-14-003 --set 'notes=Corrected from paper notes' --set tags=reviewed
+```
+
+Add `--write` only after the preview looks right. The correction command validates the full data set before writing.
+
 Check a deck alias before importing:
 
 ```bash
