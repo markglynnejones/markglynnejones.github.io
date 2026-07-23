@@ -407,8 +407,20 @@ Implemented:
 - `--set notes=...`, `--set tags=tag-one,tag-two`, `--clear notes`, and `--clear tags` cover optional metadata corrections.
 - `--write` applies changes only after full data validation passes.
 
-## Next Recommended Ticket
+## Recently Implemented Ticket
 
 Add restore guidance for JSON backups.
 
 The project can now export deterministic JSON backups, but restoring one is still an undocumented manual process. The next useful step is a short, explicit restore playbook that explains how to inspect a backup bundle, restore one canonical file, run validation, and commit the recovery safely.
+
+Implemented:
+
+- `docs/backup-restore-guide.md` documents how to create, inspect, and restore JSON backups.
+- The guide covers combined backup bundles and individual JSON export files.
+- The restore process requires validation, tests, diff review, and a dedicated restore commit.
+
+## Next Recommended Ticket
+
+Trial the setup guide with one outside playgroup.
+
+The core personal workflow is now broad enough to put in front of another small Commander group: setup, import preview, review pack, special games, exports, backups, and corrections all exist. The next evidence-gathering step is to watch one outside playgroup try the documented setup path and record where they get stuck.

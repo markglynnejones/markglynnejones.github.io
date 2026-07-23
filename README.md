@@ -154,6 +154,8 @@ npm run export -- --format json --year 2026
 npm run export -- --format json --year 2026 --target backup --out data/exports/2026-backup.json
 ```
 
+Restore guidance lives in `docs/backup-restore-guide.md`. Use it before copying backup data over canonical files.
+
 ## Check and test
 
 Run a data sanity check before pushing:

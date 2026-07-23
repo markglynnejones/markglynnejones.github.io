@@ -354,12 +354,12 @@ Completed foundation:
 11. Browser import review pack with duplicate and special-game guidance.
 12. JSON backup/export alongside CSV exports.
 13. CLI corrections workflow for old matches by stable ID.
+14. JSON backup restore guidance.
 
 Suggested next build tickets:
 
-1. Add restore guidance for JSON backups.
-2. Trial the setup guide with one outside playgroup.
-3. Explore browser-only local edits if the repo-local correction workflow is too technical.
+1. Trial the setup guide with one outside playgroup.
+2. Explore browser-only local edits if the repo-local correction workflow is too technical.
 
 ## Recommended First Move
 

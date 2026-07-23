@@ -81,6 +81,7 @@ The next implementation work should happen in this order:
 - Optional match notes and tags. Implemented.
 - CSV exports. Implemented.
 - JSON backup/export. Implemented.
+- JSON backup restore guidance. Implemented.
 - Schema versioning. Implemented.
 - Stable player IDs. Implemented.
 - Stable session IDs. Implemented.

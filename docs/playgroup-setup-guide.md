@@ -73,7 +73,7 @@ npm run export -- --format json --year 2026
 npm run export -- --format json --year 2026 --target backup --out data/exports/2026-backup.json
 ```
 
-Keep the repo history and raw notes as the audit trail. Before any hosted or commercial version, add a restore workflow to pair with these backups.
+Keep the repo history and raw notes as the audit trail. If a canonical file needs recovering, follow `docs/backup-restore-guide.md`.
 
 ## 6. Correct Old Matches
 
