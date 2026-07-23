@@ -925,6 +925,48 @@
       ],
       "winner": "Mark",
       "winnerId": "mark"
+    },
+    {
+      "id": "2026-07-18-001",
+      "sessionId": "session-2026-07-18-001",
+      "date": "2026-07-18",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "grumpy-old-birds" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "eldrazi-incursion" },
+        { "playerId": "liam", "name": "Liam", "deckId": "chchchchangelings" },
+        { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ring-sting" }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam"
+    },
+    {
+      "id": "2026-07-18-002",
+      "sessionId": "session-2026-07-18-001",
+      "date": "2026-07-18",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "grumpy-old-birds" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "ha-ha-sephiroth" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" },
+        { "playerId": "jo", "name": "Jo", "deckId": "big-sues" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" }
+      ],
+      "winner": "Ollie",
+      "winnerId": "ollie"
+    },
+    {
+      "id": "2026-07-18-003",
+      "sessionId": "session-2026-07-18-001",
+      "date": "2026-07-18",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "women-wielding-swords" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "bad-misc" },
+        { "playerId": "liam", "name": "Liam", "deckId": "necron-dynasties" },
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" }
+      ],
+      "winner": "Jo",
+      "winnerId": "jo"
     }
   ]
 }

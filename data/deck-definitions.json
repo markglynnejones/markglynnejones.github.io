@@ -72,6 +72,15 @@
       "active": true
     },
     {
+      "id": "grumpy-old-birds",
+      "name": "Grumpy Old Birds",
+      "commander": "Derevi, Empyrial Tactician",
+      "active": true,
+      "aliases": [
+        "bird"
+      ]
+    },
+    {
       "id": "jelly-belly",
       "name": "Jelly Belly",
       "commander": "Jeleva, Nephalia's Scourge",
@@ -327,7 +336,10 @@
       "id": "eldrazi-incursion",
       "name": "Eldrazi Incursion",
       "commander": "Ulalek, Fused Atrocity",
-      "active": true
+      "active": true,
+      "aliases": [
+        "eldarazi"
+      ]
     },
     {
       "id": "toms-zoo",
@@ -351,7 +363,8 @@
       "commander": "Sephiroth, Fallen Hero",
       "aliases": [
         "ha ha sephiroth",
-        "ha ha spehiroth"
+        "ha ha spehiroth",
+        "haha sephiroth"
       ],
       "active": true
     },
@@ -567,6 +580,7 @@
       "owner": "Liam",
       "aliases": [
         "chchchchangelings",
+        "zur enchanter",
         "zur the enchanter"
       ]
     }
