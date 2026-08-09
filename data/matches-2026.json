@@ -1019,6 +1019,34 @@
       ],
       "winner": "Liam",
       "winnerId": "liam"
+    },
+    {
+      "id": "2026-08-08-001",
+      "sessionId": "session-2026-08-08-001",
+      "date": "2026-08-08",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "ketrappa-the-rappa-the-papa" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "revival-trance" },
+        { "playerId": "jake", "name": "Jake", "deckId": "bad-misc" },
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam"
+    },
+    {
+      "id": "2026-08-08-002",
+      "sessionId": "session-2026-08-08-001",
+      "date": "2026-08-08",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "gotta-have-hope" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "cloni-macaroni" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" }
+      ],
+      "winner": "Jo",
+      "winnerId": "jo"
     }
   ]
 }
