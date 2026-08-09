@@ -967,6 +967,58 @@
       ],
       "winner": "Jo",
       "winnerId": "jo"
+    },
+    {
+      "id": "2026-08-02-001",
+      "sessionId": "session-2026-08-02-001",
+      "date": "2026-08-02",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "blood-in-the-water" },
+        { "playerId": "jake", "name": "Jake", "deckId": "women-wielding-swords" },
+        { "playerId": "jo", "name": "Jo", "deckId": "squirrelled-away" },
+        { "playerId": "liam", "name": "Liam", "deckId": "big-sues" }
+      ],
+      "winner": "Jo",
+      "winnerId": "jo"
+    },
+    {
+      "id": "2026-08-02-002",
+      "sessionId": "session-2026-08-02-001",
+      "date": "2026-08-02",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "grumpy-old-birds" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" },
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zur" }
+      ],
+      "winner": "Jo",
+      "winnerId": "jo"
+    },
+    {
+      "id": "2026-08-02-003",
+      "sessionId": "session-2026-08-02-001",
+      "date": "2026-08-02",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "gotta-have-hope" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ring-sting" },
+        { "playerId": "jo", "name": "Jo", "deckId": "zombieland" },
+        { "playerId": "liam", "name": "Liam", "deckId": "saruman" }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam"
+    },
+    {
+      "id": "2026-08-02-004",
+      "sessionId": "session-2026-08-02-001",
+      "date": "2026-08-02",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "ketrappa-the-rappa-the-papa" },
+        { "playerId": "jake", "name": "Jake", "deckId": "big-sues" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam"
     }
   ]
 }
