@@ -82,6 +82,93 @@
       ],
       "winner": "Mark",
       "winnerId": "mark"
+    },
+    {
+      "id": "special-2026-07-26-001",
+      "date": "2026-07-26",
+      "event": "Special Commander games",
+      "format": "special-commander",
+      "notes": "Special three-player games recorded separately from normal Commander standings.",
+      "players": [
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckName": "Rakdos and Izoni",
+          "commanders": ["Rakdos, Patron of Chaos", "Izoni, Center of the Web"]
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckName": "Trostani and Homicide Investigator",
+          "commanders": ["Trostani, Three Whispers", "Homicide Investigator"]
+        },
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckName": "Kellan and Unyielding Gatekeeper",
+          "commanders": ["Kellan, Inquisitive Prodigy", "Unyielding Gatekeeper"]
+        }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake"
+    },
+    {
+      "id": "special-2026-07-26-002",
+      "date": "2026-07-26",
+      "event": "Special Commander games",
+      "format": "special-commander",
+      "notes": "Special three-player games recorded separately from normal Commander standings.",
+      "players": [
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckName": "Kambal and Geralf",
+          "commanders": ["Kambal, Profiteering Mayor", "Geralf, the Fleshwright"]
+        },
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckName": "Baron and Seraphic Steed",
+          "commanders": ["Baron Bertram Graywater", "Seraphic Steed"]
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckName": "Jolene and Oltec Matterweaver",
+          "commanders": ["Jolene, Plundering Pugilist", "Oltec Matterweaver"]
+        }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake"
+    },
+    {
+      "id": "special-2026-07-26-003",
+      "date": "2026-07-26",
+      "event": "Special Commander games",
+      "format": "special-commander",
+      "notes": "Special three-player games recorded separately from normal Commander standings.",
+      "players": [
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckName": "Bruse Tarl and Miriam",
+          "commanders": ["Bruse Tarl, Roving Rancher", "Miriam, Herd Whisperer"]
+        },
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckName": "Malcolm and Doc Aurlock",
+          "commanders": ["Malcolm, the Eyes", "Doc Aurlock, Grizzled Genius"]
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckName": "Slickshot and Kraum",
+          "commanders": ["Slickshot Show-Off", "Kraum, Violent Cacophony"]
+        }
+      ],
+      "winner": "Mark",
+      "winnerId": "mark"
     }
   ]
 }
