@@ -169,6 +169,88 @@
       ],
       "winner": "Mark",
       "winnerId": "mark"
+    },
+    {
+      "id": "special-2026-08-08-001",
+      "date": "2026-08-08",
+      "event": "Marvel special Commander games",
+      "format": "marvel-special",
+      "notes": "Special Marvel-themed games recorded separately from normal Commander standings.",
+      "players": [
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckName": "Ares, The Serpent Society",
+          "commanders": ["Ares, The Serpent Society"]
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckName": "Madame Hydra, Leader Super Genius",
+          "commanders": ["Madame Hydra, Leader Super Genius"]
+        },
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckName": "Super Skrull",
+          "commanders": ["Super Skrull"]
+        },
+        {
+          "playerId": "jo",
+          "name": "Jo",
+          "deckName": "Ares and Ultron",
+          "commanders": ["Ares, God of War", "Ultron, Artificial Malevolence"]
+        },
+        {
+          "playerId": "liam",
+          "name": "Liam",
+          "deckName": "Ant-Man and Taskmaster",
+          "commanders": ["Ant-Man, Colony Commander", "Taskmaster, Mercenary Mimic"]
+        }
+      ],
+      "winner": "Ollie",
+      "winnerId": "ollie"
+    },
+    {
+      "id": "special-2026-08-08-002",
+      "date": "2026-08-08",
+      "event": "Marvel special Commander games",
+      "format": "marvel-special",
+      "notes": "Special Marvel-themed games recorded separately from normal Commander standings.",
+      "players": [
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckName": "Thor Odinson and The Mighty Thor",
+          "commanders": ["Thor Odinson", "The Mighty Thor, Jane Foster"]
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckName": "Black Panther and Photon",
+          "commanders": ["Black Panther, Vanguard", "Photon, Living Light"]
+        },
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckName": "King T'Challa and Human Torch",
+          "commanders": ["King T'Challa", "Human Torch, Johnny Storm"]
+        },
+        {
+          "playerId": "jo",
+          "name": "Jo",
+          "deckName": "Thor and Loki",
+          "commanders": ["Thor, God of Thunder", "Loki, God of Mischief"]
+        },
+        {
+          "playerId": "liam",
+          "name": "Liam",
+          "deckName": "Hawkeye and War Machine",
+          "commanders": ["Hawkeye, Young Avenger", "War Machine, Legacy of Iron"]
+        }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake"
     }
   ]
 }

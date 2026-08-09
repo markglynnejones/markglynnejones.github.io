@@ -227,7 +227,10 @@
       "id": "the-frog-is-loose",
       "name": "The Frog is Loose",
       "commander": "The Gitrog, Ravenous Ride",
-      "active": true
+      "active": true,
+      "aliases": [
+        "girrog"
+      ]
     },
     {
       "id": "terraisms",
