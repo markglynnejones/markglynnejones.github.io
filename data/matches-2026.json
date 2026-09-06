@@ -1047,6 +1047,48 @@
       ],
       "winner": "Jo",
       "winnerId": "jo"
+    },
+    {
+      "id": "2026-08-30-001",
+      "sessionId": "session-2026-08-30-001",
+      "date": "2026-08-30",
+      "players": [
+        { "playerId": "liam", "name": "Liam", "deckId": "chchchchangelings" },
+        { "playerId": "jo", "name": "Jo", "deckId": "swarmcocktail" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "quantum-quandrix" },
+        { "playerId": "mark", "name": "Mark", "deckId": "artifact-black" }
+      ],
+      "winner": "Jo",
+      "winnerId": "jo"
+    },
+    {
+      "id": "2026-08-30-002",
+      "sessionId": "session-2026-08-30-001",
+      "date": "2026-08-30",
+      "players": [
+        { "playerId": "liam", "name": "Liam", "deckId": "bad-misc" },
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" },
+        { "playerId": "jake", "name": "Jake", "deckId": "baelyn" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "sin" },
+        { "playerId": "mark", "name": "Mark", "deckId": "fishes" }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake"
+    },
+    {
+      "id": "2026-08-30-003",
+      "sessionId": "session-2026-08-30-001",
+      "date": "2026-08-30",
+      "players": [
+        { "playerId": "liam", "name": "Liam", "deckId": "rogue-one" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "zur" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "quintorius" },
+        { "playerId": "mark", "name": "Mark", "deckId": "saruman" }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam"
     }
   ]
 }

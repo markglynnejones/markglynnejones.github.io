@@ -587,6 +587,15 @@
         "zur enchanter",
         "zur the enchanter"
       ]
+    },
+    {
+      "id": "swarmcocktail",
+      "name": "Swarmcocktail",
+      "commander": "Vnwxt, Verbose Host",
+      "active": true,
+      "aliases": [
+        "vnwxt"
+      ]
     }
   ]
 }
