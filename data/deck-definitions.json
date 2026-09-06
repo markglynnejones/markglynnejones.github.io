@@ -6,6 +6,7 @@
       "name": "Rhys French Lessons",
       "commander": "Glarb, Calamity's Augur",
       "active": false,
+      "owner": "Jake",
       "aliases": [
         "glarb",
         "glarb glarb this times its personal and its personal"
@@ -15,13 +16,15 @@
       "id": "graveyard-overdrive",
       "name": "Graveyard Overdrive",
       "commander": "Disa, the Restless",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "artifact-black",
       "name": "Artifact Black",
       "commander": "Ashnod, Flesh Mechanist",
-      "active": true
+      "active": true,
+      "owner": "Liam"
     },
     {
       "id": "saruman",
@@ -30,25 +33,29 @@
       "aliases": [
         "saurman"
       ],
-      "active": true
+      "active": true,
+      "owner": "Jake"
     },
     {
       "id": "baelyn",
       "name": "Baelyn",
       "commander": "Baylen, the Haymaker",
-      "active": true
+      "active": true,
+      "owner": "Jake"
     },
     {
       "id": "ahoy-mateys",
       "name": "Ahoy Matey's",
       "commander": "Admiral Brass, Unsinkable",
-      "active": false
+      "active": false,
+      "owner": "Jo"
     },
     {
       "id": "the-vamp-clamp",
       "name": "The Vamp Clamp",
       "commander": "Edgar Markov",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "uwu-otters",
@@ -57,25 +64,29 @@
       "aliases": [
         "bria"
       ],
-      "active": true
+      "active": true,
+      "owner": "Jake"
     },
     {
       "id": "alexios",
       "name": "ALEXIOS",
       "commander": "Alexios, Deimos of Kosmos",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "women-wielding-swords",
       "name": "Women Wielding sWords",
       "commander": "Éowyn, Shieldmaiden",
-      "active": true
+      "active": true,
+      "owner": "Jake"
     },
     {
       "id": "grumpy-old-birds",
       "name": "Grumpy Old Birds",
       "commander": "Derevi, Empyrial Tactician",
       "active": true,
+      "owner": "Mark",
       "aliases": [
         "bird"
       ]
@@ -84,7 +95,8 @@
       "id": "jelly-belly",
       "name": "Jelly Belly",
       "commander": "Jeleva, Nephalia's Scourge",
-      "active": false
+      "active": false,
+      "owner": "Liam"
     },
     {
       "id": "ring-sting",
@@ -98,31 +110,36 @@
         "sam and frodo",
         "hobbits"
       ],
-      "active": true
+      "active": true,
+      "owner": "Jake"
     },
     {
       "id": "fishes",
       "name": "Fishes",
       "commander": "Hakbal of the Surging Soul",
-      "active": true
+      "active": true,
+      "owner": "Jo"
     },
     {
       "id": "greasy-dragons",
       "name": "Greasy Dragons",
       "commander": "Ureni of the Unwritten",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "i-hope-you-like-sagas",
       "name": "I Hope You Like Sagas",
       "commander": "Tom Bombadil",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "veloci-ramp-tor",
       "name": "Veloci-ramp-tor",
       "commander": "Pantlaza, Sun-Favored",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "peace-offering",
@@ -132,7 +149,8 @@
         "bumble",
         "humble flower"
       ],
-      "active": true
+      "active": true,
+      "owner": "Jo"
     },
     {
       "id": "all-but-one-mana",
@@ -142,13 +160,15 @@
         "goblin goblin ovik",
         "ovik"
       ],
-      "active": true
+      "active": true,
+      "owner": "Ollie"
     },
     {
       "id": "mishra-s-burnished-banner",
       "name": "Mishra's Burnished Banner",
       "commander": "Mishra, Eminent One",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "revival-trance",
@@ -157,19 +177,22 @@
       "aliases": [
         "terra"
       ],
-      "active": true
+      "active": true,
+      "owner": "Ollie"
     },
     {
       "id": "world-shaper",
       "name": "World Shaper",
       "commander": "Hearthhull, the WorldSeed",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "counter-intelligence",
       "name": "Counter Intelligence",
       "commander": "Inspirit, Flagship Vessel",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "limit-break",
@@ -179,13 +202,15 @@
         "cloud pre con",
         "cloud precon"
       ],
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "counter-blitz",
       "name": "Counter Blitz",
       "commander": "Tidus, Yuna's Guardian",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "cloni-macaroni",
@@ -194,31 +219,36 @@
       "aliases": [
         "master"
       ],
-      "active": true
+      "active": true,
+      "owner": "Liam"
     },
     {
       "id": "this-is-a-crossover-episode",
       "name": "This is a crossover episode",
       "commander": "Deadpool, Trading Card",
-      "active": true
+      "active": true,
+      "owner": "Jake"
     },
     {
       "id": "terrorids",
       "name": "Terrorids",
       "commander": "Elesh Norn",
-      "active": false
+      "active": false,
+      "owner": "Ollie"
     },
     {
       "id": "5-in-the-pink-4-in-the-stink",
       "name": "5 In The Pink, 4 In The Stink",
       "commander": "Nine-Fingers Keene",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "gotta-have-hope",
       "name": "Gotta have HOPE",
       "commander": "Hope Estheim",
       "active": true,
+      "owner": "Mark",
       "aliases": [
         "hope"
       ]
@@ -228,6 +258,7 @@
       "name": "The Frog is Loose",
       "commander": "The Gitrog, Ravenous Ride",
       "active": true,
+      "owner": "Jake",
       "aliases": [
         "girrog"
       ]
@@ -236,19 +267,22 @@
       "id": "terraisms",
       "name": "Terraisms",
       "commander": "Terra, Herald of Hope",
-      "active": true
+      "active": true,
+      "owner": "Ollie"
     },
     {
       "id": "junkerton",
       "name": "Junkerton",
       "commander": "Rose, Cutthroat Raider",
-      "active": true
+      "active": true,
+      "owner": "Liam"
     },
     {
       "id": "abzan-deetz-nuts-out",
       "name": "Abzan deetz nuts out",
       "commander": "Felothar the Steadfast",
-      "active": true
+      "active": true,
+      "owner": "Ollie"
     },
     {
       "id": "necron-dynasties",
@@ -257,13 +291,15 @@
       "aliases": [
         "necrons"
       ],
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "masters-of-evil",
       "name": "Masters of Evil",
       "commander": "Davros, Dalek Creator",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "markeus-calgar",
@@ -272,37 +308,43 @@
       "aliases": [
         "calgar"
       ],
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "blame-game",
       "name": "Blame Game",
       "commander": "Nelly Borca, Impulsive Accuser",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "family-matters",
       "name": "Family Matters",
       "commander": "Zinna, Valley's Voice",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "the-ruinous-rampage",
       "name": "The Ruinous Rampage",
       "commander": "Abaddon the Despoiler",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "tyranid-swarm",
       "name": "Tyranid Swarm",
       "commander": "The Swarmlord",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "quick-draw",
       "name": "Quick Draw",
       "commander": "Stella Lee, Wild Card",
-      "active": false
+      "active": false,
+      "owner": "Mark"
     },
     {
       "id": "zombieland",
@@ -312,19 +354,22 @@
         "dk",
         "dee kay"
       ],
-      "active": true
+      "active": true,
+      "owner": "Liam"
     },
     {
       "id": "tricky-terrain",
       "name": "Tricky Terrain",
       "commander": "Omo, Queen of Vesuva",
-      "active": true
+      "active": true,
+      "owner": "Jo"
     },
     {
       "id": "blood-in-the-water",
       "name": "Blood In the Water",
       "commander": "Jaws, Relentless Predator",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "big-stompy-stomp",
@@ -333,13 +378,15 @@
       "aliases": [
         "ghalta"
       ],
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "eldrazi-incursion",
       "name": "Eldrazi Incursion",
       "commander": "Ulalek, Fused Atrocity",
       "active": true,
+      "owner": "Ollie",
       "aliases": [
         "eldarazi"
       ]
@@ -352,13 +399,15 @@
         "tom bombadil zoo",
         "tom bombadill zoo"
       ],
-      "active": true
+      "active": true,
+      "owner": "Ollie"
     },
     {
       "id": "blight-curse",
       "name": "Blight Curse",
       "commander": "Auntie Ool, Cursewretch",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "ha-ha-sephiroth",
@@ -369,19 +418,22 @@
         "ha ha spehiroth",
         "haha sephiroth"
       ],
-      "active": true
+      "active": true,
+      "owner": "Ollie"
     },
     {
       "id": "scions-spellcraft",
       "name": "Scions & Spellcraft",
       "commander": "Y'shtola, Night's Blessed",
-      "active": false
+      "active": false,
+      "owner": "Ollie"
     },
     {
       "id": "dance-of-the-elements",
       "name": "Dance of the Elements",
       "commander": "Ashling, the Limitless",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "ketrappa-the-rappa-the-papa",
@@ -392,25 +444,29 @@
         "ketramose",
         "katramose"
       ],
-      "active": true
+      "active": true,
+      "owner": "Jake"
     },
     {
       "id": "hurtie-not-curie",
       "name": "Hurtie Not Curie",
       "commander": "Curie, Emergent Intelligence",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "why-are-there-so-many-wizards",
       "name": "Why are there so many Wizards",
       "commander": "Kuja, Genome Sorcerer",
-      "active": true
+      "active": true,
+      "owner": "Mark"
     },
     {
       "id": "bad-misc",
       "name": "Bad Misc",
       "commander": "Ragost, Deft Gastronaut",
       "active": true,
+      "owner": "Jo",
       "aliases": [
         "bad misc",
         "bd misc",
@@ -426,6 +482,7 @@
         "The Twelfth Doctor"
       ],
       "active": true,
+      "owner": "Liam",
       "aliases": [
         "big sues",
         "big sue's",
@@ -439,6 +496,7 @@
       "name": "Faries",
       "commander": "Alela, Cunning Conqueror",
       "active": true,
+      "owner": "Mark",
       "aliases": [
         "faries"
       ]
@@ -448,6 +506,7 @@
       "name": "Prismari Artistry",
       "commander": "Rootha, Mastering the Moment",
       "active": true,
+      "owner": "Mark",
       "aliases": [
         "prismari",
         "prismatic"
@@ -458,6 +517,7 @@
       "name": "Quandrix Unlimited",
       "commander": "Zimone, Infinite Analyst",
       "active": true,
+      "owner": "Ollie",
       "aliases": [
         "quandrix"
       ]
@@ -467,6 +527,7 @@
       "name": "Lorehold Spirit",
       "commander": "Quintorius, History Chaser",
       "active": false,
+      "owner": "Mark",
       "aliases": [
         "lorehold"
       ]
@@ -476,6 +537,7 @@
       "name": "Witherbloom Pestilence",
       "commander": "Dina, Essence Brewer",
       "active": true,
+      "owner": "Mark",
       "aliases": [
         "witherbloom",
         "wiherbloom"
@@ -486,6 +548,7 @@
       "name": "Silverquill Influence",
       "commander": "Killian, Decisive Mentor",
       "active": true,
+      "owner": "Mark",
       "aliases": [
         "silverquill",
         "ailverquill"
@@ -513,6 +576,7 @@
         "Vial Smasher the Fierce"
       ],
       "active": true,
+      "owner": "Ollie",
       "aliases": [
         "rogue 1",
         "rouge 1",
@@ -527,6 +591,7 @@
       "name": "Squirrelled Away",
       "commander": "Hazel of the Rootbloom",
       "active": true,
+      "owner": "Jo",
       "aliases": [
         "squirrels a",
         "squirreled away",
@@ -560,6 +625,7 @@
       "name": "The Hosts of Mordor",
       "commander": "Sauron, Lord of the Rings",
       "active": true,
+      "owner": "Ollie",
       "aliases": [
         "the hosts of mordor",
         "hosts of mordor",
@@ -584,6 +650,7 @@
       "name": "Swarmcocktail",
       "commander": "Vnwxt, Verbose Host",
       "active": true,
+      "owner": "Jo",
       "aliases": [
         "vnwxt"
       ]
