@@ -95,3 +95,20 @@
   color: inherit;
   font-weight: 600;
 }
+
+.placement-stats-subheading {
+  margin: 18px 0 8px;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+#placement-stats-section .table-scroll + .placement-stats-subheading {
+  margin-top: 24px;
+}
+
+#player-placement-table th,
+#player-placement-table td,
+#turn-position-table th,
+#turn-position-table td {
+  vertical-align: middle;
+}
