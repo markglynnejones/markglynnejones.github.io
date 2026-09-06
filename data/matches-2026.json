@@ -1089,6 +1089,42 @@
       ],
       "winner": "Liam",
       "winnerId": "liam"
+    },
+    {
+      "id": "2026-09-05-001",
+      "sessionId": "session-2026-09-05-001",
+      "date": "2026-09-05",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "ring-sting" },
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "abzan-deetz-nuts-out" }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake"
+    },
+    {
+      "id": "2026-09-05-002",
+      "sessionId": "session-2026-09-05-001",
+      "date": "2026-09-05",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "jake", "name": "Jake", "deckId": "uwu-otters" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "hostage-taker" }
+      ],
+      "winner": "Mark",
+      "winnerId": "mark"
+    },
+    {
+      "id": "2026-09-05-003",
+      "sessionId": "session-2026-09-05-001",
+      "date": "2026-09-05",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "revival-trance" },
+        { "playerId": "jake", "name": "Jake", "deckId": "the-frog-is-loose" },
+        { "playerId": "ollie", "name": "Ollie", "deckId": "hostage-taker" }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake"
     }
   ]
 }
