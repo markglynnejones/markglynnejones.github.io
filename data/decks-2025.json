@@ -6,21 +6,24 @@
             "commander": "Atarka, World Render",
             "matchesPlayed": 7,
             "wins": 2,
-            "active": false
+            "active": false,
+            "owner": "Mark"
         },
         {
             "name": "Elves",
             "commander": "Galadriel, Light of Valinor",
             "matchesPlayed": 8,
             "wins": 1,
-            "active": false
+            "active": false,
+            "owner": "Mark"
         },
         {
             "name": "Death + Taxes",
             "commander": "Ghen, Arcanum Weaver",
             "matchesPlayed": 7,
             "wins": 2,
-            "active": false
+            "active": false,
+            "owner": "Liam"
         },
         {
             "name": "Rhys French Lessons",
@@ -51,7 +54,8 @@
             "commander": "Kardur, Doomscourge",
             "matchesPlayed": 6,
             "wins": 5,
-            "active": false
+            "active": false,
+            "owner": "Mark"
         },
         {
             "name": "Saruman",
@@ -66,7 +70,8 @@
             "commander": "Isperia, Supreme Judge",
             "matchesPlayed": 2,
             "wins": 1,
-            "active": false
+            "active": false,
+            "owner": "Jake"
         },
         {
             "name": "Baelyn",
@@ -81,7 +86,8 @@
             "commander": "Perrie, the Pulverizer",
             "matchesPlayed": 2,
             "wins": 0,
-            "active": false
+            "active": false,
+            "owner": "Mark"
         },
         {
             "name": "Ahoy Matey's",
@@ -96,7 +102,8 @@
             "commander": "Cormelia, Glamour Thief",
             "matchesPlayed": 1,
             "wins": 1,
-            "active": false
+            "active": false,
+            "owner": "Jake"
         },
         {
             "name": "The Vamp Clamp",
@@ -127,7 +134,8 @@
             "commander": "Temmet, Naktamun's Will",
             "matchesPlayed": 5,
             "wins": 2,
-            "active": false
+            "active": false,
+            "owner": "Mark"
         },
         {
             "name": "Women Wielding sWords",
@@ -206,7 +214,8 @@
             "commander": "Bello, Bard of the Brambles",
             "matchesPlayed": 2,
             "wins": 1,
-            "active": false
+            "active": false,
+            "owner": "Mark"
         },
         {
             "name": "Mishra's Burnished Banner",
