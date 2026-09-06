@@ -596,6 +596,17 @@
       "aliases": [
         "vnwxt"
       ]
+    },
+    {
+      "id": "hostage-taker",
+      "name": "Hostage Taker",
+      "commander": "Edea, Possessed Sorceress",
+      "active": true,
+      "owner": "Ollie",
+      "aliases": [
+        "edea",
+        "hostage taker"
+      ]
     }
   ]
 }
