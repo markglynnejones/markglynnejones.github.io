@@ -744,7 +744,7 @@
         { "playerId": "mark", "name": "Mark", "deckId": "gotta-have-hope" },
         { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
         { "playerId": "jake", "name": "Jake", "deckId": "women-wielding-swords" },
-        { "playerId": "liam", "name": "Liam", "deckId": "chchchchangelings" }
+        { "playerId": "liam", "name": "Liam", "deckId": "zur" }
       ],
       "winner": "Liam",
       "winnerId": "liam"
@@ -933,7 +933,7 @@
       "players": [
         { "playerId": "mark", "name": "Mark", "deckId": "grumpy-old-birds" },
         { "playerId": "ollie", "name": "Ollie", "deckId": "eldrazi-incursion" },
-        { "playerId": "liam", "name": "Liam", "deckId": "chchchchangelings" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zur" },
         { "playerId": "jo", "name": "Jo", "deckId": "bad-misc" },
         { "playerId": "jake", "name": "Jake", "deckId": "ring-sting" }
       ],
@@ -1053,7 +1053,7 @@
       "sessionId": "session-2026-08-30-001",
       "date": "2026-08-30",
       "players": [
-        { "playerId": "liam", "name": "Liam", "deckId": "chchchchangelings" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zur" },
         { "playerId": "jo", "name": "Jo", "deckId": "swarmcocktail" },
         { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
         { "playerId": "ollie", "name": "Ollie", "deckId": "quantum-quandrix" },
