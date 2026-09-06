@@ -375,7 +375,7 @@
       "id": "scions-spellcraft",
       "name": "Scions & Spellcraft",
       "commander": "Y'shtola, Night's Blessed",
-      "active": true
+      "active": false
     },
     {
       "id": "dance-of-the-elements",
