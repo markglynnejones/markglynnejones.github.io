@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "matches": [
+    {
+      "matchId": "2026-09-05-001",
+      "players": [
+        { "playerId": "jake", "playerOrder": 1, "finishPosition": 1 },
+        { "playerId": "ollie", "playerOrder": 2, "finishPosition": 3 },
+        { "playerId": "mark", "playerOrder": 3, "finishPosition": 2 }
+      ]
+    },
+    {
+      "matchId": "2026-09-05-002",
+      "players": [
+        { "playerId": "jake", "playerOrder": 1, "finishPosition": 2 },
+        { "playerId": "ollie", "playerOrder": 2, "finishPosition": 3 },
+        { "playerId": "mark", "playerOrder": 3, "finishPosition": 1 }
+      ]
+    },
+    {
+      "matchId": "2026-09-05-003",
+      "players": [
+        { "playerId": "mark", "playerOrder": 1, "finishPosition": 2 },
+        { "playerId": "jake", "playerOrder": 2, "finishPosition": 1 },
+        { "playerId": "ollie", "playerOrder": 3, "finishPosition": 3 }
+      ]
+    }
+  ]
+}
