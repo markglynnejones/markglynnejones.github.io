@@ -27,14 +27,14 @@
             "commander": "Glarb, Calamity's Augur",
             "matchesPlayed": 11,
             "wins": 5,
-            "active": true
+            "active": false
         },
         {
             "name": "Graveyard Overdrive",
             "commander": "Disa, the Restless",
             "matchesPlayed": 6,
             "wins": 2,
-            "active": true
+            "active": false
         },
         {
             "name": "Artifact Black",
@@ -83,7 +83,7 @@
             "commander": "Admiral Brass, Unsinkable",
             "matchesPlayed": 23,
             "wins": 4,
-            "active": true
+            "active": false
         },
         {
             "name": "Vampire - Non Vampire",
@@ -111,7 +111,7 @@
             "commander": "Alexios, Deimos of Kosmos",
             "matchesPlayed": 4,
             "wins": 0,
-            "active": true
+            "active": false
         },
         {
             "name": "Eternal Might",
@@ -132,7 +132,7 @@
             "commander": "Jeleva, Nephalia's Scourge",
             "matchesPlayed": 12,
             "wins": 2,
-            "active": true
+            "active": false
         },
         {
             "name": "Ring Sting",
@@ -167,7 +167,7 @@
             "commander": "Pantlaza, Sun-Favored",
             "matchesPlayed": 3,
             "wins": 0,
-            "active": true
+            "active": false
         },
         {
             "name": "Peace Offering",
@@ -195,7 +195,7 @@
             "commander": "Mishra, Eminent One",
             "matchesPlayed": 6,
             "wins": 3,
-            "active": true
+            "active": false
         },
         {
             "name": "Revival Trance",
@@ -209,14 +209,14 @@
             "commander": "Hearthhull, the WorldSeed",
             "matchesPlayed": 1,
             "wins": 1,
-            "active": true
+            "active": false
         },
-                {
+        {
             "name": "Counter Intelligence",
             "commander": "Inspirit, Flagship Vessel",
             "matchesPlayed": 2,
             "wins": 0,
-            "active": true
+            "active": false
         },
         {
             "name": "Limit Break",
@@ -258,7 +258,7 @@
             "commander": "Elesh Norn",
             "matchesPlayed": 10,
             "wins": 1,
-            "active": true
+            "active": false
         },
         {
             "name": "5 In The Pink, 4 In The Stink",
@@ -302,7 +302,7 @@
             "wins": 0,
             "active": true
         },
-        {   
+        {
             "name": "Necron Dynasties",
             "commander": "Szarekh, the Silent King",
             "matchesPlayed": 3,
@@ -314,7 +314,7 @@
             "commander": "Davros, Dalek Creator",
             "matchesPlayed": 2,
             "wins": 0,
-            "active": true
+            "active": false
         },
         {
             "name": "Markeus Calgar",
@@ -328,14 +328,14 @@
             "commander": "Nelly Borca, Impulsive Accuser",
             "matchesPlayed": 1,
             "wins": 0,
-            "active": true
+            "active": false
         },
         {
             "name": "Family Matters",
             "commander": "Zinna, Valley's Voice",
             "matchesPlayed": 1,
             "wins": 0,
-            "active": true
+            "active": false
         },
         {
             "name": "The Ruinous Rampage",
@@ -356,7 +356,7 @@
             "commander": "Stella Lee, Wild Card",
             "matchesPlayed": 1,
             "wins": 1,
-            "active": true
+            "active": false
         }
     ]
 }
