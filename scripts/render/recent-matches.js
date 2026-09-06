@@ -70,6 +70,58 @@
     return `Out ${ordinal(eliminationOrder)}`;
   }
 
+  function appendMatchDetailsTable(container, match, players, details, deckNameFromId) {
+    const orderedPlayers = [...players].sort((a, b) => {
+      const aOrder = Number(details.get(a.playerId)?.playerOrder);
+      const bOrder = Number(details.get(b.playerId)?.playerOrder);
+      const safeA = Number.isInteger(aOrder) ? aOrder : Number.MAX_SAFE_INTEGER;
+      const safeB = Number.isInteger(bOrder) ? bOrder : Number.MAX_SAFE_INTEGER;
+      return safeA - safeB;
+    });
+
+    const table = document.createElement("table");
+    table.className = "recent-pod-table";
+
+    const caption = document.createElement("caption");
+    caption.textContent = `Player order and result for ${match.id || "this match"}`;
+    table.appendChild(caption);
+
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    for (const label of ["Player #", "Player", "Deck", "Result"]) {
+      const th = document.createElement("th");
+      th.scope = "col";
+      th.textContent = label;
+      headerRow.appendChild(th);
+    }
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    for (const player of orderedPlayers) {
+      const detail = details.get(player.playerId);
+      const playerOrder = Number(detail?.playerOrder);
+      const outcome = outcomeText(detail, players.length);
+      const row = document.createElement("tr");
+      const values = [
+        Number.isInteger(playerOrder) ? `P${playerOrder}` : "—",
+        player.name || "Unknown",
+        deckNameFromId(player.deckId),
+        outcome || "—",
+      ];
+
+      values.forEach((value, index) => {
+        const cell = index === 1 ? document.createElement("th") : document.createElement("td");
+        if (index === 1) cell.scope = "row";
+        cell.textContent = value;
+        row.appendChild(cell);
+      });
+      tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+    container.appendChild(table);
+  }
+
   function renderLatestSessionSummary(config) {
     const {
       selectedTab,
@@ -169,7 +221,7 @@
     const hasMatchDetails = recent.some((match) => matchDetailsById.has(match.id));
 
     note.textContent = recent.length
-      ? `Latest ${recent.length} of ${datedMatches.length} matches from the 2026 match log.${hasMatchDetails ? " P# = player order; Out # = elimination order." : ""}`
+      ? `Latest ${recent.length} of ${datedMatches.length} matches from the 2026 match log.${hasMatchDetails ? " Player # = turn order; Result = winner/elimination order." : ""}`
       : "No 2026 matches logged yet.";
 
     if (showMoreButton) {
@@ -193,23 +245,7 @@
       tdPod.className = "recent-pod";
 
       if (details) {
-        const orderedPlayers = [...players].sort((a, b) => {
-          const aOrder = Number(details.get(a.playerId)?.playerOrder);
-          const bOrder = Number(details.get(b.playerId)?.playerOrder);
-          const safeA = Number.isInteger(aOrder) ? aOrder : Number.MAX_SAFE_INTEGER;
-          const safeB = Number.isInteger(bOrder) ? bOrder : Number.MAX_SAFE_INTEGER;
-          return safeA - safeB;
-        });
-
-        for (const player of orderedPlayers) {
-          const detail = details.get(player.playerId);
-          const playerOrder = Number(detail?.playerOrder);
-          const orderText = Number.isInteger(playerOrder) ? `P${playerOrder} · ` : "";
-          const outcome = outcomeText(detail, players.length);
-          const playerLine = document.createElement("p");
-          playerLine.textContent = `${orderText}${player.name} · ${deckNameFromId(player.deckId)}${outcome ? ` · ${outcome}` : ""}`;
-          tdPod.appendChild(playerLine);
-        }
+        appendMatchDetailsTable(tdPod, match, players, details, deckNameFromId);
       } else {
         const playerLine = document.createElement("p");
         playerLine.textContent = players.map((player) => player.name).join(" · ");
