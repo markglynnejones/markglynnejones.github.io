@@ -5,7 +5,7 @@
       "id": "rhys-french-lessons",
       "name": "Rhys French Lessons",
       "commander": "Glarb, Calamity's Augur",
-      "active": true,
+      "active": false,
       "aliases": [
         "glarb",
         "glarb glarb this times its personal and its personal"
@@ -84,7 +84,7 @@
       "id": "jelly-belly",
       "name": "Jelly Belly",
       "commander": "Jeleva, Nephalia's Scourge",
-      "active": true
+      "active": false
     },
     {
       "id": "ring-sting",
@@ -206,7 +206,7 @@
       "id": "terrorids",
       "name": "Terrorids",
       "commander": "Elesh Norn",
-      "active": true
+      "active": false
     },
     {
       "id": "5-in-the-pink-4-in-the-stink",
@@ -302,7 +302,7 @@
       "id": "quick-draw",
       "name": "Quick Draw",
       "commander": "Stella Lee, Wild Card",
-      "active": true
+      "active": false
     },
     {
       "id": "zombieland",
@@ -466,7 +466,7 @@
       "id": "lorehold-legacies",
       "name": "Lorehold Spirit",
       "commander": "Quintorius, History Chaser",
-      "active": true,
+      "active": false,
       "aliases": [
         "lorehold"
       ]
@@ -494,7 +494,7 @@
     {
       "id": "quintorius",
       "name": "An Elephant Never Forgets",
-      "commander": "Quintorius, Field Historian",
+      "commander": "Quintorius, History Chaser",
       "active": true,
       "owner": "Mark",
       "aliases": [
