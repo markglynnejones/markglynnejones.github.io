@@ -380,7 +380,7 @@
       const entry = map.get(deck.name);
       entry.wins += deck.wins ?? 0;
       entry.matchesPlayed += deck.matchesPlayed ?? 0;
-      entry.active = entry.active || !!deck.active;
+      entry.active = !!deck.active;
       if (!entry.deckId && deck.deckId) entry.deckId = deck.deckId;
       if (!entry.owner && deck.owner) entry.owner = deck.owner;
 
