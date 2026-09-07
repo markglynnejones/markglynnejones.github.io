@@ -65,6 +65,151 @@
     populatePlayerSelect("head-to-head-player-select", config.playersIn2026);
   }
 
+  function normaliseDeckName(value) {
+    return String(value || "").trim().toLowerCase();
+  }
+
+  function buildDeckOwnershipStats(deckDefinitions, decks2025) {
+    const knownDecks = new Map();
+
+    for (const deck of deckDefinitions?.decks || []) {
+      const key = normaliseDeckName(deck.name);
+      const owner = String(deck.owner || "").trim();
+      if (!key || !owner) continue;
+
+      knownDecks.set(key, {
+        owner,
+        active: !!deck.active,
+      });
+    }
+
+    for (const deck of decks2025?.decks || []) {
+      const key = normaliseDeckName(deck.name);
+      const owner = String(deck.owner || "").trim();
+      if (!key || !owner || knownDecks.has(key)) continue;
+
+      knownDecks.set(key, {
+        owner,
+        active: !!deck.active,
+      });
+    }
+
+    const byOwner = new Map();
+    for (const deck of knownDecks.values()) {
+      if (!byOwner.has(deck.owner)) {
+        byOwner.set(deck.owner, {
+          owner: deck.owner,
+          total: 0,
+          active: 0,
+          inactive: 0,
+        });
+      }
+
+      const stats = byOwner.get(deck.owner);
+      stats.total += 1;
+      if (deck.active) stats.active += 1;
+      else stats.inactive += 1;
+    }
+
+    return [...byOwner.values()].sort(
+      (a, b) => b.total - a.total || b.active - a.active || a.owner.localeCompare(b.owner)
+    );
+  }
+
+  function ensureDeckOwnershipSection() {
+    let section = document.getElementById("deck-ownership-section");
+    if (section) return section;
+
+    const playersView = document.getElementById("view-players");
+    if (!playersView) return null;
+
+    section = document.createElement("section");
+    section.id = "deck-ownership-section";
+    section.setAttribute("aria-labelledby", "deck-ownership-heading");
+    section.innerHTML = `
+      <h2 id="deck-ownership-heading" class="section-heading">Deck Ownership</h2>
+      <p id="deck-ownership-note" class="section-note" aria-live="polite">Loading deck ownership…</p>
+      <p id="deck-ownership-scroll-hint" class="table-scroll-hint">Scroll table sideways</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Deck ownership statistics table, horizontally scrollable" aria-describedby="deck-ownership-scroll-hint">
+        <table id="deck-ownership-table">
+          <caption>Known active and inactive decks by owner</caption>
+          <thead>
+            <tr>
+              <th scope="col">Player</th>
+              <th scope="col">Total Decks</th>
+              <th scope="col">Active</th>
+              <th scope="col">Inactive</th>
+            </tr>
+          </thead>
+          <tbody id="deck-ownership-body"></tbody>
+        </table>
+      </div>
+    `;
+
+    const firstPlayerDeckSection = document.querySelector('[aria-labelledby="player-decks-heading"]');
+    if (firstPlayerDeckSection?.parentNode === playersView) {
+      playersView.insertBefore(section, firstPlayerDeckSection);
+    } else {
+      playersView.appendChild(section);
+    }
+
+    return section;
+  }
+
+  function renderDeckOwnershipRows(rows) {
+    const body = document.getElementById("deck-ownership-body");
+    const note = document.getElementById("deck-ownership-note");
+    if (!body || !note) return;
+
+    body.textContent = "";
+
+    for (const stats of rows) {
+      const tr = document.createElement("tr");
+      const playerCell = document.createElement("th");
+      playerCell.scope = "row";
+      playerCell.textContent = stats.owner;
+      tr.appendChild(playerCell);
+
+      for (const value of [stats.total, stats.active, stats.inactive]) {
+        const td = document.createElement("td");
+        td.textContent = String(value);
+        tr.appendChild(td);
+      }
+
+      body.appendChild(tr);
+    }
+
+    const totalDecks = rows.reduce((sum, row) => sum + row.total, 0);
+    note.textContent = `${totalDecks} known decks across current deck definitions and historical 2025-only records. Historical-only decks are counted as inactive.`;
+  }
+
+  function loadDeckOwnershipStats() {
+    const section = ensureDeckOwnershipSection();
+    if (!section || typeof global.fetch !== "function") return;
+
+    const isSampleMode = new URLSearchParams(global.location?.search || "").get("sample") === "1";
+    const prefix = isSampleMode ? "data/sample/" : "data/";
+
+    Promise.all([
+      global.fetch(`${prefix}deck-definitions.json`, { cache: "no-store" }).then((response) => {
+        if (!response.ok) throw new Error(`Failed to load deck definitions (${response.status}).`);
+        return response.json();
+      }),
+      global.fetch(`${prefix}decks-2025.json`, { cache: "no-store" }).then((response) => {
+        if (!response.ok) throw new Error(`Failed to load 2025 deck history (${response.status}).`);
+        return response.json();
+      }),
+    ])
+      .then(([deckDefinitions, decks2025]) => {
+        renderDeckOwnershipRows(buildDeckOwnershipStats(deckDefinitions, decks2025));
+      })
+      .catch((error) => {
+        const note = document.getElementById("deck-ownership-note");
+        if (note) note.textContent = "Could not load deck ownership stats.";
+        console.warn("Could not load deck ownership stats.", error);
+      });
+  }
+
   function renderPlayerDeckStats(config) {
     const {
       selectedTab,
@@ -330,6 +475,7 @@
   }
 
   const api = {
+    buildDeckOwnershipStats,
     populateHeadToHeadSelect,
     populatePlayerDeckSelect,
     renderHeadToHeadStats,
@@ -345,4 +491,12 @@
   }
 
   global.CommanderPlayerInsights = api;
+
+  if (typeof document !== "undefined") {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", loadDeckOwnershipStats, { once: true });
+    } else {
+      loadDeckOwnershipStats();
+    }
+  }
 })(typeof window !== "undefined" ? window : globalThis);
