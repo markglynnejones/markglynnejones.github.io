@@ -60,10 +60,11 @@
     return matchDetailsPromise;
   }
 
-  function outcomeText(detail, playerCount) {
+  function outcomeText(detail, playerCount, finishCounts = new Map()) {
     const finishPosition = Number(detail?.finishPosition);
     if (!Number.isInteger(finishPosition) || finishPosition < 1) return "";
     if (finishPosition === 1) return "Winner";
+    if ((finishCounts.get(finishPosition) || 0) > 1) return `Tied ${ordinal(finishPosition)}`;
 
     const eliminationOrder = playerCount - finishPosition + 1;
     if (!Number.isInteger(eliminationOrder) || eliminationOrder < 1) return ordinal(finishPosition);
@@ -78,6 +79,13 @@
       const safeB = Number.isInteger(bOrder) ? bOrder : Number.MAX_SAFE_INTEGER;
       return safeA - safeB;
     });
+
+    const finishCounts = new Map();
+    for (const player of players) {
+      const finishPosition = Number(details.get(player.playerId)?.finishPosition);
+      if (!Number.isInteger(finishPosition)) continue;
+      finishCounts.set(finishPosition, (finishCounts.get(finishPosition) || 0) + 1);
+    }
 
     const table = document.createElement("table");
     table.className = "recent-pod-table";
@@ -101,7 +109,7 @@
     for (const player of orderedPlayers) {
       const detail = details.get(player.playerId);
       const playerOrder = Number(detail?.playerOrder);
-      const outcome = outcomeText(detail, players.length);
+      const outcome = outcomeText(detail, players.length, finishCounts);
       const row = document.createElement("tr");
       const values = [
         Number.isInteger(playerOrder) ? `P${playerOrder}` : "—",
@@ -485,6 +493,7 @@
 
   const api = {
     buildPlacementStats,
+    outcomeText,
     renderLatestSessionSummary,
     renderPlacementStats,
     renderRecentMatches,
