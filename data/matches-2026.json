@@ -1125,6 +1125,90 @@
       ],
       "winner": "Jake",
       "winnerId": "jake"
+    },
+    {
+      "id": "2026-09-27-001",
+      "sessionId": "session-2026-09-27-001",
+      "date": "2026-09-27",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "markeus-calgar" },
+        { "playerId": "liam", "name": "Liam", "deckId": "junkerton" },
+        { "playerId": "jo", "name": "Jo", "deckId": "swarmcocktail" },
+        { "playerId": "jake", "name": "Jake", "deckId": "ketrappa-the-rappa-the-papa" }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam",
+      "notes": "Eliminations: Jo by Liam; Jake by Liam. Mark finished second; killer unclear in the raw note ('claim')."
+    },
+    {
+      "id": "2026-09-27-002",
+      "sessionId": "session-2026-09-27-001",
+      "date": "2026-09-27",
+      "players": [
+        { "playerId": "jake", "name": "Jake", "deckId": "baelyn" },
+        { "playerId": "mark", "name": "Mark", "deckId": "big-sues" },
+        { "playerId": "liam", "name": "Liam", "deckId": "grumpy-old-birds" },
+        { "playerId": "jo", "name": "Jo", "deckId": "squirrelled-away" }
+      ],
+      "winner": "Mark",
+      "winnerId": "mark",
+      "notes": "Eliminations: Jake, Jo, and Liam by Mark."
+    },
+    {
+      "id": "2026-09-27-003",
+      "sessionId": "session-2026-09-27-001",
+      "date": "2026-09-27",
+      "players": [
+        { "playerId": "jake", "name": "Jake", "deckId": "saruman" },
+        { "playerId": "mark", "name": "Mark", "deckId": "peace-offering" },
+        { "playerId": "liam", "name": "Liam", "deckId": "gotta-have-hope" },
+        { "playerId": "jo", "name": "Jo", "deckId": "tricky-terrain" }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake",
+      "notes": "Eliminations: Mark, Jo, and Liam by Jake."
+    },
+    {
+      "id": "2026-09-27-004",
+      "sessionId": "session-2026-09-27-001",
+      "date": "2026-09-27",
+      "players": [
+        { "playerId": "jake", "name": "Jake", "deckId": "ring-sting" },
+        { "playerId": "mark", "name": "Mark", "deckId": "quintorius" },
+        { "playerId": "liam", "name": "Liam", "deckId": "zombieland" },
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam",
+      "notes": "All non-winners lost simultaneously; tied for second."
+    },
+    {
+      "id": "2026-09-27-005",
+      "sessionId": "session-2026-09-27-001",
+      "date": "2026-09-27",
+      "players": [
+        { "playerId": "mark", "name": "Mark", "deckId": "zur" },
+        { "playerId": "liam", "name": "Liam", "deckId": "cloni-macaroni" },
+        { "playerId": "jo", "name": "Jo", "deckId": "peace-offering" },
+        { "playerId": "jake", "name": "Jake", "deckId": "swarmcocktail" }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake",
+      "notes": "All non-winners lost simultaneously; tied for second."
+    },
+    {
+      "id": "2026-09-27-006",
+      "sessionId": "session-2026-09-27-001",
+      "date": "2026-09-27",
+      "players": [
+        { "playerId": "jo", "name": "Jo", "deckId": "fishes" },
+        { "playerId": "jake", "name": "Jake", "deckId": "cloni-macaroni" },
+        { "playerId": "mark", "name": "Mark", "deckId": "big-stompy-stomp" },
+        { "playerId": "liam", "name": "Liam", "deckId": "faries" }
+      ],
+      "winner": "Jake",
+      "winnerId": "jake",
+      "notes": "All non-winners lost simultaneously; tied for second."
     }
   ]
 }
