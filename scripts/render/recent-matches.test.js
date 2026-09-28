@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const assert = require("assert");
-const { buildPlacementStats } = require("./recent-matches");
+const { buildPlacementStats, outcomeText } = require("./recent-matches");
 
 function test(name, fn) {
   try {
@@ -119,4 +119,16 @@ test("buildPlacementStats excludes incomplete recorded matches", () => {
 
   const result = buildPlacementStats(matches, incomplete);
   assert.strictEqual(result.recordedMatches, 2);
+});
+
+
+test("outcomeText labels shared finishing positions as ties", () => {
+  const tiedFinishes = new Map([
+    [1, 1],
+    [2, 3],
+  ]);
+
+  assert.strictEqual(outcomeText({ finishPosition: 1 }, 4, tiedFinishes), "Winner");
+  assert.strictEqual(outcomeText({ finishPosition: 2 }, 4, tiedFinishes), "Tied 2nd");
+  assert.strictEqual(outcomeText({ finishPosition: 4 }, 4, new Map([[4, 1]])), "Out 1st");
 });
