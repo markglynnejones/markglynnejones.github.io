@@ -2845,6 +2845,146 @@
       "winner": "Ollie",
       "winnerId": "ollie",
       "notes": "Mark eliminated first; Ben eliminated second."
+    },
+    {
+      "id": "2026-10-18-001",
+      "sessionId": "session-2026-10-18-001",
+      "date": "2026-10-18",
+      "players": [
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckId": "aerid-konstrari"
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckId": "bad-misc"
+        },
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckId": "ketrappa-the-rappa-the-papa"
+        },
+        {
+          "playerId": "liam",
+          "name": "Liam",
+          "deckId": "zur"
+        },
+        {
+          "playerId": "jo",
+          "name": "Jo",
+          "deckId": "squirrelled-away"
+        }
+      ],
+      "winner": "Ollie",
+      "winnerId": "ollie",
+      "notes": "Jake, Liam and Jo all recorded third."
+    },
+    {
+      "id": "2026-10-18-002",
+      "sessionId": "session-2026-10-18-001",
+      "date": "2026-10-18",
+      "players": [
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckId": "saruman"
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckId": "toms-zoo"
+        },
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckId": "women-wielding-swords"
+        },
+        {
+          "playerId": "liam",
+          "name": "Liam",
+          "deckId": "bad-misc"
+        },
+        {
+          "playerId": "jo",
+          "name": "Jo",
+          "deckId": "big-sues"
+        }
+      ],
+      "winner": "Ollie",
+      "winnerId": "ollie",
+      "notes": "Finishing positions recorded as supplied (Jo 4th; Jake and Liam both 3rd); please confirm placement semantics."
+    },
+    {
+      "id": "2026-10-18-003",
+      "sessionId": "session-2026-10-18-001",
+      "date": "2026-10-18",
+      "players": [
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckId": "blood-in-the-water"
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckId": "hostage-taker"
+        },
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckId": "swarmcocktail"
+        },
+        {
+          "playerId": "liam",
+          "name": "Liam",
+          "deckId": "cloni-macaroni"
+        },
+        {
+          "playerId": "jo",
+          "name": "Jo",
+          "deckId": "peace-offering"
+        }
+      ],
+      "winner": "Mark",
+      "winnerId": "mark",
+      "notes": "Jake, Liam and Jo all recorded tied for second."
+    },
+    {
+      "id": "2026-10-18-004",
+      "sessionId": "session-2026-10-18-001",
+      "date": "2026-10-18",
+      "players": [
+        {
+          "playerId": "mark",
+          "name": "Mark",
+          "deckId": "quintorius"
+        },
+        {
+          "playerId": "ollie",
+          "name": "Ollie",
+          "deckId": "hostage-taker"
+        },
+        {
+          "playerId": "jake",
+          "name": "Jake",
+          "deckId": "ketrappa-the-rappa-the-papa"
+        },
+        {
+          "playerId": "liam",
+          "name": "Liam",
+          "deckId": "saruman"
+        },
+        {
+          "playerId": "jo",
+          "name": "Jo",
+          "deckId": "peace-offering"
+        }
+      ],
+      "winner": "Liam",
+      "winnerId": "liam",
+      "notes": "Mark and Ollie both recorded second; Jake and Jo both recorded third."
     }
   ]
 }
