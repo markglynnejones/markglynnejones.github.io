@@ -665,6 +665,38 @@
         "edea",
         "hostage taker"
       ]
+    },
+    {
+      "id": "infinite-guideline-station",
+      "name": "Infinite Guideline Station",
+      "commander": "Infinite Guideline Station",
+      "active": true,
+      "owner": "Ben",
+      "aliases": [
+        "guideline",
+        "infinite guideline station"
+      ]
+    },
+    {
+      "id": "baeloth",
+      "name": "Baeloth",
+      "commander": "Baeloth Barrityl, Entertainer",
+      "active": true,
+      "owner": "Ben",
+      "aliases": [
+        "baeloth"
+      ]
+    },
+    {
+      "id": "aerid-konstrari",
+      "name": "Aerid Konstrari",
+      "commander": "Aerid Konstrari",
+      "active": true,
+      "owner": "Mark",
+      "aliases": [
+        "aerid",
+        "arried"
+      ]
     }
   ]
 }
