@@ -217,17 +217,17 @@
         {
           "playerId": "ben",
           "playerOrder": 3,
-          "finishPosition": 3
+          "finishPosition": 2
         },
         {
           "playerId": "ollie",
           "playerOrder": 1,
-          "finishPosition": 1
+          "finishPosition": 3
         },
         {
           "playerId": "mark",
           "playerOrder": 2,
-          "finishPosition": 2
+          "finishPosition": 1
         }
       ]
     },
@@ -237,17 +237,17 @@
         {
           "playerId": "mark",
           "playerOrder": 3,
-          "finishPosition": 3
+          "finishPosition": 2
         },
         {
           "playerId": "ben",
           "playerOrder": 1,
-          "finishPosition": 1
+          "finishPosition": 3
         },
         {
           "playerId": "ollie",
           "playerOrder": 2,
-          "finishPosition": 2
+          "finishPosition": 1
         }
       ]
     },
