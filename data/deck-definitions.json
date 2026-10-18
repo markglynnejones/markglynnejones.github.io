@@ -54,7 +54,7 @@
       "id": "the-vamp-clamp",
       "name": "The Vamp Clamp",
       "commander": "Edgar Markov",
-      "active": true,
+      "active": false,
       "owner": "Mark"
     },
     {
@@ -124,14 +124,14 @@
       "id": "greasy-dragons",
       "name": "Greasy Dragons",
       "commander": "Ureni of the Unwritten",
-      "active": true,
+      "active": false,
       "owner": "Mark"
     },
     {
       "id": "i-hope-you-like-sagas",
       "name": "I Hope You Like Sagas",
       "commander": "Tom Bombadil",
-      "active": true,
+      "active": false,
       "owner": "Mark"
     },
     {
@@ -240,7 +240,7 @@
       "id": "5-in-the-pink-4-in-the-stink",
       "name": "5 In The Pink, 4 In The Stink",
       "commander": "Nine-Fingers Keene",
-      "active": true,
+      "active": false,
       "owner": "Mark"
     },
     {
@@ -378,7 +378,7 @@
       "aliases": [
         "ghalta"
       ],
-      "active": true,
+      "active": false,
       "owner": "Mark"
     },
     {
@@ -458,7 +458,7 @@
       "id": "why-are-there-so-many-wizards",
       "name": "Why are there so many Wizards",
       "commander": "Kuja, Genome Sorcerer",
-      "active": true,
+      "active": false,
       "owner": "Mark"
     },
     {
@@ -495,7 +495,7 @@
       "id": "faries",
       "name": "Faries",
       "commander": "Alela, Cunning Conqueror",
-      "active": true,
+      "active": false,
       "owner": "Mark",
       "aliases": [
         "faries"
